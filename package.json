@@ -1,0 +1,40 @@
+{
+  "name": "fincalci",
+  "private": true,
+  "version": "2.0.0",
+  "description": "FinCalci \u2014 All-in-One Indian Calculator. 20 calculators, 60+ tools. Free. No ads.",
+  "author": "FinCalci Apps <fincalci.help@gmail.com>",
+  "license": "UNLICENSED",
+  "homepage": "https://fincalci.vercel.app",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "start": "vite preview",
+    "build": "vite build && mkdir -p sourcemaps && mv dist/assets/*.map sourcemaps/ 2>/dev/null || true && node scripts/prerender-seo.mjs",
+    "typecheck": "tsc --noEmit || true",
+    "quality": "bash quality-check.sh",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "preview": "vite preview",
+    "deploy": "bash quality-check.sh && vitest run && vite build && mkdir -p sourcemaps && mv dist/assets/*.map sourcemaps/ 2>/dev/null || true && node scripts/prerender-seo.mjs",
+    "lint": "bash quality-check.sh"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "typescript": "~5.4.0",
+    "vite": "~5.4.0",
+    "vitest": "^1.6.0",
+    "@testing-library/react": "^14.2.0",
+    "@testing-library/jest-dom": "^6.4.0",
+    "jsdom": "^24.0.0"
+  }
+}

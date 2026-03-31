@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fincalci.vercel.app/sitemap.xml

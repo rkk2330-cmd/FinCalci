@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0B0F1A"/>
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://www.gstatic.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: blob:;
+    connect-src 'self' https://cdn.jsdelivr.net https://latest.currency-api.pages.dev https://api.mfapi.in https://stock.indianapi.in https://world.openfoodfacts.org https://www.gstatic.com https://firebase.googleapis.com https://firebaseinstallations.googleapis.com https://firebaselogging-pa.googleapis.com https://*.google-analytics.com https://*.firebaseio.com;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+  "/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <link rel="canonical" href="https://fincalci.vercel.app/"/>
+
+  <!-- SEO -->
+  <title>FinCalci — Free EMI, SIP, GST, Tax Calculator for India</title>
+  <meta name="description" content="20 calculators, 60+ tools. EMI, SIP, GST, Income Tax, Gold, Currency, FD, Salary, Khata Book, Expense Tracker and more. Free, no ads, works offline."/>
+  <meta name="keywords" content="EMI calculator, SIP calculator, GST calculator, income tax calculator India, gold rate calculator, currency converter, FD calculator, salary calculator, khata book, expense tracker, loan calculator, investment calculator, financial calculator India"/>
+  <meta name="author" content="FinCalci Apps"/>
+  <meta name="robots" content="index, follow"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FinCalci — Free EMI, SIP, GST, Tax Calculator for India"/>
+  <meta property="og:description" content="20 calculators, 60+ tools. EMI, SIP, GST, Income Tax, Gold, Currency, FD, Salary, Khata Book, Expense Tracker and more. Free, no ads, works offline."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://fincalci.vercel.app"/>
+  <meta property="og:image" content="https://fincalci.vercel.app/icons/icon-512.png"/>
+  <meta property="og:image:width" content="512"/>
+  <meta property="og:image:height" content="512"/>
+  <meta property="og:locale" content="en_IN"/>
+  <meta property="og:site_name" content="FinCalci"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="FinCalci — Free EMI, SIP, GST, Tax Calculator for India"/>
+  <meta name="twitter:description" content="20 calculators, 60+ tools. EMI, SIP, GST, Income Tax, Gold, Currency, FD, Salary, Khata Book, Expense Tracker and more. Free, no ads, works offline."/>
+  <meta name="twitter:image" content="https://fincalci.vercel.app/icons/icon-512.png"/>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FinCalci",
+    "operatingSystem": "Android, iOS, Web",
+    "applicationCategory": "FinanceApplication",
+    "description": "20 calculators, 60+ tools. EMI, SIP, GST, Income Tax, Gold, Currency, FD, Salary, Khata Book, Expense Tracker and more. Free, no ads, works offline.",
+    "url": "https://fincalci.vercel.app",
+    "image": "https://fincalci.vercel.app/icons/icon-512.png",
+    "author": {
+      "@type": "Organization",
+      "name": "FinCalci Apps",
+      "email": "fincalci.help@gmail.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+
+    "featureList": [
+      "EMI Calculator with amortization",
+      "SIP Calculator with step-up and SWP",
+      "GST Calculator with invoice",
+      "Income Tax Calculator Old vs New regime",
+      "Gold & Silver Calculator with live rates",
+      "Currency Converter with 20+ currencies",
+      "FD & RD Calculator",
+      "Salary CTC Breakdown",
+      "Retirement FIRE Calculator",
+      "PPF & EPF Calculator",
+      "Khata Book for shopkeepers",
+      "Expense Tracker with categories",
+      "Bill Splitter with groups",
+      "Calorie Tracker",
+      "BMI Calculator",
+      "Age Calculator",
+      "Unit Converter 13 categories",
+      "Compound Interest Calculator",
+      "Percentage Calculator",
+      "Date Calculator"
+    ]
+  }
+  </script>
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter','system-ui',sans-serif;overflow-x:hidden;background:#0B0F1A;
+      -webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;
+      overscroll-behavior:none;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+    #native-splash{position:fixed;inset:0;background:#0B0F1A;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;
+      transition:opacity 0.5s ease}
+    #native-splash.hidden{opacity:0;pointer-events:none}
+    .nsLogo{width:72px;height:72px;border-radius:18px;background:linear-gradient(135deg,#EF4444,#4ECDC4,#6366F1);
+      display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:500;
+      font-family:'JetBrains Mono',monospace;box-shadow:0 12px 40px rgba(78,205,196,0.2);margin-bottom:20px}
+    .nsTitle{font-size:28px;font-weight:500;font-family:'Inter',sans-serif;
+      background:linear-gradient(90deg,#EF4444,#4ECDC4,#6366F1);-webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;margin-bottom:6px}
+    .nsSub{color:#64748B;font-size:13px;font-weight:400}
+    .nsBar{width:140px;height:3px;background:#1A2332;border-radius:3px;margin-top:24px;overflow:hidden}
+    .nsProgress{height:100%;background:linear-gradient(90deg,#4ECDC4,#6366F1);border-radius:3px;
+      animation:nsLoad 1.8s ease-in-out forwards}
+    @keyframes nsLoad{0%{width:0}50%{width:70%}100%{width:100%}}
+    @media(prefers-reduced-motion:reduce){.nsProgress{animation:none;width:100%}}
+    /* Update banner */
+    #sw-update-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:10000;background:#111827;
+      border-bottom:1px solid rgba(78,205,196,0.3);padding:12px 20px;text-align:center;
+      font-family:'Inter',sans-serif;font-size:13px;color:#F1F5F9;animation:slideDown 0.3s ease}
+    @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+    #sw-update-banner button{margin-left:12px;padding:6px 16px;border-radius:8px;background:#4ECDC4;border:none;
+      color:#0B0F1A;font-weight:500;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif}
+  </style>
+</head>
+<body>
+  <!-- Update banner (shown when new SW waiting) -->
+  <div id="sw-update-banner">
+    <span id="sw-update-msg">New version available!</span>
+    <button id="sw-update-btn">Update now</button>
+    <button id="sw-update-later" style="margin-left:6px;padding:6px 12px;border-radius:8px;background:transparent;border:1px solid #475569;color:#94A3B8;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif">Later</button>
+    <button id="sw-update-confirm" style="display:none;margin-left:12px;padding:6px 16px;border-radius:8px;background:#4ECDC4;border:none;color:#0B0F1A;font-weight:500;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif">Reload now</button>
+    <button id="sw-update-cancel" style="display:none;margin-left:6px;padding:6px 12px;border-radius:8px;background:transparent;border:1px solid #475569;color:#94A3B8;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif">Cancel</button>
+  </div>
+
+  <!-- Splash -->
+  <div id="native-splash" aria-hidden="true">
+    <div class="nsLogo">₹</div>
+    <div class="nsTitle">FinCalci</div>
+    <div class="nsSub">All-in-One Calculator</div>
+    <div class="nsBar"><div class="nsProgress"></div></div>
+  </div>
+
+  <!-- App root -->
+  <div id="root"></div>
+
+  <!-- Noscript fallback for SEO crawlers -->
+  <noscript>
+    <div style="padding:40px;text-align:center;font-family:Inter,sans-serif;background:#0B0F1A;color:#F1F5F9;min-height:100vh">
+      <h1>FinCalci — Free EMI, SIP, GST, Tax Calculator for India</h1>
+      <p style="margin:16px 0;color:#94A3B8">20 calculators, 60+ tools. EMI, SIP, GST, Income Tax, Gold, Currency, FD, Salary, Khata Book, Expense Tracker and more. Free, no ads, works offline.</p>
+      <p style="color:#64748B">Enable JavaScript to use the app.</p>
+      <ul style="text-align:left;max-width:400px;margin:24px auto;color:#94A3B8;line-height:2">
+        <li>EMI Calculator — Home loan, car loan, personal loan</li>
+        <li>SIP Calculator — Mutual fund, step-up SIP, SWP</li>
+        <li>GST Calculator — Inclusive, exclusive, reverse</li>
+        <li>Income Tax — Old vs New regime FY 2025-26</li>
+        <li>Gold & Silver — Live rates with making charges</li>
+        <li>Currency Converter — 20+ currencies, live rates</li>
+        <li>FD & RD Calculator — Bank comparison</li>
+        <li>Salary CTC — Take-home breakdown</li>
+        <li>Retirement FIRE — Corpus planning</li>
+        <li>Khata Book — Credit/debit tracking</li>
+        <li>Expense Tracker — Categories, budgets</li>
+        <li>Bill Splitter — Group expense settlement</li>
+        <li>And 8 more tools...</li>
+      </ul>
+    </div>
+  </noscript>
+
+  <script type="module" src="/src/main.tsx"></script>
+  <script src="/sw-register.js"></script>
+</body>
+</html>

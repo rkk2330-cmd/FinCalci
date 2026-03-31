@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://fincalci.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://fincalci.vercel.app/emi-calculator</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fincalci.vercel.app/sip-calculator</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fincalci.vercel.app/gst-calculator</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fincalci.vercel.app/income-tax-calculator</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fincalci.vercel.app/gold-rate-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fincalci.vercel.app/currency-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fincalci.vercel.app/fd-rd-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fincalci.vercel.app/salary-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fincalci.vercel.app/retirement-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fincalci.vercel.app/compound-interest</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fincalci.vercel.app/ppf-epf-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fincalci.vercel.app/bmi-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fincalci.vercel.app/expense-tracker</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fincalci.vercel.app/khata-book</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fincalci.vercel.app/bill-splitter</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fincalci.vercel.app/calorie-tracker</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fincalci.vercel.app/age-calculator</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fincalci.vercel.app/date-calculator</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fincalci.vercel.app/percentage-calculator</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fincalci.vercel.app/unit-converter</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fincalci.vercel.app/privacy-policy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>
