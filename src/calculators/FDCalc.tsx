@@ -54,18 +54,18 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setIsFD(false); vib(); }} style={tabStyle(!isFD, "#D946EF", t)}>Recurring Deposit</button>
     </div>
 
+    <HeroNumber label="Maturity value" value={currency(isFD ? fd.maturity : rd.maturity)} color={isFD ? color : "#D946EF"} />
+    <MetricGrid t={t} items={[
+      { label: "Invested", value: currencyCompact(isFD ? P : rd.invested) },
+      { label: "Interest earned", value: currencyCompact(isFD ? fd.interest : rd.interest), color: tokens.color.success },
+    ]} />
+
     {isFD
       ? <AmountInput label="Deposit Amount" value={P} onChange={setP} min={SLIDER.fd.P.min} max={SLIDER.fd.P.max} color={color} t={t} />
       : <AmountInput label="Monthly Deposit" value={rdMonthly} onChange={setRdMonthly} min={SLIDER.fd.rd.min} max={SLIDER.fd.rd.max} color="#D946EF" t={t} />
     }
     <SliderInput label="Interest Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.fd.rate.min} max={SLIDER.fd.rate.max} step={SLIDER.fd.rate.step} color={color} t={t} />
     <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.fd.years.min} max={SLIDER.fd.years.max} step={SLIDER.fd.years.step} color={color} t={t} />
-
-    <HeroNumber label="Maturity value" value={currency(isFD ? fd.maturity : rd.maturity)} color={isFD ? color : "#D946EF"} />
-    <MetricGrid t={t} items={[
-      { label: "Invested", value: currencyCompact(isFD ? P : rd.invested) },
-      { label: "Interest earned", value: currencyCompact(isFD ? fd.interest : rd.interest), color: tokens.color.success },
-    ]} />
 
     <MiniChart type="donut" data={[isFD ? P : rd.invested, Math.max(isFD ? fd.interest : rd.interest, 0)]} width={140} height={140} colors={[isFD ? color : "#D946EF", tokens.color.success]} t={t} />
 

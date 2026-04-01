@@ -1,7 +1,6 @@
-// FinCalci — Style factories (production pattern)
+// FinCalci — Style factories v3 (Bold Fintech)
 // Static styles are module-level constants — created once, never recreated.
 // Dynamic styles use factory functions that return CSSProperties.
-// Components call factories in useMemo() with theme/color deps.
 import type { CSSProperties } from 'react';
 import { tokens } from './tokens';
 
@@ -21,16 +20,40 @@ export const TEXT_CAPTION: CSSProperties = { fontSize: tokens.fontSize.caption, 
 export const TEXT_BODY: CSSProperties = { fontSize: tokens.fontSize.body, fontFamily: tokens.fontFamily.sans };
 export const TEXT_TITLE: CSSProperties = { fontSize: tokens.fontSize.title, fontWeight: tokens.fontWeight.medium, fontFamily: tokens.fontFamily.sans };
 
+// ─── Section header — 13px uppercase ───
+export const sectionHeader = (t: T): CSSProperties => ({
+  fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium,
+  color: t.textMuted, marginBottom: tokens.space.md,
+  textTransform: 'uppercase' as const, letterSpacing: 0.8,
+});
+
 // ─── Card factories (theme-dependent — use in useMemo) ───
 export const card = (t: T): CSSProperties => ({
   background: t.card, borderRadius: tokens.radius.xl,
-  padding: tokens.space.xl, border: `1px solid ${t.border}`,
-  boxShadow: tokens.shadow.subtle,
+  padding: tokens.space.xl,
+  border: t.border === 'transparent' ? 'none' : `1px solid ${t.border}`,
+  boxShadow: t.border === 'transparent' ? tokens.shadow.subtle : 'none',
 });
 
 export const cardAlt = (t: T): CSSProperties => ({
   background: t.cardAlt, borderRadius: tokens.radius.md,
-  padding: tokens.space.md, border: `1px solid ${t.border}`,
+  padding: tokens.space.md,
+  border: t.border === 'transparent' ? 'none' : `1px solid ${t.border}`,
+});
+
+// ─── Glassmorphism hero card (dark mode result display) ───
+export const glassHero = (color: string, t: T): CSSProperties => ({
+  background: t.bg === '#0F0F13'
+    ? `linear-gradient(135deg, ${color}12, ${t.card}E6)`
+    : `linear-gradient(135deg, ${color}08, ${t.card})`,
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+  borderRadius: tokens.radius.xl,
+  border: `1px solid ${color}20`,
+  padding: `${tokens.space.xl}px ${tokens.space.lg}px`,
+  textAlign: 'center' as const,
+  position: 'relative' as const,
+  overflow: 'hidden' as const,
 });
 
 // ─── Button factories ───
@@ -40,21 +63,27 @@ export const btnPrimary = (color: string): CSSProperties => ({
   border: `1px solid ${color}30`, color,
   fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small,
   cursor: 'pointer', fontFamily: tokens.fontFamily.sans,
+  transition: 'all 0.2s ease',
 });
 
 export const btnGhost = (t: T): CSSProperties => ({
   padding: `${tokens.space.sm}px ${tokens.space.md}px`,
   borderRadius: tokens.radius.md, background: t.cardAlt,
-  border: `1px solid ${t.border}`, color: t.textMuted,
+  border: t.border === 'transparent' ? 'none' : `1px solid ${t.border}`,
+  boxShadow: t.border === 'transparent' ? '0 1px 3px rgba(0,0,0,0.04)' : 'none',
+  color: t.textMuted,
   fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small,
   cursor: 'pointer', fontFamily: tokens.fontFamily.sans,
 });
 
 export const btnIcon = (t: T, size = 36): CSSProperties => ({
   width: size, height: size, borderRadius: tokens.radius.sm,
-  background: t.card, border: `1px solid ${t.border}`,
+  background: t.card,
+  border: t.border === 'transparent' ? 'none' : `1px solid ${t.border}`,
+  boxShadow: t.border === 'transparent' ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
   cursor: 'pointer', fontSize: 15,
   display: 'flex', alignItems: 'center', justifyContent: 'center',
+  transition: 'transform 0.15s ease',
 });
 
 export const btnDanger = (): CSSProperties => ({
@@ -68,7 +97,9 @@ export const btnDanger = (): CSSProperties => ({
 export const inputStyle = (t: T): CSSProperties => ({
   width: '100%', padding: `${tokens.space.sm}px ${tokens.space.md}px`,
   borderRadius: tokens.radius.md, background: t.cardAlt,
-  border: `1px solid ${t.border}`, color: t.text,
+  border: t.border === 'transparent' ? 'none' : `1px solid ${t.border}`,
+  boxShadow: t.border === 'transparent' ? 'inset 0 1px 2px rgba(0,0,0,0.04)' : 'none',
+  color: t.text,
   fontSize: tokens.fontSize.body, fontFamily: tokens.fontFamily.sans,
   outline: 'none',
 });
@@ -89,7 +120,7 @@ export const tab = (active: boolean, t: T, color: string): CSSProperties => ({
   fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.caption,
   fontFamily: tokens.fontFamily.sans, transition: 'all 0.2s ease',
   ...(active
-    ? { background: `${color}20`, color, boxShadow: `0 1px 3px ${color}15` }
+    ? { background: `${color}18`, color, boxShadow: `0 1px 4px ${color}15` }
     : { background: 'transparent', color: t.textDim }
   ),
 });
@@ -98,13 +129,6 @@ export const tab = (active: boolean, t: T, color: string): CSSProperties => ({
 export const metricBox = (t: T): CSSProperties => ({
   padding: tokens.space.md, borderRadius: tokens.radius.md,
   background: t.cardAlt,
-});
-
-// ─── Section header ───
-export const sectionHeader = (t: T): CSSProperties => ({
-  fontSize: tokens.fontSize.caption, fontWeight: tokens.fontWeight.medium,
-  color: t.textMuted, marginBottom: tokens.space.sm,
-  textTransform: 'uppercase' as const, letterSpacing: 0.5,
 });
 
 // ─── Toast ───
@@ -124,7 +148,7 @@ export const dot = (color: string, size = 8): CSSProperties => ({
 
 // ─── Grid ───
 export const GRID_2: CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 };
-export const GRID_3: CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 };
+export const GRID_3: CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 };
 export const GRID_4: CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 };
 
 // ─── Spacing helpers ───
@@ -133,15 +157,9 @@ export const mt = (n: number): CSSProperties => ({ marginTop: n });
 export const px = (n: number): CSSProperties => ({ paddingLeft: n, paddingRight: n });
 export const py = (n: number): CSSProperties => ({ paddingTop: n, paddingBottom: n });
 
-// ─── Disclaimer ───
-export const DISCLAIMER: CSSProperties = {
-  fontSize: tokens.fontSize.caption - 1, textAlign: 'center',
-  marginTop: tokens.space.lg, lineHeight: 1.6,
-};
+// ─── High-frequency patterns ───
 
-// ─── High-frequency patterns (extracted from 584 inline styles audit) ───
-
-/** Caption text in dim color — 16 occurrences across codebase */
+/** Caption text in dim color */
 export const textDim = (t: T): CSSProperties => ({
   fontSize: tokens.fontSize.caption, color: t.textDim,
 });
@@ -162,7 +180,7 @@ export const textHint = (t: T): CSSProperties => ({
   marginTop: tokens.space.xs,
 });
 
-/** Tab bar container — 12 occurrences */
+/** Tab bar container */
 export const TAB_BAR: CSSProperties = {
   display: 'flex', gap: tokens.space.xs, marginBottom: tokens.space.xl,
 };
@@ -182,6 +200,7 @@ export const btnFull = (color: string, t: T): CSSProperties => ({
   background: `${color}15`, border: `1px solid ${color}30`, color,
   fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small,
   cursor: 'pointer', fontFamily: tokens.fontFamily.sans,
+  transition: 'all 0.2s ease',
 });
 
 /** Delete/remove link button */
@@ -201,9 +220,7 @@ export const resultCard = (color: string): CSSProperties => ({
   borderRadius: tokens.radius.lg, padding: tokens.space.lg,
 });
 
-
-// ─── Common repeated patterns (extracted from 584 inline styles) ───
-// Each was copy-pasted 5-15x across calculators. Now one import.
+// ─── Common repeated patterns ───
 
 /** Caption text in dim color — used for hints, secondary labels */
 export const captionDim = (t: T): CSSProperties => ({
@@ -235,6 +252,11 @@ export const disclaimer = (t: T): CSSProperties => ({
   fontSize: tokens.fontSize.caption - 1, color: t.textDim,
   textAlign: 'center' as const, marginTop: tokens.space.md, lineHeight: 1.6,
 });
+
+export const DISCLAIMER: CSSProperties = {
+  fontSize: tokens.fontSize.caption - 1, textAlign: 'center',
+  marginTop: tokens.space.lg, lineHeight: 1.6,
+};
 
 /** Item label — small bold text (name, fund house, etc) */
 export const itemTitle = (t: T): CSSProperties => ({

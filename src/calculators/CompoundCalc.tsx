@@ -47,17 +47,17 @@ export default function CompoundCalc({ color, t, onResult }: CalcProps) {
   useEffect(() => { if (!onResult) return; const t = setTimeout(() => onResult({ "Invested": currency(calc.invested), "Interest": currency(calc.interest), "Total": currency(calc.maturity) }), TIMING.DEBOUNCE_CALC); return () => clearTimeout(t); }, [P, rate, years, monthlyAdd, freq]);
 
   return (<div>
-    <AmountInput label="Principal Amount" value={P} onChange={setP} min={SLIDER.compound.P.min} max={SLIDER.compound.P.max} color={color} t={t} />
-    <SliderInput label="Annual Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.compound.rate.min} max={SLIDER.compound.rate.max} step={SLIDER.compound.rate.step} color={color} t={t} />
-    <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.compound.years.min} max={SLIDER.compound.years.max} step={SLIDER.compound.years.step} color={color} t={t} />
-    <AmountInput label="Monthly Addition" value={monthlyAdd} onChange={setMonthlyAdd} min={SLIDER.compound.monthly.min} max={SLIDER.compound.monthly.max} color={tokens.color.secondary} t={t} />
-
     <HeroNumber label="Maturity value" value={currency(calc.maturity)} color={color} />
     <MetricGrid t={t} items={[
       { label: "Total invested", value: currencyCompact(calc.invested) },
       { label: "Interest earned", value: currencyCompact(calc.interest), color: tokens.color.success },
       { label: "Rule of 72", value: `Doubles in ~${calc.doubleYears} yrs` },
     ]} columns={3} />
+
+    <AmountInput label="Principal Amount" value={P} onChange={setP} min={SLIDER.compound.P.min} max={SLIDER.compound.P.max} color={color} t={t} />
+    <SliderInput label="Annual Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.compound.rate.min} max={SLIDER.compound.rate.max} step={SLIDER.compound.rate.step} color={color} t={t} />
+    <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.compound.years.min} max={SLIDER.compound.years.max} step={SLIDER.compound.years.step} color={color} t={t} />
+    <AmountInput label="Monthly Addition" value={monthlyAdd} onChange={setMonthlyAdd} min={SLIDER.compound.monthly.min} max={SLIDER.compound.monthly.max} color={tokens.color.secondary} t={t} />
 
     {chartData.length > 1 && <div style={sectionGapLg}><MiniChart type="area" data={chartData} height={120} colors={[color, tokens.color.success]} t={t} /></div>}
     <MiniChart type="donut" data={[calc.invested, Math.max(calc.interest, 0)]} width={140} height={120} colors={[color, tokens.color.success]} t={t} />

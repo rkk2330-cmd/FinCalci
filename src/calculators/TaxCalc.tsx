@@ -88,7 +88,6 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
     </div>
 
     {taxTab === "basic" && (<div>
-      <AmountInput label="Annual Income (Gross)" value={income} onChange={setIncome} min={SLIDER.tax.income.min} max={SLIDER.tax.income.max} color={color} t={t} />
       <HeroNumber label={`${betterRegime} regime saves you`} value={currency(savings)} color={tokens.color.success} />
       <MetricGrid t={t} items={[
         { label: `Old regime tax`, value: currency(oldResult.total), color: tokens.color.secondary },
@@ -96,6 +95,7 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
         { label: "Old effective rate", value: pct(oldResult.effective) },
         { label: "New effective rate", value: pct(newResult.effective) },
       ]} />
+      <AmountInput label="Annual Income (Gross)" value={income} onChange={setIncome} min={SLIDER.tax.income.min} max={SLIDER.tax.income.max} color={color} t={t} />
       <MiniChart type="hbar" data={chartData} height={80} colors={[tokens.color.secondary, tokens.color.primary]} t={t} />
     </div>)}
 
@@ -113,6 +113,7 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
     </div>)}
 
     {taxTab === "hra" && (<div>
+      <HeroNumber label="HRA exemption" value={currency(hra)} color={tokens.color.success} />
       <div style={labelStyle(t)}>HRA exemption calculator</div>
       <AmountInput label="Basic Salary (yearly)" value={basicSalary} onChange={setBasicSalary} min={0} max={income} color={color} t={t} />
       <AmountInput label="HRA Received (yearly)" value={hraReceived} onChange={setHraReceived} min={0} max={income} color={color} t={t} />
@@ -121,7 +122,6 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
         <button onClick={() => { setIsMetro(true); vib(); }} style={tabStyle(isMetro, color, t)}>Metro (50%)</button>
         <button onClick={() => { setIsMetro(false); vib(); }} style={tabStyle(!isMetro, color, t)}>Non-metro (40%)</button>
       </div>
-      <HeroNumber label="HRA exemption" value={currency(hra)} color={tokens.color.success} />
     </div>)}
 
     {taxTab === "result" && (<div>

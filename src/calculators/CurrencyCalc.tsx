@@ -61,6 +61,12 @@ export default function CurrencyCalc({ color, t, onResult }: CalcProps) {
     </div>
     {rateError && <InlineError message={rateError} t={t} />}
 
+    <HeroNumber label={`${FMT(amt)} ${from} =`} value={`${FMT(result)} ${to}`} color={color} />
+
+    <div style={{ fontSize: tokens.fontSize.caption, color: t.textDim, textAlign: "center", marginBottom: tokens.space.lg }}>
+      1 {from} = {decimal(rateDisplay, 4)} {to}
+    </div>
+
     <SliderInput label="Amount" value={amt} onChange={setAmt} unit={from} min={SLIDER.currency.amount.min} max={SLIDER.currency.amount.max} step={SLIDER.currency.amount.step} color={color} t={t} />
 
     <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: tokens.space.sm, alignItems: "center", marginBottom: tokens.space.lg }}>
@@ -72,12 +78,6 @@ export default function CurrencyCalc({ color, t, onResult }: CalcProps) {
       <select value={to} onChange={e => { setTo(e.target.value); vib(); }} style={{ ...inputStyle(t), textAlign: "center" }}>
         {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
       </select>
-    </div>
-
-    <HeroNumber label={`${FMT(amt)} ${from} =`} value={`${FMT(result)} ${to}`} color={color} />
-
-    <div style={{ fontSize: tokens.fontSize.caption, color: t.textDim, textAlign: "center", marginBottom: tokens.space.lg }}>
-      1 {from} = {decimal(rateDisplay, 4)} {to}
     </div>
 
     {/* Custom rate */}

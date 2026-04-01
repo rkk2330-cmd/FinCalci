@@ -139,10 +139,6 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
     </div>
 
     {sipMode === "sip" ? (<div>
-      <AmountInput label="Monthly SIP" value={monthly} onChange={setMonthly} min={SLIDER.sip.monthly.min} max={SLIDER.sip.monthly.max} color={color} t={t} />
-      <SliderInput label="Expected Return" value={rate} onChange={setRate} unit="%" min={SLIDER.sip.rate.min} max={SLIDER.sip.rate.max} step={SLIDER.sip.rate.step} color={color} t={t} />
-      <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
-
       <HeroNumber label="Total value" value={currency(fv)} color={color} />
       <MetricGrid t={t} items={[
         { label: "Invested", value: currencyCompact(invested) },
@@ -150,6 +146,10 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
         ...(showInflation ? [{ label: "Real value (after inflation)", value: currencyCompact(realFV), color: tokens.color.warning }] : []),
         { label: `vs FD (${pct(FINANCE.DEFAULT_FD_RATE * 100, 0)})`, value: `+${currencyCompact(fdCompare.sipVsFdGain)}`, color: tokens.color.success },
       ]} />
+
+      <AmountInput label="Monthly SIP" value={monthly} onChange={setMonthly} min={SLIDER.sip.monthly.min} max={SLIDER.sip.monthly.max} color={color} t={t} />
+      <SliderInput label="Expected Return" value={rate} onChange={setRate} unit="%" min={SLIDER.sip.rate.min} max={SLIDER.sip.rate.max} step={SLIDER.sip.rate.step} color={color} t={t} />
+      <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
 
       {/* Growth chart */}
       {sipChartData.length > 1 && (
@@ -196,44 +196,41 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
       </div>
 
     </div>) : sipMode === "stepup" ? (<div>
-      <AmountInput label="Starting Monthly SIP" value={monthly} onChange={setMonthly} min={SLIDER.sip.monthly.min} max={SLIDER.sip.monthly.max} color={color} t={t} />
-      <SliderInput label="Expected Return" value={rate} onChange={setRate} unit="%" min={SLIDER.sip.rate.min} max={SLIDER.sip.rate.max} step={SLIDER.sip.rate.step} color={color} t={t} />
-      <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
-      <SliderInput label="Yearly Increase" value={stepPct} onChange={setStepPct} unit="%" min={SLIDER.sip.step.min} max={SLIDER.sip.step.max} step={SLIDER.sip.step.step} color={tokens.color.secondary} t={t} />
-
       <HeroNumber label="Step-up SIP value" value={currency(su.fv)} color={color} />
       <MetricGrid t={t} items={[
         { label: "Invested", value: currencyCompact(su.invested) },
         { label: "Returns", value: currencyCompact(su.gains), color: tokens.color.success },
         { label: "vs regular SIP", value: `+${currencyCompact(su.fv - fv)}`, color: tokens.color.primary },
       ]} />
-
-    </div>) : sipMode === "lumpsum" ? (<div>
-      <AmountInput label="Lump Sum Amount" value={lumpAmt} onChange={setLumpAmt} min={SLIDER.sip.lump.min} max={SLIDER.sip.lump.max} color={color} t={t} />
+      <AmountInput label="Starting Monthly SIP" value={monthly} onChange={setMonthly} min={SLIDER.sip.monthly.min} max={SLIDER.sip.monthly.max} color={color} t={t} />
       <SliderInput label="Expected Return" value={rate} onChange={setRate} unit="%" min={SLIDER.sip.rate.min} max={SLIDER.sip.rate.max} step={SLIDER.sip.rate.step} color={color} t={t} />
       <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
+      <SliderInput label="Yearly Increase" value={stepPct} onChange={setStepPct} unit="%" min={SLIDER.sip.step.min} max={SLIDER.sip.step.max} step={SLIDER.sip.step.step} color={tokens.color.secondary} t={t} />
 
+    </div>) : sipMode === "lumpsum" ? (<div>
       <HeroNumber label="Maturity value" value={currency(lump.fv)} color={color} />
       <MetricGrid t={t} items={[
         { label: "Invested", value: currencyCompact(lumpAmt) },
         { label: "Returns", value: currencyCompact(lump.gains), color: tokens.color.success },
       ]} />
+      <AmountInput label="Lump Sum Amount" value={lumpAmt} onChange={setLumpAmt} min={SLIDER.sip.lump.min} max={SLIDER.sip.lump.max} color={color} t={t} />
+      <SliderInput label="Expected Return" value={rate} onChange={setRate} unit="%" min={SLIDER.sip.rate.min} max={SLIDER.sip.rate.max} step={SLIDER.sip.rate.step} color={color} t={t} />
+      <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
 
     </div>) : sipMode === "swp" ? (<div>
-      <AmountInput label="Initial Corpus" value={corpus} onChange={setCorpus} min={SLIDER.sip.swpCorpus.min} max={SLIDER.sip.swpCorpus.max} color={color} t={t} />
-      <AmountInput label="Monthly Withdrawal" value={swpAmt} onChange={setSwpAmt} min={SLIDER.sip.swpMonthly.min} max={SLIDER.sip.swpMonthly.max} color={tokens.color.danger} t={t} />
-      <SliderInput label="Expected Growth" value={swpRate} onChange={setSwpRate} unit="%" min={SLIDER.sip.rate.min} max={20} step={SLIDER.sip.rate.step} color={color} t={t} />
-      <SliderInput label="Duration" value={swpYears} onChange={setSwpYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
-
       <HeroNumber label={swp.exhausted ? "Corpus exhausted!" : "Final balance"} value={currency(swp.finalBal)} color={swp.exhausted ? tokens.color.danger : tokens.color.success} />
       <MetricGrid t={t} items={[
         { label: "Total withdrawn", value: currencyCompact(swp.totalWithdrawn) },
         { label: "Total growth", value: currencyCompact(swp.totalGrowth), color: swp.totalGrowth >= 0 ? tokens.color.success : tokens.color.danger },
         { label: "Max safe withdrawal", value: currency(Math.round(swp.maxSWP)), color: tokens.color.primary },
       ]} />
-      {swp.exhausted && <div style={{ fontSize: tokens.fontSize.caption, color: tokens.color.danger, textAlign: "center", marginTop: tokens.space.sm }}>
+      {swp.exhausted && <div style={{ fontSize: tokens.fontSize.caption, color: tokens.color.danger, textAlign: "center", marginBottom: tokens.space.sm }}>
         Corpus runs out in {swp.lastMonth} months. Reduce withdrawal or increase corpus.
       </div>}
+      <AmountInput label="Initial Corpus" value={corpus} onChange={setCorpus} min={SLIDER.sip.swpCorpus.min} max={SLIDER.sip.swpCorpus.max} color={color} t={t} />
+      <AmountInput label="Monthly Withdrawal" value={swpAmt} onChange={setSwpAmt} min={SLIDER.sip.swpMonthly.min} max={SLIDER.sip.swpMonthly.max} color={tokens.color.danger} t={t} />
+      <SliderInput label="Expected Growth" value={swpRate} onChange={setSwpRate} unit="%" min={SLIDER.sip.rate.min} max={20} step={SLIDER.sip.rate.step} color={color} t={t} />
+      <SliderInput label="Duration" value={swpYears} onChange={setSwpYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
 
     </div>) : sipMode === "mf" ? (<div>
       <MFLookup color={color} t={t} />

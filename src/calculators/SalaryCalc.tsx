@@ -45,8 +45,6 @@ export default function SalaryCalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setMode("compare"); vib(); }} style={tabStyle(mode === "compare", color, t)}>Compare offers</button>
     </div>
 
-    <AmountInput label="Annual CTC" value={ctc} onChange={setCtc} min={SLIDER.salary.ctc.min} max={SLIDER.salary.ctc.max} color={color} t={t} />
-
     <HeroNumber label="Monthly take-home" value={currency(calc.monthly)} color={color} />
     <MetricGrid t={t} items={[
       { label: "Basic (40%)", value: currencyCompact(calc.basic) },
@@ -54,6 +52,8 @@ export default function SalaryCalc({ color, t, onResult }: CalcProps) {
       { label: "Your EPF", value: currency(Math.round(calc.epfEmp)) },
       { label: "Tax (approx)", value: currency(calc.tax), color: tokens.color.danger },
     ]} />
+
+    <AmountInput label="Annual CTC" value={ctc} onChange={setCtc} min={SLIDER.salary.ctc.min} max={SLIDER.salary.ctc.max} color={color} t={t} />
 
     <div style={sectionGap}><MiniChart type="hbar" data={chartData} height={160} colors={[tokens.color.success, tokens.color.danger, tokens.color.primary, tokens.color.secondary]} t={t} /></div>
 

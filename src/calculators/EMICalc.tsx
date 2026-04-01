@@ -157,22 +157,7 @@ export default function EMICalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setCompareMode("prepay"); vib(); }} style={tabStyle(compareMode === "prepay", color, t)}>Prepay</button>
     </div>
 
-    <AmountInput label="Loan Amount" value={P} onChange={setP} min={SLIDER.emi.P.min} max={SLIDER.emi.P.max} color={color} t={t} />
-
-    {/* Loan presets */}
-    <div style={tabRowSm}>
-      {FINANCE.LOAN_PRESETS.map(lp => (
-        <button key={lp.id} onClick={() => { setRate(lp.rate); setN(lp.tenure); vib(); }}
-          style={{ flex: 1, padding: `${tokens.space.xs}px`, borderRadius: tokens.radius.sm, fontSize: tokens.fontSize.caption - 2,
-            border: `1px solid ${rate === lp.rate ? `${color}50` : t.border}`, background: rate === lp.rate ? `${color}12` : t.cardAlt,
-            color: rate === lp.rate ? color : t.textMuted, cursor: "pointer", fontFamily: tokens.fontFamily.sans }}>{lp.label}</button>
-      ))}
-    </div>
-
     {compareMode === "calc" ? (<div>
-      <SliderInput label="Interest Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.emi.rate.min} max={SLIDER.emi.rate.max} step={SLIDER.emi.rate.step} color={color} t={t} />
-      <SliderInput label="Tenure" value={n} onChange={setN} unit="mo" min={SLIDER.emi.n.min} max={SLIDER.emi.n.max} step={SLIDER.emi.n.step} color={color} t={t} />
-
       {/* Hero result */}
       <HeroNumber label="Monthly EMI" value={currency(emi)} color={color} />
 
@@ -183,6 +168,21 @@ export default function EMICalc({ color, t, onResult }: CalcProps) {
         { label: "Processing Fee", value: procFee > 0 ? currency(procAmt) : "—" },
         { label: "Total Cost", value: procFee > 0 ? currencyCompact(totalCost) : "—" },
       ]} />
+
+      <AmountInput label="Loan Amount" value={P} onChange={setP} min={SLIDER.emi.P.min} max={SLIDER.emi.P.max} color={color} t={t} />
+
+      {/* Loan presets */}
+      <div style={tabRowSm}>
+        {FINANCE.LOAN_PRESETS.map(lp => (
+          <button key={lp.id} onClick={() => { setRate(lp.rate); setN(lp.tenure); vib(); }}
+            style={{ flex: 1, padding: `${tokens.space.xs}px`, borderRadius: tokens.radius.sm, fontSize: tokens.fontSize.caption - 2,
+              border: `1px solid ${rate === lp.rate ? `${color}50` : t.border}`, background: rate === lp.rate ? `${color}12` : t.cardAlt,
+              color: rate === lp.rate ? color : t.textMuted, cursor: "pointer", fontFamily: tokens.fontFamily.sans }}>{lp.label}</button>
+        ))}
+      </div>
+
+      <SliderInput label="Interest Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.emi.rate.min} max={SLIDER.emi.rate.max} step={SLIDER.emi.rate.step} color={color} t={t} />
+      <SliderInput label="Tenure" value={n} onChange={setN} unit="mo" min={SLIDER.emi.n.min} max={SLIDER.emi.n.max} step={SLIDER.emi.n.step} color={color} t={t} />
 
       {/* Amortization chart */}
       {chartData.length > 2 && (
@@ -316,18 +316,8 @@ export default function EMICalc({ color, t, onResult }: CalcProps) {
       </button>
 
     </div>) : compareMode === "prepay" ? (<div>
-      {/* Prepayment mode */}
-      <SliderInput label="Interest Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.emi.rate.min} max={SLIDER.emi.rate.max} step={SLIDER.emi.rate.step} color={color} t={t} />
-      <SliderInput label="Original Tenure" value={n} onChange={setN} unit="mo" min={SLIDER.emi.n.min} max={SLIDER.emi.n.max} step={12} color={color} t={t} />
-      <div style={{ fontSize: tokens.fontSize.small, color: t.textDim, fontWeight: tokens.fontWeight.medium, marginTop: tokens.space.xs, marginBottom: tokens.space.md }}>
-        Regular EMI: {currency(emi)}/month
-      </div>
-      <AmountInput label="Extra Monthly Payment" value={extraMonthly} onChange={setExtraMonthly} min={0} max={Math.max(emi * 2, 10000)} color={tokens.color.success} t={t} />
-      <AmountInput label="One-time Lump Sum" value={lumpSum} onChange={setLumpSum} min={0} max={P} color={tokens.color.secondary} t={t} />
-      {lumpSum > 0 && <SliderInput label="Lump Sum at Month" value={lumpMonth} onChange={setLumpMonth} unit="mo" min={1} max={n} step={1} color={tokens.color.secondary} t={t} />}
-
-      {/* Prepay comparison */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: tokens.space.sm, marginTop: tokens.space.lg }}>
+      {/* Prepay comparison - result on top */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: tokens.space.sm, marginBottom: tokens.space.lg }}>
         <div style={{ ...metricStyle(t), textAlign: "center", borderTop: `3px solid ${t.textDim}` }}>
           <div style={labelStyle(t)}>Without prepayment</div>
           <div style={{ fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, fontFamily: tokens.fontFamily.mono, color: t.text, marginTop: tokens.space.xs }}>{n} months</div>
@@ -342,7 +332,7 @@ export default function EMICalc({ color, t, onResult }: CalcProps) {
 
       {pp.monthsSaved > 0 && (
         <div style={{ background: `${tokens.color.success}10`, border: `1px solid ${tokens.color.success}25`,
-          borderRadius: tokens.radius.lg, padding: tokens.space.lg, textAlign: "center", marginTop: tokens.space.md }}>
+          borderRadius: tokens.radius.lg, padding: tokens.space.lg, textAlign: "center", marginBottom: tokens.space.lg }}>
           <div style={captionMuted(t)}>You finish</div>
           <HeroNumber value={`${pp.monthsSaved} months early`} color={tokens.color.success} style={{ padding: `${tokens.space.sm}px 0` }} />
           <div style={{ fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, color: tokens.color.primary, fontFamily: tokens.fontFamily.mono }}>
@@ -355,6 +345,16 @@ export default function EMICalc({ color, t, onResult }: CalcProps) {
           )}
         </div>
       )}
+
+      {/* Prepayment inputs */}
+      <SliderInput label="Interest Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.emi.rate.min} max={SLIDER.emi.rate.max} step={SLIDER.emi.rate.step} color={color} t={t} />
+      <SliderInput label="Original Tenure" value={n} onChange={setN} unit="mo" min={SLIDER.emi.n.min} max={SLIDER.emi.n.max} step={12} color={color} t={t} />
+      <div style={{ fontSize: tokens.fontSize.small, color: t.textDim, fontWeight: tokens.fontWeight.medium, marginTop: tokens.space.xs, marginBottom: tokens.space.md }}>
+        Regular EMI: {currency(emi)}/month
+      </div>
+      <AmountInput label="Extra Monthly Payment" value={extraMonthly} onChange={setExtraMonthly} min={0} max={Math.max(emi * 2, 10000)} color={tokens.color.success} t={t} />
+      <AmountInput label="One-time Lump Sum" value={lumpSum} onChange={setLumpSum} min={0} max={P} color={tokens.color.secondary} t={t} />
+      {lumpSum > 0 && <SliderInput label="Lump Sum at Month" value={lumpMonth} onChange={setLumpMonth} unit="mo" min={1} max={n} step={1} color={tokens.color.secondary} t={t} />}
     </div>) : null}
 
     <div style={disclaimer(t)}>

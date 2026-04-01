@@ -88,6 +88,15 @@ export default function GoldCalc({ color, t, onResult }: CalcProps) {
 
     {rateError && <InlineError message={rateError} t={t} />}
 
+    <HeroNumber label={metalMode === "gold" ? `${purity} Gold (${weight}${weightUnit})` : `${silverPurity} Silver (${weight}${weightUnit})`} value={currency(calc.total)} color={metalMode === "gold" ? "#F59E0B" : "#94A3B8"} />
+
+    <MetricGrid t={t} items={[
+      { label: `Pure ${metalMode} value`, value: currency(calc.pure) },
+      { label: `Making (${pct(makingPct, 0)})`, value: currency(calc.making) },
+      { label: `GST (${pct(gstPct, 0)})`, value: currency(calc.gst), color: tokens.color.secondary },
+      { label: "Total price", value: currency(calc.total), color: metalMode === "gold" ? "#F59E0B" : "#94A3B8" },
+    ]} />
+
     <SliderInput label="Weight" value={weight} onChange={setWeight} unit={weightUnit} min={0.1} max={10000} step={weightUnit === "g" ? 0.5 : 0.1} color={metalMode === "gold" ? "#F59E0B" : "#94A3B8"} t={t} />
 
     <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg }}>
@@ -105,15 +114,6 @@ export default function GoldCalc({ color, t, onResult }: CalcProps) {
 
     <SliderInput label="Making Charges" value={makingPct} onChange={setMakingPct} unit="%" min={SLIDER.gold.making.min} max={SLIDER.gold.making.max} step={SLIDER.gold.making.step} color={color} t={t} />
     <SliderInput label="GST" value={gstPct} onChange={setGstPct} unit="%" min={SLIDER.gold.gst.min} max={SLIDER.gold.gst.max} step={SLIDER.gold.gst.step} color={color} t={t} />
-
-    <HeroNumber label={metalMode === "gold" ? `${purity} Gold (${weight}${weightUnit})` : `${silverPurity} Silver (${weight}${weightUnit})`} value={currency(calc.total)} color={metalMode === "gold" ? "#F59E0B" : "#94A3B8"} />
-
-    <MetricGrid t={t} items={[
-      { label: `Pure ${metalMode} value`, value: currency(calc.pure) },
-      { label: `Making (${pct(makingPct, 0)})`, value: currency(calc.making) },
-      { label: `GST (${pct(gstPct, 0)})`, value: currency(calc.gst), color: tokens.color.secondary },
-      { label: "Total price", value: currency(calc.total), color: metalMode === "gold" ? "#F59E0B" : "#94A3B8" },
-    ]} />
 
     <div style={disclaimer(t)}>
       Rates are derived from international spot prices with estimated import duty. Actual jeweller prices will vary. Verify before purchasing.

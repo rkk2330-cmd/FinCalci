@@ -53,23 +53,23 @@ export default function PPFCalc({ color, t, onResult }: CalcProps) {
     </div>
 
     {mode === "ppf" ? (<div>
-      <AmountInput label="Yearly Deposit" value={yearly} onChange={setYearly} min={SLIDER.ppf.yearly.min} max={SLIDER.ppf.yearly.max} color={color} t={t} />
-      <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.ppf.years.min} max={SLIDER.ppf.years.max} step={SLIDER.ppf.years.step} color={color} t={t} />
-      <SliderInput label="PPF Rate" value={ppfRate} onChange={setPpfRate} unit="%" min={SLIDER.ppf.rate.min} max={SLIDER.ppf.rate.max} step={SLIDER.ppf.rate.step} color={color} t={t} />
       <HeroNumber label="PPF maturity" value={currency(ppf.maturity)} color={color} />
       <MetricGrid t={t} items={[
         { label: "Invested", value: currencyCompact(ppf.invested) },
         { label: "Interest earned", value: currencyCompact(ppf.interest), color: tokens.color.success },
       ]} />
+      <AmountInput label="Yearly Deposit" value={yearly} onChange={setYearly} min={SLIDER.ppf.yearly.min} max={SLIDER.ppf.yearly.max} color={color} t={t} />
+      <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.ppf.years.min} max={SLIDER.ppf.years.max} step={SLIDER.ppf.years.step} color={color} t={t} />
+      <SliderInput label="PPF Rate" value={ppfRate} onChange={setPpfRate} unit="%" min={SLIDER.ppf.rate.min} max={SLIDER.ppf.rate.max} step={SLIDER.ppf.rate.step} color={color} t={t} />
     </div>) : (<div>
-      <AmountInput label="Basic Salary (monthly)" value={epfBasic} onChange={setEpfBasic} min={SLIDER.ppf.epfBasic.min} max={SLIDER.ppf.epfBasic.max} color="#F59E0B" t={t} />
-      <SliderInput label="EPF Rate" value={epfRate2} onChange={setEpfRate2} unit="%" min={SLIDER.ppf.epfRate.min} max={SLIDER.ppf.epfRate.max} step={SLIDER.ppf.epfRate.step} color="#F59E0B" t={t} />
-      <SliderInput label="Years of Service" value={epfYears} onChange={setEpfYears} unit="yrs" min={SLIDER.ppf.epfYears.min} max={SLIDER.ppf.epfYears.max} step={SLIDER.ppf.epfYears.step} color="#F59E0B" t={t} />
       <HeroNumber label="EPF corpus" value={currency(epf.fv)} color="#F59E0B" />
       <MetricGrid t={t} items={[
         { label: "Your contribution", value: currencyCompact(epf.invested) },
         { label: "Returns", value: currencyCompact(epf.gains), color: tokens.color.success },
       ]} />
+      <AmountInput label="Basic Salary (monthly)" value={epfBasic} onChange={setEpfBasic} min={SLIDER.ppf.epfBasic.min} max={SLIDER.ppf.epfBasic.max} color="#F59E0B" t={t} />
+      <SliderInput label="EPF Rate" value={epfRate2} onChange={setEpfRate2} unit="%" min={SLIDER.ppf.epfRate.min} max={SLIDER.ppf.epfRate.max} step={SLIDER.ppf.epfRate.step} color="#F59E0B" t={t} />
+      <SliderInput label="Years of Service" value={epfYears} onChange={setEpfYears} unit="yrs" min={SLIDER.ppf.epfYears.min} max={SLIDER.ppf.epfYears.max} step={SLIDER.ppf.epfYears.step} color="#F59E0B" t={t} />
     </div>)}
 
     <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>PPF rate subject to quarterly revision by government. EPF assumes employer matches 12%.</div>

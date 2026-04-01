@@ -65,14 +65,6 @@ export default function RetireCalc({ color, t, onResult }: CalcProps) {
   useEffect(() => { if (!onResult) return; const t = setTimeout(() => onResult({ "Corpus Needed": currency(calc.corpusNeeded), "Projected": currency(calc.totalCorpus), [calc.onTrack ? "Surplus" : "Shortfall"]: currency(Math.abs(calc.gap)) }), TIMING.DEBOUNCE_CALC); return () => clearTimeout(t); }, [monthlyExp, savings, monthlySIP, workYears, retireYears, inflation, returnRate]);
 
   return (<div>
-    <AmountInput label="Monthly Expenses (today)" value={monthlyExp} onChange={setMonthlyExp} min={SLIDER.retire.monthlyExp.min} max={SLIDER.retire.monthlyExp.max} color={color} t={t} />
-    <AmountInput label="Current Savings" value={savings} onChange={setSavings} min={SLIDER.retire.savings.min} max={SLIDER.retire.savings.max} color={tokens.color.secondary} t={t} />
-    <AmountInput label="Monthly SIP" value={monthlySIP} onChange={setMonthlySIP} min={SLIDER.retire.sip.min} max={SLIDER.retire.sip.max} color={tokens.color.success} t={t} />
-    <SliderInput label="Years to Retire" value={workYears} onChange={setWorkYears} unit="yrs" min={SLIDER.retire.workYears.min} max={SLIDER.retire.workYears.max} step={SLIDER.retire.workYears.step} color={color} t={t} />
-    <SliderInput label="Retirement Duration" value={retireYears} onChange={setRetireYears} unit="yrs" min={SLIDER.retire.retireYears.min} max={SLIDER.retire.retireYears.max} step={SLIDER.retire.retireYears.step} color={color} t={t} />
-    <SliderInput label="Inflation" value={inflation} onChange={setInflation} unit="%" min={SLIDER.retire.inflation.min} max={SLIDER.retire.inflation.max} step={SLIDER.retire.inflation.step} color={tokens.color.warning} t={t} />
-    <SliderInput label="Expected Return" value={returnRate} onChange={setReturnRate} unit="%" min={SLIDER.retire.returnRate.min} max={SLIDER.retire.returnRate.max} step={SLIDER.retire.returnRate.step} color={tokens.color.success} t={t} />
-
     <HeroNumber label="Retirement corpus needed" value={currencyCompact(calc.corpusNeeded)} color={color} />
 
     <MetricGrid t={t} items={[
@@ -82,11 +74,19 @@ export default function RetireCalc({ color, t, onResult }: CalcProps) {
       { label: "Projected corpus", value: currencyCompact(calc.totalCorpus), color: tokens.color.primary },
     ]} />
 
-    <div style={{ background: calc.onTrack ? `${tokens.color.success}10` : `${tokens.color.danger}10`, border: `1px solid ${calc.onTrack ? tokens.color.success : tokens.color.danger}25`, borderRadius: tokens.radius.lg, padding: tokens.space.lg, textAlign: "center", marginTop: tokens.space.md }}>
+    <div style={{ background: calc.onTrack ? `${tokens.color.success}10` : `${tokens.color.danger}10`, border: `1px solid ${calc.onTrack ? tokens.color.success : tokens.color.danger}25`, borderRadius: tokens.radius.lg, padding: tokens.space.lg, textAlign: "center", marginBottom: tokens.space.lg }}>
       <div style={captionMuted(t)}>{calc.onTrack ? "You're on track!" : "Shortfall"}</div>
       <HeroNumber value={currencyCompact(Math.abs(calc.gap))} color={calc.onTrack ? tokens.color.success : tokens.color.danger} style={{ padding: `${tokens.space.sm}px 0` }} />
       {!calc.onTrack && calc.reqSIP > 0 && <div style={{ fontSize: tokens.fontSize.small, color: tokens.color.primary }}>Increase SIP to {currency(calc.reqSIP)}/month to bridge the gap</div>}
     </div>
+
+    <AmountInput label="Monthly Expenses (today)" value={monthlyExp} onChange={setMonthlyExp} min={SLIDER.retire.monthlyExp.min} max={SLIDER.retire.monthlyExp.max} color={color} t={t} />
+    <AmountInput label="Current Savings" value={savings} onChange={setSavings} min={SLIDER.retire.savings.min} max={SLIDER.retire.savings.max} color={tokens.color.secondary} t={t} />
+    <AmountInput label="Monthly SIP" value={monthlySIP} onChange={setMonthlySIP} min={SLIDER.retire.sip.min} max={SLIDER.retire.sip.max} color={tokens.color.success} t={t} />
+    <SliderInput label="Years to Retire" value={workYears} onChange={setWorkYears} unit="yrs" min={SLIDER.retire.workYears.min} max={SLIDER.retire.workYears.max} step={SLIDER.retire.workYears.step} color={color} t={t} />
+    <SliderInput label="Retirement Duration" value={retireYears} onChange={setRetireYears} unit="yrs" min={SLIDER.retire.retireYears.min} max={SLIDER.retire.retireYears.max} step={SLIDER.retire.retireYears.step} color={color} t={t} />
+    <SliderInput label="Inflation" value={inflation} onChange={setInflation} unit="%" min={SLIDER.retire.inflation.min} max={SLIDER.retire.inflation.max} step={SLIDER.retire.inflation.step} color={tokens.color.warning} t={t} />
+    <SliderInput label="Expected Return" value={returnRate} onChange={setReturnRate} unit="%" min={SLIDER.retire.returnRate.min} max={SLIDER.retire.returnRate.max} step={SLIDER.retire.returnRate.step} color={tokens.color.success} t={t} />
 
     {chartData.length > 1 && <div style={sectionGap}><MiniChart type="area" data={chartData} height={120} colors={[tokens.color.secondary, tokens.color.success]} t={t} /></div>}
 

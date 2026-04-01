@@ -54,15 +54,6 @@ export default function GSTCalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setMode("reverse"); vib(); }} style={tabStyle(mode === "reverse", color, t)}>Reverse</button>
     </div>
 
-    <AmountInput label={mode === "reverse" ? "GST Amount" : "Amount"} value={amt} onChange={setAmt} min={SLIDER.gst.amount.min} max={SLIDER.gst.amount.max} color={color} t={t} />
-
-    <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg, flexWrap: "wrap" }}>
-      {FINANCE.GST_RATES.map(r => (
-        <button key={r} onClick={() => { setGstRate(r); vib(); }}
-          style={{ ...tabStyle(gstRate === r, color, t), minWidth: 40 }}>{r}%</button>
-      ))}
-    </div>
-
     <HeroNumber label={mode === "inclusive" ? "Base price" : mode === "reverse" ? "Base amount" : "Total (incl. GST)"} value={currency(mode === "inclusive" ? calc.base : calc.total)} color={color} />
 
     <MetricGrid t={t} items={[
@@ -71,6 +62,15 @@ export default function GSTCalc({ color, t, onResult }: CalcProps) {
       { label: "CGST", value: currency(half) },
       { label: "SGST", value: currency(half) },
     ]} />
+
+    <AmountInput label={mode === "reverse" ? "GST Amount" : "Amount"} value={amt} onChange={setAmt} min={SLIDER.gst.amount.min} max={SLIDER.gst.amount.max} color={color} t={t} />
+
+    <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg, flexWrap: "wrap" }}>
+      {FINANCE.GST_RATES.map(r => (
+        <button key={r} onClick={() => { setGstRate(r); vib(); }}
+          style={{ ...tabStyle(gstRate === r, color, t), minWidth: 40 }}>{r}%</button>
+      ))}
+    </div>
 
     {/* Multi-item invoice */}
     <button onClick={addItem} style={{ width: "100%", padding: tokens.space.md, borderRadius: tokens.radius.md, background: `${color}10`, border: `1px solid ${color}25`, color, fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer", marginTop: tokens.space.md, fontFamily: tokens.fontFamily.sans }}>

@@ -64,12 +64,16 @@ export default function BMICalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setGender("female"); vib(); }} style={tabStyle(gender === "female", "#F472B6", t)}>Female</button>
     </div>
 
+    {/* Hero result based on active tab */}
+    {healthTab === "bmi" && <HeroNumber label="BMI" value={decimal(bmi)} color={cc} />}
+    {healthTab === "bf" && <HeroNumber label="Body fat" value={pct(bodyFat)} color="#F472B6" />}
+    {healthTab === "cal" && <HeroNumber label="Daily calories (moderate)" value={`${num(dailyCal.moderate)} kcal`} color={tokens.color.success} />}
+
     <SliderInput label="Height" value={h} onChange={setH} unit="cm" min={SLIDER.bmi.height.min} max={SLIDER.bmi.height.max} step={SLIDER.bmi.height.step} color={color} t={t} />
     <SliderInput label="Weight" value={w} onChange={setW} unit="kg" min={SLIDER.bmi.weight.min} max={SLIDER.bmi.weight.max} step={SLIDER.bmi.weight.step} color={color} t={t} />
     <SliderInput label="Age" value={age} onChange={setAge} unit="yrs" min={SLIDER.bmi.age.min} max={SLIDER.bmi.age.max} step={SLIDER.bmi.age.step} color={color} t={t} />
 
     {healthTab === "bmi" && (<div>
-      <HeroNumber label="BMI" value={decimal(bmi)} color={cc} />
       <div style={{ textAlign: "center", fontSize: tokens.fontSize.body, fontWeight: tokens.fontWeight.medium, color: cc, marginBottom: tokens.space.lg }}>{cat}</div>
       <MiniChart type="gauge" data={bmi} width={260} height={140} colors={[cc]} t={t} />
       <MetricGrid t={t} items={[
@@ -82,11 +86,9 @@ export default function BMICalc({ color, t, onResult }: CalcProps) {
       <SliderInput label="Waist (cm)" value={bfWaist} onChange={setBfWaist} unit="cm" min={SLIDER.bmi.waist.min} max={SLIDER.bmi.waist.max} step={SLIDER.bmi.waist.step} color="#F472B6" t={t} />
       <SliderInput label="Neck (cm)" value={bfNeck} onChange={setBfNeck} unit="cm" min={SLIDER.bmi.neck.min} max={SLIDER.bmi.neck.max} step={SLIDER.bmi.neck.step} color="#F472B6" t={t} />
       {gender === "female" && <SliderInput label="Hip (cm)" value={bfHip} onChange={setBfHip} unit="cm" min={SLIDER.bmi.waist.min} max={SLIDER.bmi.waist.max} step={SLIDER.bmi.waist.step} color="#F472B6" t={t} />}
-      <HeroNumber label="Body fat" value={pct(bodyFat)} color="#F472B6" />
     </div>)}
 
     {healthTab === "cal" && (<div>
-      <HeroNumber label="Daily calories (moderate)" value={`${num(dailyCal.moderate)} kcal`} color={tokens.color.success} />
       <MetricGrid t={t} columns={3} items={[
         { label: "Sedentary", value: `${num(dailyCal.sedentary)} kcal` },
         { label: "Moderate", value: `${num(dailyCal.moderate)} kcal`, color: tokens.color.success },

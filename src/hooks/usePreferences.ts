@@ -17,7 +17,7 @@ export default function usePreferences(showToast) {
     try { return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; }
     catch { return 'dark'; }
   });
-  const [accent, setAccent] = useState("#4ECDC4");
+  const [accent, setAccent] = useState("#10B981");
   const [soundOn, setSoundOn] = useState(true);
   const [favorites, setFavorites] = useState<unknown[]>([]);
 
