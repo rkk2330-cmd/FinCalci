@@ -1,15 +1,15 @@
 // @ts-nocheck — TODO: add strict types
-// FinCalci — AmountInput: PhonePe-style ₹ input
+// FinCalci — AmountInput v3: CRED-style ₹ input
+// - Clean card row matching SliderInput
 // - Raw number while typing (no cursor issues)
 // - Indian comma formatting on blur (5,00,000)
 // - Helper text: "5 Lakh" / "50 Thousand" / "1.2 Crore"
-// - No slider, no +/- buttons
 import React from 'react';
 const { useState, useRef, useCallback } = React;
 import { tokens } from '../design/tokens';
 import { vib } from '../utils/haptics';
 
-/** Convert number to Indian word form: 5 Thousand, 50 Lakh, 1.2 Crore */
+/** Convert number to Indian word form */
 function indianWords(n) {
   if (n === 0 || isNaN(n) || !isFinite(n)) return '';
   const abs = Math.abs(n);
@@ -29,7 +29,7 @@ function indianWords(n) {
   return '';
 }
 
-/** Format number with Indian commas: 50,00,000 */
+/** Format number with Indian commas */
 function indianFormat(n) {
   if (isNaN(n) || !isFinite(n)) return '0';
   const s = Math.abs(Math.round(n)).toString();
@@ -65,7 +65,6 @@ function AmountInputInner({ label, value, onChange, min = 0, max = Infinity, col
   };
 
   const handleChange = (e) => {
-    // Allow only digits and one decimal point
     const v = e.target.value.replace(/[^0-9.]/g, '');
     setRaw(v);
   };
@@ -76,39 +75,80 @@ function AmountInputInner({ label, value, onChange, min = 0, max = Infinity, col
 
   const displayValue = focused ? raw : indianFormat(value);
   const helper = indianWords(value);
+  const isDark = t.bg === '#0F0F13';
 
   return (
-    <div style={{ marginBottom: 14 }}>
-      <label style={{ fontSize: 13, color: t.textMuted, display: 'block', marginBottom: 6,
-        fontFamily: "'Inter',system-ui,sans-serif" }}>{label}</label>
-      <div style={{
-        display: 'flex', alignItems: 'center',
-        background: t.inputBg, borderRadius: 10,
-        border: `1.5px solid ${focused ? color : t.border}`,
-        padding: '8px 12px',
-        transition: 'border-color 0.2s',
-      }}>
-        <span style={{ color: t.textDim, fontSize: 15, marginRight: 6, flexShrink: 0 }}>₹</span>
-        <input
-          ref={inputRef}
-          type={focused ? 'number' : 'text'}
-          inputMode="numeric"
-          value={displayValue}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-          style={{
-            flex: 1, background: 'transparent', border: 'none', outline: 'none',
-            color: t.text, fontSize: 16, fontFamily: "'JetBrains Mono',monospace",
-            fontWeight: 500, textAlign: 'right',
-            MozAppearance: 'textfield', WebkitAppearance: 'none', appearance: 'none',
-          }}
-        />
+    <div style={{ marginBottom: 10 }}>
+      <div
+        onClick={!focused ? () => inputRef.current?.focus() : undefined}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '12px 14px',
+          borderRadius: tokens.radius.md,
+          background: isDark ? t.card : '#FFFFFF',
+          border: focused
+            ? `1.5px solid ${color}`
+            : isDark ? `1px solid ${t.border}` : 'none',
+          boxShadow: focused
+            ? `0 0 0 3px ${color}15`
+            : isDark ? 'none' : '0 1px 4px rgba(0,0,0,0.05)',
+          cursor: focused ? 'default' : 'pointer',
+          transition: 'border-color 0.2s, box-shadow 0.2s',
+          WebkitTapHighlightColor: 'transparent',
+        }}
+      >
+        {/* Label */}
+        <label style={{
+          fontSize: tokens.fontSize.body,
+          color: t.textMuted,
+          fontFamily: tokens.fontFamily.sans,
+          userSelect: 'none',
+          flexShrink: 0,
+          marginRight: tokens.space.sm,
+        }}>
+          {label}
+        </label>
+
+        {/* ₹ symbol + input */}
+        <div style={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'flex-end', gap: 4 }}>
+          <span style={{ color: t.textDim, fontSize: 14, flexShrink: 0 }}>₹</span>
+          <input
+            ref={inputRef}
+            type={focused ? 'number' : 'text'}
+            inputMode="numeric"
+            value={displayValue}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            style={{
+              width: '100%',
+              maxWidth: 140,
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              color: t.text,
+              fontSize: 16,
+              fontWeight: tokens.fontWeight.medium,
+              fontFamily: tokens.fontFamily.mono,
+              textAlign: 'right',
+              MozAppearance: 'textfield',
+              WebkitAppearance: 'none',
+              appearance: 'none',
+            }}
+          />
+        </div>
       </div>
       {helper && (
-        <div style={{ fontSize: 11, color: t.textDim, textAlign: 'right', marginTop: 3,
-          fontFamily: "'Inter',system-ui,sans-serif" }}>
+        <div style={{
+          fontSize: tokens.fontSize.caption - 1,
+          color: t.textDim,
+          textAlign: 'right',
+          marginTop: 3,
+          paddingRight: 4,
+          fontFamily: tokens.fontFamily.sans,
+        }}>
           {helper}
         </div>
       )}
