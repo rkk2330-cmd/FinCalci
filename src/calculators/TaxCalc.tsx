@@ -2,7 +2,7 @@ import { tabRow, captionDim, captionDimMt, disclaimer, captionMuted } from '../d
 import { loadCalcInputs } from '../utils/inputMemory';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — TaxCalc v2
+// FinCalci — TaxCalc
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;

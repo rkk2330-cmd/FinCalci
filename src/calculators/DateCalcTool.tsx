@@ -1,7 +1,7 @@
 import { tabRow } from '../design/styles';
 import { todayISO, safeDate, safeDateDiff, safeNum, safeRange } from '../utils/validate';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — DateCalcTool v2 (Days Between + Add/Subtract Days)
+// FinCalci — DateCalcTool (Days Between + Add/Subtract Days)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;

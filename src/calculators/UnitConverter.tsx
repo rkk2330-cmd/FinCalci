@@ -1,5 +1,5 @@
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — UnitConverter v2 (13 categories, number system, fuel, temp)
+// FinCalci — UnitConverter (13 categories, number system, fuel, temp)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;

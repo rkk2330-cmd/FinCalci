@@ -2,7 +2,7 @@ import { tabRow, sectionGap } from '../design/styles';
 import { loadCalcInputs } from '../utils/inputMemory';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — FDCalc v2 (FD + RD)
+// FinCalci — FDCalc (FD + RD)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
@@ -74,6 +74,13 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
       <div style={labelStyle(t)}>Compare across banks (quarterly compounding)</div>
       <MiniChart type="hbar" data={banks.map(b => ({ label: b.name, value: b.maturity, display: currency(b.maturity) }))} height={banks.length * 36} colors={[color, tokens.color.secondary]} t={t} />
     </div>)}
+
+    {/* Affiliate CTA */}
+    <a href="https://fin-calci.vercel.app/compare-fd" target="_blank" rel="noopener noreferrer" onClick={() => vib(5)}
+      style={{ display: "block", textDecoration: "none", width: "100%", padding: `${tokens.space.md}px ${tokens.space.lg}px`, borderRadius: tokens.radius.lg, background: `${color}08`, border: `1px solid ${color}18`, marginTop: tokens.space.lg, textAlign: "center" }}>
+      <div style={{ fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, color }}>🏦 Compare FD rates across banks →</div>
+      <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, marginTop: 2 }}>Find the best fixed deposit rates from top banks</div>
+    </a>
 
     <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Bank rates shown are indicative. Actual rates vary by tenure, amount, and bank policy. Not financial advice.</div>
   </div>);

@@ -2,7 +2,7 @@ import { tabRow, tabRowSm, captionDim, captionDimMt, sectionGapSm, sectionGapLg,
 import { loadCalcInputs } from '../utils/inputMemory';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — EMICalc v2 (template for all calculator migrations)
+// FinCalci — EMICalc (template for all calculator migrations)
 // Uses: safeEMI, format, constants, tokens, useMemo, HeroNumber, MetricGrid, MiniChart
 import type { CalcProps } from '../types';
 import React from 'react';
@@ -144,7 +144,7 @@ export default function EMICalc({ color, t, onResult }: CalcProps) {
       amortization.forEach(a => { w.document.write(`<tr><td>${a.month}</td><td>${currency(a.principal)}</td><td>${currency(a.interest)}</td><td>${currency(a.balance)}</td></tr>`); });
       w.document.write(`</table>`);
     }
-    w.document.write(`<div class="footer">Made with FinCalci &bull; fincalci.vercel.app</div></body></html>`);
+    w.document.write(`<div class="footer">Made with FinCalci &bull; fin-calci.vercel.app</div></body></html>`);
     w.document.close(); w.print();
   }, [P, rate, n, emi, interest, total, compare, amortization, compareMode, bankA, bankB]);
 
@@ -356,6 +356,13 @@ export default function EMICalc({ color, t, onResult }: CalcProps) {
       <AmountInput label="One-time Lump Sum" value={lumpSum} onChange={setLumpSum} min={0} max={P} color={tokens.color.secondary} t={t} />
       {lumpSum > 0 && <SliderInput label="Lump Sum at Month" value={lumpMonth} onChange={setLumpMonth} unit="mo" min={1} max={n} step={1} color={tokens.color.secondary} t={t} />}
     </div>) : null}
+
+    {/* Affiliate CTA */}
+    <a href="https://fin-calci.vercel.app/compare-rates" target="_blank" rel="noopener noreferrer" onClick={() => vib(5)}
+      style={{ display: "block", textDecoration: "none", width: "100%", padding: `${tokens.space.md}px ${tokens.space.lg}px`, borderRadius: tokens.radius.lg, background: `${color}08`, border: `1px solid ${color}18`, marginTop: tokens.space.lg, textAlign: "center" }}>
+      <div style={{ fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, color }}> Compare bank loan rates →</div>
+      <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, marginTop: 2 }}>Check latest rates from SBI, HDFC, ICICI & more</div>
+    </a>
 
     <div style={disclaimer(t)}>
       EMI calculations are estimates. Actual EMI may vary based on bank policies, processing fees, and prepayment terms. This is not financial advice.

@@ -1,7 +1,7 @@
 // @ts-nocheck — TODO: add strict types
 // FinCalci — SliderInput v3: CRED-style tap-to-type field
 // Clean single-row card. Tap value to edit. No slider, no −/+ buttons.
-// Same props interface as v2 — zero changes needed in any calculator.
+// 
 import React from 'react';
 const { useState, useRef, useEffect } = React;
 import { tokens } from '../design/tokens';

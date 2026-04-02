@@ -4,7 +4,7 @@ import type { CalcProps } from '../types';
 import { clampInput } from '../hooks/useValidatedInput';
 import { CLAMP } from '../utils/constants';
 // SLIDER imported via constants
-// FinCalci — CurrencyCalc v2
+// FinCalci — CurrencyCalc
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
 import { safeNum, safeDivide, validateCalcInputs } from '../utils/validate';

@@ -3,7 +3,7 @@ import { tabRow, tabRowSm, sectionGap, sectionGapLg, rowCenter, TEXT_RIGHT } fro
 import type { CalcProps } from '../types';
 import { clampInput } from '../hooks/useValidatedInput';
 import { CLAMP } from '../utils/constants';
-// FinCalci — ExpenseTrackerCalc v2 (Full expense tracker with categories, budgets, recurring)
+// FinCalci — ExpenseTrackerCalc (Full expense tracker with categories, budgets, recurring)
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
 import { safeNum, safeRange, todayISO, thisMonthISO, offsetMonth, formatMonth, sanitizeExpenseData } from '../utils/validate';
@@ -264,6 +264,20 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setViewMonth(offsetMonth(viewMonth, 1)); vib(); }}
         style={tabStyle(false, color, t)}>Next →</button>
     </div>
+
+    {/* CSV Export */}
+    {entries.length > 0 && (
+      <button onClick={() => {
+        const header = "Date,Type,Category,Amount,Note,Payment Mode\n";
+        const rows = entries.map(e => `${e.date || ""},${e.type || ""},${e.category || ""},${e.amount || 0},"${(e.note || "").replace(/"/g, '""')}",${e.payMode || ""}`).join("\n");
+        const blob = new Blob([header + rows], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a"); a.href = url; a.download = `FinCalci-Expenses-${viewMonth}.csv`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); vib();
+      }} style={{ width: "100%", padding: tokens.space.md, borderRadius: tokens.radius.md, background: `${tokens.color.success}12`, border: `1px solid ${tokens.color.success}25`, color: tokens.color.success, fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer", marginTop: tokens.space.md, fontFamily: tokens.fontFamily.sans }}>
+        📥 Export as CSV
+      </button>
+    )}
   
     <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Expense tracking is for personal budgeting only. Verify figures independently. Not financial advice.</div>
   </div>);

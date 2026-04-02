@@ -2,7 +2,7 @@ import { tabRow } from '../design/styles';
 import { loadCalcInputs } from '../utils/inputMemory';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — PPFCalc v2 (PPF + EPF)
+// FinCalci — PPFCalc (PPF + EPF)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;

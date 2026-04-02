@@ -2,7 +2,7 @@ import { captionDim, sectionGapLg, disclaimer } from '../design/styles';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 import { loadCalcInputs } from '../utils/inputMemory';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — SIPCalc v2 (SIP, Step-up, Lumpsum, SWP, MF NAV, Stock lookup)
+// FinCalci — SIPCalc (SIP, Step-up, Lumpsum, SWP, MF NAV, Stock lookup)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
@@ -239,6 +239,13 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
       <StockLookupCard color={color} t={t} />
 
     </div>) : null}
+
+    {/* Affiliate CTA */}
+    <a href="https://fin-calci.vercel.app/start-sip" target="_blank" rel="noopener noreferrer" onClick={() => vib(5)}
+      style={{ display: "block", textDecoration: "none", width: "100%", padding: `${tokens.space.md}px ${tokens.space.lg}px`, borderRadius: tokens.radius.lg, background: `${color}08`, border: `1px solid ${color}18`, marginTop: tokens.space.lg, textAlign: "center" }}>
+      <div style={{ fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, color }}>📈 Start your SIP today →</div>
+      <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, marginTop: 2 }}>Explore top-rated mutual funds on Groww, Zerodha & more</div>
+    </a>
 
     <div style={disclaimer(t)}>
       Returns shown are hypothetical projections, not guaranteed. Mutual fund and stock data from free APIs — verify with your broker. This is not investment advice.

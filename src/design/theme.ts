@@ -1,4 +1,4 @@
-// FinCalci — Premium theme system v3 (CRED × PhonePe)
+// FinCalci — Premium theme system (CRED × PhonePe)
 // Dark: #0F0F13 base with warm tint — elevation through lighter shades
 // Light: #F5F5F7 base — shadows instead of borders
 

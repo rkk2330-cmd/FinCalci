@@ -1,7 +1,7 @@
 import { tabRow, sectionGap } from '../design/styles';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — AgeCalc v2 (Age, Life Stats, Birthday Countdown, Compare)
+// FinCalci — AgeCalc (Age, Life Stats, Birthday Countdown, Compare)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;

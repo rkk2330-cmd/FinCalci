@@ -3,7 +3,7 @@ import { captionDim, sectionGap, itemTitle, rowCenter } from '../design/styles';
 import type { CalcProps } from '../types';
 import { clampInput } from '../hooks/useValidatedInput';
 import { CLAMP } from '../utils/constants';
-// FinCalci — TipCalc v2 (Group bill splitter with persistent sessions)
+// FinCalci — TipCalc (Group bill splitter with persistent sessions)
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
 import { safeNum, safeRange, safeDivide, sanitizeSplitSessions } from '../utils/validate';

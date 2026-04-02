@@ -105,6 +105,6 @@ export const generateShareCard = (
   <text x="40" y="110" fill="${accent}" font-size="28" font-weight="500" font-family="'JetBrains Mono',monospace">${escHtml(sanitize(String(entries[0]?.[1] ?? ''), 20))}</text>
   <text x="40" y="130" fill="#64748B" font-size="12" font-family="Inter,system-ui,sans-serif">${escHtml(sanitize(String(entries[0]?.[0] ?? ''), 20))}</text>
   ${rows}
-  <text x="200" y="${h - 20}" fill="#4B5563" font-size="11" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Made with FinCalci • fincalci.vercel.app</text>
+  <text x="200" y="${h - 20}" fill="#4B5563" font-size="11" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Made with FinCalci • fin-calci.vercel.app</text>
 </svg>`;
 };

@@ -80,13 +80,13 @@ export function updatePageMeta(calcId: string | null): void {
     if (route) {
       document.title = route.title;
       const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-      if (canonical) canonical.href = `https://fincalci.vercel.app/${route.slug}`;
+      if (canonical) canonical.href = `https://fin-calci.vercel.app/${route.slug}`;
       const desc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
       if (desc) desc.content = route.description;
     } else {
       document.title = 'FinCalci — All-in-One Indian Calculator';
       const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-      if (canonical) canonical.href = 'https://fincalci.vercel.app/';
+      if (canonical) canonical.href = 'https://fin-calci.vercel.app/';
     }
   } catch { /* SSR or restricted context */ }
 }

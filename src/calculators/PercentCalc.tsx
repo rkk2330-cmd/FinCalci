@@ -1,6 +1,6 @@
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — PercentCalc v3 (sentence-style, consistent with app design)
+// FinCalci — PercentCalc (sentence-style, consistent with app design)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useMemo, useEffect } = React;

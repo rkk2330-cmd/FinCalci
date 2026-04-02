@@ -1,5 +1,5 @@
 // @ts-nocheck — TODO: add strict types
-// FinCalci — Live data fetchers (v2 — Option A: {data, error})
+// FinCalci — Live data fetchers (Option A: {data, error})
 // Every API returns {data, error} so callers show proper error messages.
 import { FALLBACK_CURRENCY, FALLBACK_GOLD, API, KEYS } from './constants';
 import { safeStorageGet, safeStorageSet } from './storage';

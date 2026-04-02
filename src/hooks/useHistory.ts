@@ -117,7 +117,7 @@ export default function useHistory(showToast) {
     const meta = CALCULATORS.find(c => c.id === active);
     if (!meta) return;
     const safeResults = Object.entries(lastResult).map(([k, v]) => `${escHtml(sanitize(String(k), 30))}: ${escHtml(sanitize(String(v), 50))}`).join("\n");
-    const text = `${meta.icon} *${meta.desc}*\n━━━━━━━━━━━━\n${safeResults}\n━━━━━━━━━━━━\n🧮 _Made with FinCalci_\n📲 fincalci.vercel.app`;
+    const text = `${meta.icon} *${meta.desc}*\n━━━━━━━━━━━━\n${safeResults}\n━━━━━━━━━━━━\n🧮 _Made with FinCalci_\n📲 fin-calci.vercel.app`;
     vib(10); SFX.ding();
     if (navigator.share) {
       try { await navigator.share({ title: `FinCalci - ${meta.desc}`, text }); } catch (e: unknown) { logWarn('share', e instanceof Error ? e.message : 'cancelled'); showToast("Share cancelled"); }

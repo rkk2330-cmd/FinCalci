@@ -1,4 +1,4 @@
-// FinCalci — Design tokens v3 (Bold Fintech: CRED × PhonePe)
+// FinCalci — Design tokens (Bold Fintech: CRED × PhonePe)
 // Every visual value in the app comes from here.
 // Change a token → entire app updates consistently.
 

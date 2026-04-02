@@ -1,6 +1,6 @@
 import { itemTitle, captionMuted, glassHero, sectionHeader } from './design/styles';
 // @ts-nocheck — TODO: add strict types
-// FinCalci v3.0 — Bold Fintech UI (CRED × PhonePe)
+// FinCalci v1.0 — Bold Fintech UI (CRED × PhonePe)
 // All logic extracted to hooks. This file is router + layout.
 import React from 'react';
 const { useMemo, useCallback, useState } = React;
@@ -196,6 +196,19 @@ export default function FinCalci() {
   if (app.splash) return <Splash onDone={() => app.setSplash(false)} />;
   if (!app.onboarded) return <Onboarding accent={prefs.accent} onDone={() => { app.setOnboarded(true); prefs.savePrefs({ onboarded: true }); }} />;
 
+  // ─── Take a Tour (one-time, after onboarding) ───
+  const [tourStep, setTourStep] = useState(() => {
+    try { return localStorage.getItem('fincalci-tour-done') ? -1 : 0; } catch { return -1; }
+  });
+  const tourSteps = [
+    { icon: "💰", title: "Your finance toolkit", desc: "18 calculators organized by category. Tap any tile to start." },
+    { icon: "🔍", title: "Search anytime", desc: "The floating search bar at the bottom finds any calculator instantly." },
+    { icon: "⭐", title: "Make it yours", desc: "Star your favorites, toggle dark/light mode, and pick your accent color in Settings." },
+    { icon: "🚀", title: "You're all set!", desc: "FinCalci works offline too. Install it for instant access from your home screen." },
+  ];
+  const finishTour = () => { setTourStep(-1); try { localStorage.setItem('fincalci-tour-done', '1'); } catch {} vib(10); };
+  const nextTour = () => { if (tourStep < tourSteps.length - 1) { setTourStep(tourStep + 1); vib(5); } else finishTour(); };
+
   // ─── Helper: light-mode card border ───
   const cardBorder = isDark ? `1px solid ${t.border}` : 'none';
   const cardShadow = isDark ? 'none' : tokens.shadow.subtle;
@@ -229,6 +242,27 @@ select{-webkit-appearance:none}::-webkit-scrollbar{width:0;height:0}
 .hscroll{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}.hscroll::-webkit-scrollbar{display:none}
 button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-family:${tokens.fontFamily.sans}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}`}</style>
+
+        {/* Take a Tour overlay */}
+        {tourStep >= 0 && (
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", padding: tokens.space.xl, backdropFilter: "blur(6px)" }}
+            onClick={e => { if (e.target === e.currentTarget) finishTour(); }}>
+            <div style={{ background: isDark ? t.card : '#FFFFFF', borderRadius: tokens.radius.xl, padding: `${tokens.space.xxl}px ${tokens.space.xl}px`, width: "100%", maxWidth: 320, textAlign: "center", animation: "fadeScale 0.3s both", boxShadow: tokens.shadow.heavy }}>
+              <div style={{ fontSize: 48, marginBottom: tokens.space.lg }}>{tourSteps[tourStep].icon}</div>
+              <div style={{ fontSize: tokens.fontSize.title, fontWeight: tokens.fontWeight.medium, color: t.text, marginBottom: tokens.space.sm }}>{tourSteps[tourStep].title}</div>
+              <div style={{ fontSize: tokens.fontSize.body, color: t.textMuted, lineHeight: 1.6, marginBottom: tokens.space.xl }}>{tourSteps[tourStep].desc}</div>
+              <div style={{ display: "flex", gap: 6, justifyContent: "center", marginBottom: tokens.space.lg }}>
+                {tourSteps.map((_, i) => <div key={i} style={{ width: i === tourStep ? 20 : 6, height: 6, borderRadius: 3, background: i === tourStep ? prefs.accent : t.cardAlt, transition: "all 0.3s" }} />)}
+              </div>
+              <div style={{ display: "flex", gap: tokens.space.sm }}>
+                <button onClick={finishTour} style={{ flex: 1, padding: tokens.space.md, borderRadius: tokens.radius.md, background: t.cardAlt, border: "none", color: t.textMuted, fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer" }}>Skip</button>
+                <button onClick={nextTour} className="ch" style={{ flex: 2, padding: tokens.space.md, borderRadius: tokens.radius.md, background: prefs.accent, border: "none", color: "#0F0F13", fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer", boxShadow: `0 4px 12px ${prefs.accent}40` }}>
+                  {tourStep < tourSteps.length - 1 ? "Next →" : "Let's go! 🚀"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Toast */}
         {app.toast && <div aria-live="assertive" style={{ position: "fixed", bottom: 100, left: "50%", transform: "translate(-50%,0)", background: isDark ? t.card : '#1A1A2E', border: cardBorder, borderRadius: tokens.radius.xl, padding: `${tokens.space.md}px ${tokens.space.xl}px`, fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, color: isDark ? t.text : '#FFFFFF', zIndex: 200, boxShadow: tokens.shadow.heavy, animation: "toastIn 0.3s both", whiteSpace: "nowrap" }}>{app.toast}</div>}
@@ -315,7 +349,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
 
         ) : app.tab === "home" ? (
           <SectionBoundary t={t}>
-            {/* ─── HOME SCREEN v3 ─── */}
+            {/* ─── HOME SCREEN ─── */}
             <div style={{ padding: `${tokens.space.xl}px ${tokens.space.xl}px 0` }}>
               <OfflineBanner isOnline={app.isOnline} t={t} />
 
@@ -580,7 +614,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                       const keys = [KEYS.PREFS, KEYS.FAVORITES, KEYS.HISTORY, KEYS.RECENT, KEYS.STATS, KEYS.EXPENSE, KEYS.KHATA, KEYS.SPLIT];
                       const backup = {};
                       for (const k of keys) { const v = await safeStorageGet(k); if (v) backup[k] = v; }
-                      backup._meta = { app: "FinCalci", version: "3.0", date: new Date().toISOString() };
+                      backup._meta = { app: "FinCalci", version: "1.0", date: new Date().toISOString() };
                       const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
                       const url = URL.createObjectURL(blob);
                       const a = document.createElement("a"); a.href = url; a.download = `FinCalci-Backup-${new Date().toISOString().split("T")[0]}.json`;
@@ -611,10 +645,11 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                 <div style={{ fontWeight: tokens.fontWeight.medium, marginBottom: tokens.space.sm }}>Share FinCalci</div>
                 <div style={captionMuted(t)}>Help your friends with their finances!</div>
                 <button onClick={async () => {
-                  const text = "FinCalci — 18 free calculators for India 🧮\nEMI, SIP, GST, Tax, Gold, Khata Book & more.\nTry it: https://fincalci.vercel.app";
+                  const shareUrl = "https://fin-calci.vercel.app";
+                  const text = "FinCalci — 18 free calculators for India 🧮\nEMI, SIP, GST, Tax, Gold, Khata Book & more.";
                   try {
-                    if (navigator.share) { await navigator.share({ title: "FinCalci", text, url: "https://fincalci.vercel.app" }); }
-                    else { await navigator.clipboard.writeText(text); app.showToast("Link copied! 📋"); }
+                    if (navigator.share) { await navigator.share({ title: "FinCalci", text, url: shareUrl }); }
+                    else { await navigator.clipboard.writeText(text + "\nTry it: " + shareUrl); app.showToast("Link copied! 📋"); }
                   } catch { app.showToast("Share cancelled"); }
                 }} className="ch" style={{ width: "100%", marginTop: tokens.space.md, padding: tokens.space.md, borderRadius: tokens.radius.md, background: `${prefs.accent}15`, border: `1px solid ${prefs.accent}30`, color: prefs.accent, fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer", fontFamily: tokens.fontFamily.sans }}>
                   📤 Share with friends
@@ -623,7 +658,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
               {/* About */}
               <div style={{ background: t.card, borderRadius: tokens.radius.xl, padding: tokens.space.lg, border: cardBorder, boxShadow: cardShadow }}>
                 <div style={{ fontWeight: tokens.fontWeight.medium, marginBottom: tokens.space.xs }}>About</div>
-                <div style={captionMuted(t)}>FinCalci v3.0 &bull; 50+ tools in 18 tiles</div>
+                <div style={captionMuted(t)}>FinCalci v1.0 &bull; 50+ tools in 18 tiles</div>
                 <a href="/privacy-policy.html" target="_blank" rel="noopener" style={{ fontSize: tokens.fontSize.caption, color: prefs.accent, marginTop: tokens.space.xs, display: "inline-block" }}>Privacy policy</a>
               </div>
             </div>
@@ -634,17 +669,16 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
         </main>
         {app.tab === "home" && !app.active && (
           <div style={{
-            position: "fixed", bottom: 68, left: "50%", transform: "translateX(-50%)",
+            position: "fixed", bottom: 78, left: "50%", transform: "translateX(-50%)",
             width: "calc(100% - 48px)", maxWidth: 432,
             zIndex: 101,
           }}>
             <div style={{
               position: "relative",
-              background: isDark ? `${t.card}E8` : 'rgba(255,255,255,0.95)',
-              backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+              background: isDark ? t.card : '#FFFFFF',
               borderRadius: tokens.radius.pill,
-              border: isDark ? `1px solid rgba(255,255,255,0.08)` : '1px solid rgba(0,0,0,0.06)',
-              boxShadow: isDark ? '0 -2px 16px rgba(0,0,0,0.3)' : '0 2px 16px rgba(0,0,0,0.08)',
+              border: isDark ? `1px solid rgba(255,255,255,0.1)` : `1px solid rgba(0,0,0,0.08)`,
+              boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.5)' : '0 4px 20px rgba(0,0,0,0.1)',
               overflow: "hidden",
             }}>
               <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: t.textDim, opacity: 0.5, pointerEvents: "none" }}>🔍</span>

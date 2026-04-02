@@ -1,4 +1,4 @@
-// FinCalci — Style factories v3 (Bold Fintech)
+// FinCalci — Style factories (Bold Fintech)
 // Static styles are module-level constants — created once, never recreated.
 // Dynamic styles use factory functions that return CSSProperties.
 import type { CSSProperties } from 'react';

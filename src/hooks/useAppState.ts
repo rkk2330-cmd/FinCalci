@@ -234,20 +234,20 @@ export default function useAppState() {
       if (desc) desc.setAttribute('content', route.description);
       // Update canonical
       let canonical = document.querySelector('link[rel="canonical"]');
-      if (canonical) canonical.setAttribute('href', `https://fincalci.vercel.app/${route.slug}`);
+      if (canonical) canonical.setAttribute('href', `https://fin-calci.vercel.app/${route.slug}`);
       // Update OG tags
       let ogTitle = document.querySelector('meta[property="og:title"]');
       if (ogTitle) ogTitle.setAttribute('content', route.title);
       let ogDesc = document.querySelector('meta[property="og:description"]');
       if (ogDesc) ogDesc.setAttribute('content', route.description);
       let ogUrl = document.querySelector('meta[property="og:url"]');
-      if (ogUrl) ogUrl.setAttribute('content', `https://fincalci.vercel.app/${route.slug}`);
+      if (ogUrl) ogUrl.setAttribute('content', `https://fin-calci.vercel.app/${route.slug}`);
     } else {
       document.title = "FinCalci — Free EMI SIP GST Tax Calculator India";
       let desc = document.querySelector('meta[name="description"]');
       if (desc) desc.setAttribute('content', "India's all-in-one calculator app: EMI, SIP, GST, Tax, Gold, Currency, FD, Salary, Khata Book + 12 more. Free. No ads. Works offline. 60+ tools.");
       let canonical = document.querySelector('link[rel="canonical"]');
-      if (canonical) canonical.setAttribute('href', 'https://fincalci.vercel.app/');
+      if (canonical) canonical.setAttribute('href', 'https://fin-calci.vercel.app/');
     }
   }, [active]);
 

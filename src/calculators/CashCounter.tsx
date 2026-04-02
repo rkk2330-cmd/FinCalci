@@ -3,7 +3,7 @@ import { tabRow, captionDim, itemTitle, TEXT_RIGHT } from '../design/styles';
 import type { CalcProps } from '../types';
 import { clampInput } from '../hooks/useValidatedInput';
 import { CLAMP } from '../utils/constants';
-// FinCalci — CashCounter v2 (Cash denomination counter + Khata Book)
+// FinCalci — CashCounter (Cash denomination counter + Khata Book)
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
 import { safeNum, safeRange, sanitizeKhataCustomers } from '../utils/validate';
@@ -181,7 +181,23 @@ export default function CashCounter({ color, t, onResult }: CalcProps) {
         ))}
       </div>)}
     </div>)}
-  
+
+    {/* CSV Export for Khata */}
+    {mode === "khata" && customers.length > 0 && (
+      <button onClick={() => {
+        const header = "Customer,Phone,Type,Amount,Note,Date\n";
+        const rows = customers.flatMap(c => 
+          (c.transactions || []).map(tx => `"${(c.name || "").replace(/"/g, '""')}",${c.phone || ""},${tx.type || ""},${tx.amount || 0},"${(tx.note || "").replace(/"/g, '""')}",${tx.date || ""}`)
+        ).join("\n");
+        const blob = new Blob([header + rows], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a"); a.href = url; a.download = `FinCalci-Khata-${new Date().toISOString().split("T")[0]}.csv`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); vib();
+      }} style={{ width: "100%", padding: tokens.space.md, borderRadius: tokens.radius.md, background: `${tokens.color.success}12`, border: `1px solid ${tokens.color.success}25`, color: tokens.color.success, fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer", marginTop: tokens.space.md, fontFamily: tokens.fontFamily.sans }}>
+        📥 Export Khata as CSV
+      </button>
+    )}
+
     <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Khata Book is for record-keeping only. Verify all transactions independently. Not financial advice.</div>
   </div>);
 }

@@ -1,5 +1,5 @@
 // @ts-nocheck — TODO: add strict types
-// FinCalci — Onboarding flow v3 (Bold Fintech)
+// FinCalci — Onboarding flow (Bold Fintech)
 import React from 'react';
 import { vib } from '../utils/haptics';
 import { tokens, CATEGORY_COLORS } from '../design/tokens';
