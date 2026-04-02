@@ -50,8 +50,8 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setIsFD(true); vib(); }} style={tabStyle(isFD, color, t)}>Fixed Deposit</button>
-      <button onClick={() => { setIsFD(false); vib(); }} style={tabStyle(!isFD, "#D946EF", t)}>Recurring Deposit</button>
+      <button onClick={() => { setIsFD(true) }} style={tabStyle(isFD, color, t)}>Fixed Deposit</button>
+      <button onClick={() => { setIsFD(false) }} style={tabStyle(!isFD, "#D946EF", t)}>Recurring Deposit</button>
     </div>
 
     <HeroNumber label="Maturity value" value={currency(isFD ? fd.maturity : rd.maturity)} color={isFD ? color : "#D946EF"} />
@@ -76,11 +76,11 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
     </div>)}
 
     {/* Affiliate CTA */}
-    <a href="https://fin-calci.vercel.app/compare-fd" target="_blank" rel="noopener noreferrer" onClick={() => vib(5)}
+    <div onClick={() => vib(5)}
       style={{ display: "block", textDecoration: "none", width: "100%", padding: `${tokens.space.md}px ${tokens.space.lg}px`, borderRadius: tokens.radius.lg, background: `${color}08`, border: `1px solid ${color}18`, marginTop: tokens.space.lg, textAlign: "center" }}>
       <div style={{ fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, color }}>🏦 Compare FD rates across banks →</div>
-      <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, marginTop: 2 }}>Find the best fixed deposit rates from top banks</div>
-    </a>
+      <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, marginTop: 2 }}>Coming soon — compare FD rates from top banks</div>
+    </div>
 
     <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Bank rates shown are indicative. Actual rates vary by tenure, amount, and bank policy. Not financial advice.</div>
   </div>);

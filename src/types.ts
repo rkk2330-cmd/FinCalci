@@ -80,16 +80,6 @@ export interface StockData {
   industry: string;
 }
 
-// ─── Food ───
-export interface FoodItem {
-  name: string;
-  cal: number;
-  p: number;
-  c: number;
-  f: number;
-  serving: string;
-}
-
 // ─── Calculator history entry ───
 export interface HistoryEntry {
   id: number;
@@ -187,19 +177,6 @@ export interface SplitExpense {
   customShares?: Record<number, number>;
 }
 
-// ─── Calorie Tracker ───
-export interface CalorieDay {
-  date: string;
-  meals: Record<string, FoodItem[]>;
-  goal: number;
-  history: CalorieHistoryEntry[];
-}
-
-export interface CalorieHistoryEntry {
-  date: string;
-  total: number;
-  goal: number;
-}
 
 // ─── Input schemas for validation ───
 export interface InputConstraint {
@@ -222,7 +199,6 @@ export interface FDInputs { P: number; rate: number; years: number; }
 export interface SalaryInputs { ctc: number; }
 export interface PPFInputs { yearly: number; years: number; }
 export interface RetireInputs { monthlyExp: number; savings: number; monthlySIP: number; workYears: number; retireYears: number; inflation: number; returnRate: number; }
-export interface BMIInputs { height: number; weight: number; age: number; }
 export interface CompoundInputs { P: number; rate: number; years: number; monthlyAdd: number; }
 export interface CurrencyInputs { amount: number; }
 export interface PercentInputs { value: number; total: number; }

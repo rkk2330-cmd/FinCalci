@@ -56,7 +56,7 @@ export default function PercentCalc({ color, t, onResult }: CalcProps) {
     {/* Mode tabs — same pattern as every other calculator */}
     <div style={{ display: 'flex', gap: tokens.space.xs, marginBottom: tokens.space.xl }}>
       {MODES.map(m => (
-        <button key={m.id} onClick={() => { setMode(m.id); vib(); }}
+        <button key={m.id} onClick={() => { setMode(m.id) }}
           style={tabStyle(mode === m.id, color, t)}>{m.label}</button>
       ))}
     </div>

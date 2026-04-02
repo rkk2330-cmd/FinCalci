@@ -23,11 +23,10 @@ export default function usePreferences(showToast) {
 
   const t = useMemo(() => mkTheme(theme), [theme]);
 
-  // Mute by default on first load
-  SFX.mute(true);
-
   // Load preferences on mount
   useEffect(() => {
+    // Mute by default until we know user's preference
+    SFX.mute(true);
     (async () => {
       const prefs = await safeStorageGet(KEYS.PREFS, {});
       if (prefs && typeof prefs === "object") {

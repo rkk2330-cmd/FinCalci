@@ -67,7 +67,7 @@ export default function UnitConverter({ color, t, onResult }: CalcProps) {
     {/* Category tabs — 4-col grid */}
     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: tokens.space.xs, marginBottom: tokens.space.lg }}>
       {UNIT_CATS.map((c, i) => (
-        <button key={c.name} onClick={() => { setCat(i); setFrom(0); setTo(1); vib(); }}
+        <button key={c.name} onClick={() => { setCat(i); setFrom(0); setTo(1) }}
           style={{ ...tabStyle(cat === i, color, t), fontSize: tokens.fontSize.caption - 1, padding: `${tokens.space.sm}px ${tokens.space.xs}px` }}>
           {c.icon} {c.label}
         </button>
@@ -80,12 +80,12 @@ export default function UnitConverter({ color, t, onResult }: CalcProps) {
 
     {/* From/To selectors */}
     <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: tokens.space.sm, alignItems: "center", marginBottom: tokens.space.lg }}>
-      <select value={from} onChange={e => { setFrom(Number(e.target.value)); vib(); }} style={inputStyle(t)}>
+      <select value={from} onChange={e => { setFrom(Number(e.target.value)) }} style={inputStyle(t)}>
         {uc.units.map((u, i) => <option key={i} value={i}>{u}</option>)}
       </select>
-      <button onClick={() => { const tmp = from; setFrom(to); setTo(tmp); vib(); }}
+      <button onClick={() => { const tmp = from; setFrom(to); setTo(tmp) }}
         style={{ width: 36, height: 36, borderRadius: tokens.radius.pill, background: `${color}15`, border: `1px solid ${color}30`, color, fontSize: 16, cursor: "pointer" }}>⇄</button>
-      <select value={to} onChange={e => { setTo(Number(e.target.value)); vib(); }} style={inputStyle(t)}>
+      <select value={to} onChange={e => { setTo(Number(e.target.value)) }} style={inputStyle(t)}>
         {uc.units.map((u, i) => <option key={i} value={i}>{u}</option>)}
       </select>
     </div>

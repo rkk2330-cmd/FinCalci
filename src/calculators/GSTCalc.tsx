@@ -44,17 +44,17 @@ export default function GSTCalc({ color, t, onResult }: CalcProps) {
     return () => clearTimeout(t);
   }, [amt, gstRate, mode]);
 
-  const addItem = () => { if (items.length >= 20) return; setItems([...items, { id: Date.now(), amount: amt, rate: gstRate, desc: `Item ${items.length + 1}` }]); vib(); };
-  const removeItem = (id) => { setItems(items.filter(i => i.id !== id)); vib(); };
+  const addItem = () => { if (items.length >= 20) return; setItems([...items, { id: Date.now(), amount: amt, rate: gstRate, desc: `Item ${items.length + 1}` }]) };
+  const removeItem = (id) => { setItems(items.filter(i => i.id !== id)) };
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setMode("exclusive"); vib(); }} style={tabStyle(mode === "exclusive", color, t)}>Exclusive</button>
-      <button onClick={() => { setMode("inclusive"); vib(); }} style={tabStyle(mode === "inclusive", color, t)}>Inclusive</button>
-      <button onClick={() => { setMode("reverse"); vib(); }} style={tabStyle(mode === "reverse", color, t)}>Reverse</button>
+      <button onClick={() => { setMode("exclusive") }} style={tabStyle(mode === "exclusive", color, t)}>Exclusive</button>
+      <button onClick={() => { setMode("inclusive") }} style={tabStyle(mode === "inclusive", color, t)}>Inclusive</button>
+      <button onClick={() => { setMode("reverse") }} style={tabStyle(mode === "reverse", color, t)}>Reverse</button>
     </div>
 
-    <HeroNumber label={mode === "inclusive" ? "Base price" : mode === "reverse" ? "Base amount" : "Total (incl. GST)"} value={currency(mode === "inclusive" ? calc.base : calc.total)} color={color} />
+    <HeroNumber aria-live="polite" label={mode === "inclusive" ? "Base price" : mode === "reverse" ? "Base amount" : "Total (incl. GST)"} value={currency(mode === "inclusive" ? calc.base : calc.total)} color={color} />
 
     <MetricGrid t={t} items={[
       { label: mode === "reverse" ? "Base amount" : "Base price", value: currency(calc.base) },
@@ -67,7 +67,7 @@ export default function GSTCalc({ color, t, onResult }: CalcProps) {
 
     <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg, flexWrap: "wrap" }}>
       {FINANCE.GST_RATES.map(r => (
-        <button key={r} onClick={() => { setGstRate(r); vib(); }}
+        <button key={r} onClick={() => { setGstRate(r) }}
           style={{ ...tabStyle(gstRate === r, color, t), minWidth: 40 }}>{r}%</button>
       ))}
     </div>

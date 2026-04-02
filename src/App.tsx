@@ -14,7 +14,6 @@ import useAnalytics from './hooks/useAnalytics';
 // Components
 import { AppErrorBoundary, SectionBoundary } from './components/ErrorBoundaries';
 import CalcWrapper from './components/CalcWrapper';
-import Onboarding from './components/Onboarding';
 import CrossLinks from './components/CrossLinks';
 import { OfflineBanner } from './components/UIStates';
 import { SectionLoader } from './components/Loader';
@@ -116,6 +115,19 @@ export default function FinCalci() {
     MORE_TOOLS_IDS.map(id => CALCULATORS.find(c => c.id === id)).filter(Boolean),
   []);
 
+  // ─── Take a Tour (one-time) — must be before early returns (Rules of Hooks) ───
+  const [tourStep, setTourStep] = useState(() => {
+    try { return localStorage.getItem('fincalci-tour-done') ? -1 : 0; } catch { return -1; }
+  });
+  const tourSteps = [
+    { icon: "💰", title: "Your finance toolkit", desc: "18 calculators organized by category. Tap any tile to start." },
+    { icon: "🔍", title: "Search anytime", desc: "The floating search bar at the bottom finds any calculator instantly." },
+    { icon: "⭐", title: "Make it yours", desc: "Star your favorites, toggle dark/light mode, and pick your accent color in Settings." },
+    { icon: "🚀", title: "You're all set!", desc: "FinCalci works offline too. Install it for instant access from your home screen." },
+  ];
+  const finishTour = () => { setTourStep(-1); try { localStorage.setItem('fincalci-tour-done', '1'); } catch {} vib(10); };
+  const nextTour = () => { if (tourStep < tourSteps.length - 1) { setTourStep(tourStep + 1); vib(5); } else finishTour(); };
+
   // ─── Track calc open/close lifecycle ───
   const prevActive = React.useRef(null);
   React.useEffect(() => {
@@ -192,22 +204,8 @@ export default function FinCalci() {
     URL.revokeObjectURL(url); SFX.ding(); app.showToast("Card downloaded! 📸");
   }, [app.shareCardSvg, app.showToast]);
 
-  // ─── Splash + Onboarding ───
+  // ─── Splash ───
   if (app.splash) return <Splash onDone={() => app.setSplash(false)} />;
-  if (!app.onboarded) return <Onboarding accent={prefs.accent} onDone={() => { app.setOnboarded(true); prefs.savePrefs({ onboarded: true }); }} />;
-
-  // ─── Take a Tour (one-time, after onboarding) ───
-  const [tourStep, setTourStep] = useState(() => {
-    try { return localStorage.getItem('fincalci-tour-done') ? -1 : 0; } catch { return -1; }
-  });
-  const tourSteps = [
-    { icon: "💰", title: "Your finance toolkit", desc: "18 calculators organized by category. Tap any tile to start." },
-    { icon: "🔍", title: "Search anytime", desc: "The floating search bar at the bottom finds any calculator instantly." },
-    { icon: "⭐", title: "Make it yours", desc: "Star your favorites, toggle dark/light mode, and pick your accent color in Settings." },
-    { icon: "🚀", title: "You're all set!", desc: "FinCalci works offline too. Install it for instant access from your home screen." },
-  ];
-  const finishTour = () => { setTourStep(-1); try { localStorage.setItem('fincalci-tour-done', '1'); } catch {} vib(10); };
-  const nextTour = () => { if (tourStep < tourSteps.length - 1) { setTourStep(tourStep + 1); vib(5); } else finishTour(); };
 
   // ─── Helper: light-mode card border ───
   const cardBorder = isDark ? `1px solid ${t.border}` : 'none';

@@ -32,7 +32,7 @@ function SliderInputInner({ label, value, onChange, unit, min = 0, max = 100, st
     if (isNaN(n) || !isFinite(n)) { onChange(min); }
     else { onChange(clamp(n, min, HARD_MAX, min)); }
     setEditing(false);
-    vib(5);
+    
   };
 
   // Format display value
@@ -89,6 +89,7 @@ function SliderInputInner({ label, value, onChange, unit, min = 0, max = 100, st
             ref={inputRef}
             type="number"
             inputMode="decimal"
+            aria-label={label}
             value={editVal}
             step={step}
             onChange={e => setEditVal(e.target.value)}

@@ -48,8 +48,8 @@ export default function PPFCalc({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setMode("ppf"); vib(); }} style={tabStyle(mode === "ppf", color, t)}>PPF</button>
-      <button onClick={() => { setMode("epf"); vib(); }} style={tabStyle(mode === "epf", "#F59E0B", t)}>EPF</button>
+      <button onClick={() => { setMode("ppf") }} style={tabStyle(mode === "ppf", color, t)}>PPF</button>
+      <button onClick={() => { setMode("epf") }} style={tabStyle(mode === "epf", "#F59E0B", t)}>EPF</button>
     </div>
 
     {mode === "ppf" ? (<div>

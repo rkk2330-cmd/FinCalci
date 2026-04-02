@@ -92,22 +92,7 @@ export const safeFixed = (val: unknown, decimals = 1, fallback = '0'): string =>
   return Number.isFinite(n) ? n.toFixed(decimals) : fallback;
 };
 
-/** Safe BMI — weight(kg) / height(m)^2. Guards h=0 → returns 0 not Infinity. */
-export const safeBMI = (weightKg: unknown, heightCm: unknown): number => {
-  const w = safeNum(weightKg);
-  const h = safeNum(heightCm);
-  if (w <= 0 || h <= 0) return 0;
-  const hm = h / 100;
-  return safeDivide(w, hm * hm, 0);
-};
 
-/** Safe ideal weight range from BMI — returns { min, max } in kg. */
-export const safeIdealWeight = (heightCm: unknown): { min: string; max: string } => {
-  const h = safeNum(heightCm);
-  if (h <= 0) return { min: '0', max: '0' };
-  const hm = h / 100;
-  return { min: safeFixed(18.5 * hm * hm, 1), max: safeFixed(24.9 * hm * hm, 1) };
-};
 
 export interface GSTResult { base: number; gst: number; total: number; }
 

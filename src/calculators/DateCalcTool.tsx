@@ -49,8 +49,8 @@ export default function DateCalcTool({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setMode("diff"); vib(); }} style={tabStyle(mode === "diff", color, t)}>Days between</button>
-      <button onClick={() => { setMode("add"); vib(); }} style={tabStyle(mode === "add", "#A78BFA", t)}>Add/subtract days</button>
+      <button onClick={() => { setMode("diff") }} style={tabStyle(mode === "diff", color, t)}>Days between</button>
+      <button onClick={() => { setMode("add") }} style={tabStyle(mode === "add", "#A78BFA", t)}>Add/subtract days</button>
     </div>
 
     {mode === "diff" ? (<div>
@@ -69,12 +69,12 @@ export default function DateCalcTool({ color, t, onResult }: CalcProps) {
       <div style={labelStyle(t)}>Start date</div>
       <input type="date" value={d1} onChange={e => setD1(e.target.value)} style={{ ...IS, marginBottom: tokens.space.md }} />
       <div style={{ display: "flex", gap: tokens.space.sm, marginBottom: tokens.space.md }}>
-        <button onClick={() => { setAddDir("add"); vib(); }} style={tabStyle(addDir === "add", tokens.color.success, t)}>+ Add</button>
-        <button onClick={() => { setAddDir("sub"); vib(); }} style={tabStyle(addDir === "sub", tokens.color.danger, t)}>− Subtract</button>
+        <button onClick={() => { setAddDir("add") }} style={tabStyle(addDir === "add", tokens.color.success, t)}>+ Add</button>
+        <button onClick={() => { setAddDir("sub") }} style={tabStyle(addDir === "sub", tokens.color.danger, t)}>− Subtract</button>
       </div>
       <div style={{ display: "flex", gap: tokens.space.sm, marginBottom: tokens.space.lg, flexWrap: "wrap" }}>
         {[7, 15, 30, 45, 60, 90, 180, 365].map(d => (
-          <button key={d} onClick={() => { setAddDays(d); vib(); }}
+          <button key={d} onClick={() => { setAddDays(d) }}
             style={tabStyle(addDays === d, color, t)}>{d}d</button>
         ))}
       </div>

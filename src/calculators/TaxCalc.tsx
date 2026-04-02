@@ -81,14 +81,14 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setTaxTab("basic"); vib(); }} style={tabStyle(taxTab === "basic", color, t)}>Income</button>
-      <button onClick={() => { setTaxTab("deductions"); vib(); }} style={tabStyle(taxTab === "deductions", color, t)}>Deductions</button>
-      <button onClick={() => { setTaxTab("hra"); vib(); }} style={tabStyle(taxTab === "hra", color, t)}>HRA</button>
-      <button onClick={() => { setTaxTab("result"); vib(); }} style={tabStyle(taxTab === "result", color, t)}>Compare</button>
+      <button onClick={() => { setTaxTab("basic") }} style={tabStyle(taxTab === "basic", color, t)}>Income</button>
+      <button onClick={() => { setTaxTab("deductions") }} style={tabStyle(taxTab === "deductions", color, t)}>Deductions</button>
+      <button onClick={() => { setTaxTab("hra") }} style={tabStyle(taxTab === "hra", color, t)}>HRA</button>
+      <button onClick={() => { setTaxTab("result") }} style={tabStyle(taxTab === "result", color, t)}>Compare</button>
     </div>
 
     {taxTab === "basic" && (<div>
-      <HeroNumber label={`${betterRegime} regime saves you`} value={currency(savings)} color={tokens.color.success} />
+      <HeroNumber aria-live="polite" label={`${betterRegime} regime saves you`} value={currency(savings)} color={tokens.color.success} />
       <MetricGrid t={t} items={[
         { label: `Old regime tax`, value: currency(oldResult.total), color: tokens.color.secondary },
         { label: `New regime tax`, value: currency(newResult.total), color: tokens.color.primary },
@@ -113,14 +113,14 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
     </div>)}
 
     {taxTab === "hra" && (<div>
-      <HeroNumber label="HRA exemption" value={currency(hra)} color={tokens.color.success} />
+      <HeroNumber aria-live="polite" label="HRA exemption" value={currency(hra)} color={tokens.color.success} />
       <div style={labelStyle(t)}>HRA exemption calculator</div>
       <AmountInput label="Basic Salary (yearly)" value={basicSalary} onChange={setBasicSalary} min={0} max={income} color={color} t={t} />
       <AmountInput label="HRA Received (yearly)" value={hraReceived} onChange={setHraReceived} min={0} max={income} color={color} t={t} />
       <AmountInput label="Rent Paid (yearly)" value={rentPaid} onChange={setRentPaid} min={SLIDER.tax.rent.min} max={SLIDER.tax.rent.max} color={color} t={t} />
       <div style={{ display: "flex", gap: tokens.space.sm, marginBottom: tokens.space.lg }}>
-        <button onClick={() => { setIsMetro(true); vib(); }} style={tabStyle(isMetro, color, t)}>Metro (50%)</button>
-        <button onClick={() => { setIsMetro(false); vib(); }} style={tabStyle(!isMetro, color, t)}>Non-metro (40%)</button>
+        <button onClick={() => { setIsMetro(true) }} style={tabStyle(isMetro, color, t)}>Metro (50%)</button>
+        <button onClick={() => { setIsMetro(false) }} style={tabStyle(!isMetro, color, t)}>Non-metro (40%)</button>
       </div>
     </div>)}
 
@@ -143,7 +143,7 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
       </div>
       <div style={{ background: `${tokens.color.success}10`, border: `1px solid ${tokens.color.success}25`, borderRadius: tokens.radius.lg, padding: tokens.space.lg, textAlign: "center", marginTop: tokens.space.md }}>
         <div style={captionMuted(t)}>{betterRegime} regime saves you</div>
-        <HeroNumber value={currency(savings)} color={tokens.color.success} style={{ padding: `${tokens.space.sm}px 0` }} />
+        <HeroNumber aria-live="polite" value={currency(savings)} color={tokens.color.success} style={{ padding: `${tokens.space.sm}px 0` }} />
       </div>
     </div>)}
 

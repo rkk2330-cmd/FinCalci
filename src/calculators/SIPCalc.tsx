@@ -128,7 +128,7 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
 
   // ─── RENDER ───
   const tabBtn = (mode, label) => (
-    <button onClick={() => { setSipMode(mode); vib(); }} style={{ ...tabStyle(sipMode === mode, color, t), width: "100%" }}>{label}</button>
+    <button onClick={() => { setSipMode(mode) }} style={{ ...tabStyle(sipMode === mode, color, t), width: "100%" }}>{label}</button>
   );
 
   return (<div>
@@ -139,7 +139,7 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
     </div>
 
     {sipMode === "sip" ? (<div>
-      <HeroNumber label="Total value" value={currency(fv)} color={color} />
+      <HeroNumber aria-live="polite" label="Total value" value={currency(fv)} color={color} />
       <MetricGrid t={t} items={[
         { label: "Invested", value: currencyCompact(invested) },
         { label: "Returns", value: currencyCompact(gains), color: tokens.color.success },
@@ -172,7 +172,7 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
         </span>
       </div>
 
-      <button onClick={() => { setShowInflation(!showInflation); vib(); }}
+      <button onClick={() => { setShowInflation(!showInflation) }}
         style={{ ...tabStyle(showInflation, tokens.color.warning, t), width: "100%", marginBottom: tokens.space.sm }}>
         {showInflation ? "Hide" : "Show"} inflation impact
       </button>
@@ -182,7 +182,7 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
         <div style={labelStyle(t)}>Goal calculator — how much SIP for your target?</div>
         <div style={{ display: "flex", gap: tokens.space.xs, marginTop: tokens.space.sm, flexWrap: "wrap" }}>
           {[5000000, 10000000, 50000000, 100000000].map(g => (
-            <button key={g} onClick={() => { setGoalAmt(g); vib(); }}
+            <button key={g} onClick={() => { setGoalAmt(g) }}
               style={{ ...tabStyle(goalAmt === g, color, t), flex: 1, minWidth: 60 }}>{currencyCompact(g)}</button>
           ))}
         </div>
@@ -196,7 +196,7 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
       </div>
 
     </div>) : sipMode === "stepup" ? (<div>
-      <HeroNumber label="Step-up SIP value" value={currency(su.fv)} color={color} />
+      <HeroNumber aria-live="polite" label="Step-up SIP value" value={currency(su.fv)} color={color} />
       <MetricGrid t={t} items={[
         { label: "Invested", value: currencyCompact(su.invested) },
         { label: "Returns", value: currencyCompact(su.gains), color: tokens.color.success },
@@ -208,7 +208,7 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
       <SliderInput label="Yearly Increase" value={stepPct} onChange={setStepPct} unit="%" min={SLIDER.sip.step.min} max={SLIDER.sip.step.max} step={SLIDER.sip.step.step} color={tokens.color.secondary} t={t} />
 
     </div>) : sipMode === "lumpsum" ? (<div>
-      <HeroNumber label="Maturity value" value={currency(lump.fv)} color={color} />
+      <HeroNumber aria-live="polite" label="Maturity value" value={currency(lump.fv)} color={color} />
       <MetricGrid t={t} items={[
         { label: "Invested", value: currencyCompact(lumpAmt) },
         { label: "Returns", value: currencyCompact(lump.gains), color: tokens.color.success },
@@ -218,7 +218,7 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
       <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
 
     </div>) : sipMode === "swp" ? (<div>
-      <HeroNumber label={swp.exhausted ? "Corpus exhausted!" : "Final balance"} value={currency(swp.finalBal)} color={swp.exhausted ? tokens.color.danger : tokens.color.success} />
+      <HeroNumber aria-live="polite" label={swp.exhausted ? "Corpus exhausted!" : "Final balance"} value={currency(swp.finalBal)} color={swp.exhausted ? tokens.color.danger : tokens.color.success} />
       <MetricGrid t={t} items={[
         { label: "Total withdrawn", value: currencyCompact(swp.totalWithdrawn) },
         { label: "Total growth", value: currencyCompact(swp.totalGrowth), color: swp.totalGrowth >= 0 ? tokens.color.success : tokens.color.danger },
@@ -241,11 +241,11 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
     </div>) : null}
 
     {/* Affiliate CTA */}
-    <a href="https://fin-calci.vercel.app/start-sip" target="_blank" rel="noopener noreferrer" onClick={() => vib(5)}
+    <div onClick={() => vib(5)}
       style={{ display: "block", textDecoration: "none", width: "100%", padding: `${tokens.space.md}px ${tokens.space.lg}px`, borderRadius: tokens.radius.lg, background: `${color}08`, border: `1px solid ${color}18`, marginTop: tokens.space.lg, textAlign: "center" }}>
       <div style={{ fontSize: tokens.fontSize.small, fontWeight: tokens.fontWeight.medium, color }}>📈 Start your SIP today →</div>
-      <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, marginTop: 2 }}>Explore top-rated mutual funds on Groww, Zerodha & more</div>
-    </a>
+      <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, marginTop: 2 }}>Coming soon — explore top-rated mutual funds</div>
+    </div>
 
     <div style={disclaimer(t)}>
       Returns shown are hypothetical projections, not guaranteed. Mutual fund and stock data from free APIs — verify with your broker. This is not investment advice.

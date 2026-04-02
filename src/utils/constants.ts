@@ -10,7 +10,6 @@ export const KEYS = {
   STATS: 'fincalci-stats',
   EXPENSE: 'fincalci-expense-tracker',
   SPLIT: 'fincalci-split-sessions',
-  CALORIE: 'fincalci-cal-data',
   KHATA: 'fincalci-khata',
   INPUTS: 'fincalci-inputs',
   ANALYTICS: 'fincalci-analytics',
@@ -180,7 +179,6 @@ export const LIMITS = {
   KHATA_TXNS_PER_CUSTOMER: 500,
   SPLIT_SESSIONS_MAX: 20,
   SPLIT_MEMBERS_MAX: 30,
-  CALORIE_DAYS_MAX: 90,
   CACHE_ENTRIES_PER_NS: 30,
   STORAGE_QUOTA_BYTES: 5 * 1024 * 1024,
   SINGLE_WRITE_MAX_BYTES: 100 * 1024,
@@ -255,14 +253,6 @@ export const SLIDER = {
     inflation: { min: 2, max: 15, step: 0.5 },
     returnRate: { min: 4, max: 20, step: 0.5 },
   },
-  bmi: {
-    height: { min: 100, max: 220, step: 1 },
-    weight: { min: 20, max: 200, step: 0.5 },
-    age: { min: 10, max: 100, step: 1 },
-    waist: { min: 50, max: 150, step: 0.5 },
-    neck: { min: 20, max: 60, step: 0.5 },
-    hip: { min: 50, max: 150, step: 0.5 },
-  },
   compound: {
     P: { min: 1_000, max: 10_000_000, step: 1_000 },
     rate: { min: 1, max: 50, step: 0.5 },
@@ -281,8 +271,6 @@ export const SLIDER = {
 export const CLAMP = {
   AMOUNT_MAX: 10_000_000,
   AMOUNT_HUGE_MAX: 100_000_000,
-  CALORIE_MAX: 9_999,
-  MACRO_MAX: 999,
   DENOM_COUNT_MAX: 99_999,
   CUSTOM_RATE_MIN: 0.0001,
   CUSTOM_RATE_MAX: 99_999,
@@ -333,11 +321,6 @@ export const INPUT_SCHEMAS = {
     retireYears: { min: 1, max: 50, default: 30 },
     inflation: { min: 0, max: 20, default: 6 },
     returnRate: { min: 0, max: 30, default: 12 },
-  },
-  bmi: {
-    height: { min: 50, max: 250, default: 170 },
-    weight: { min: 10, max: 300, default: 70 },
-    age: { min: 2, max: 120, default: 25 },
   },
   compound: {
     P: { min: 1_000, max: 100_000_000, default: 100_000 },
@@ -409,12 +392,10 @@ export const SLUG_TO_ID: Record<string, string> = Object.fromEntries(
 
 // Legacy support: old ?calc=emi still works via redirect
 
-// ─── Re-export runtime data (CALCULATORS, FOOD_DB, UNIT_CATS, etc.) ───
-// These were originally in constants.js (runtime data arrays).
-// Now typed in data.ts, re-exported here so imports don't change.
+// ─── Re-export runtime data (CALCULATORS, UNIT_CATS, etc.) ───
+// Typed in data.ts, re-exported here so imports don't change.
 export {
   CALCULATORS, ACHIEVEMENTS, getTodayTip, MONTH_NAMES,
-  FOOD_DB, MEALS,
   EXP_CATEGORIES, PAY_MODES, QUICK_AMTS,
   UNIT_CATS, DENOMINATIONS,
 } from './data';

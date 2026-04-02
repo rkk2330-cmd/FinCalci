@@ -55,38 +55,6 @@ export const getTodayTip = (): string => TIPS[new Date().getDate() % TIPS.length
 // ─── Month names (for DatePicker) ───
 export const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] as const;
 
-// ─── Food database (CalorieTracker) ───
-export const FOOD_DB = [
-  {name:"Rice (1 cup, 158g)",cal:205,p:4.3,c:45,f:0.4},{name:"Chapati (1 pc, 40g)",cal:104,p:3.5,c:18,f:2.5},
-  {name:"Dal (1 cup, 198g)",cal:230,p:12,c:34,f:1},{name:"Chicken Breast (100g)",cal:165,p:31,c:0,f:3.6},
-  {name:"Paneer (100g)",cal:265,p:18,c:1.2,f:21},{name:"Egg (1 boiled, 50g)",cal:78,p:6.3,c:0.6,f:5.3},
-  {name:"Banana (1 med, 118g)",cal:105,p:1.3,c:27,f:0.4},{name:"Apple (1 med, 182g)",cal:95,p:0.5,c:25,f:0.3},
-  {name:"Milk (1 cup, 244g)",cal:149,p:8,c:12,f:8},{name:"Curd (1 cup, 245g)",cal:149,p:8.5,c:11,f:8},
-  {name:"Idli (1 pc, 35g)",cal:39,p:1,c:8,f:0.2},{name:"Dosa (1 plain, 80g)",cal:133,p:4,c:19,f:5},
-  {name:"Paratha (1 pc, 60g)",cal:200,p:4,c:23,f:10},{name:"Poha (1 cup, 180g)",cal:250,p:5,c:42,f:7},
-  {name:"Upma (1 cup, 200g)",cal:210,p:5,c:30,f:8},{name:"Samosa (1 pc, 70g)",cal:262,p:4,c:24,f:17},
-  {name:"Biryani (1 cup, 200g)",cal:250,p:10,c:35,f:8},{name:"Rajma (1 cup, 180g)",cal:225,p:15,c:40,f:1},
-  {name:"Chole (1 cup, 180g)",cal:240,p:12,c:38,f:5},{name:"Oats (1 cup, 234g)",cal:154,p:6,c:27,f:2.5},
-  {name:"Toast (1 slice, 30g)",cal:79,p:3,c:13,f:1},{name:"Almonds (10 pcs, 14g)",cal:69,p:2.5,c:2.5,f:6},
-  {name:"Salad (1 bowl, 150g)",cal:45,p:2,c:8,f:0.5},{name:"Palak Paneer (1 cup)",cal:192,p:10,c:8,f:13},
-  {name:"Butter Chicken (1 cup)",cal:320,p:28,c:10,f:18},{name:"Naan (1 pc, 90g)",cal:262,p:9,c:43,f:5},
-  {name:"Lassi (1 glass, 250ml)",cal:170,p:6,c:24,f:5},{name:"Tea w/ Milk (1 cup)",cal:50,p:2,c:6,f:2},
-  {name:"Coffee w/ Milk (1 cup)",cal:60,p:2,c:7,f:2.5},{name:"Protein Shake (1 scoop)",cal:120,p:24,c:3,f:1},
-  {name:"Pizza Slice (1 pc)",cal:285,p:12,c:36,f:10},{name:"Burger (1 regular)",cal:354,p:17,c:29,f:19},
-  {name:"French Fries (med)",cal:365,p:4,c:48,f:17},{name:"Ice Cream (1 scoop)",cal:137,p:2.3,c:16,f:7},
-  {name:"Maggi (1 pack, 70g)",cal:313,p:7.5,c:44,f:12},{name:"Khichdi (1 cup, 200g)",cal:200,p:7,c:32,f:5},
-  {name:"Sprouts (1 cup, 100g)",cal:85,p:7,c:14,f:0.5},{name:"Peanut Butter (1 tbsp)",cal:94,p:4,c:3.6,f:8},
-  {name:"Mango (1 med, 200g)",cal:135,p:1.1,c:35,f:0.6},{name:"Watermelon (1 cup)",cal:46,p:0.9,c:11.5,f:0.2},
-  {name:"Gulab Jamun (2 pcs)",cal:300,p:4,c:42,f:14},{name:"Rasgulla (2 pcs)",cal:190,p:3,c:38,f:2},
-  {name:"Jalebi (50g)",cal:200,p:2,c:35,f:7},
-] as const;
-
-export const MEALS = [
-  {id:"breakfast",icon:"🌅",label:"Breakfast"},
-  {id:"lunch",icon:"☀️",label:"Lunch"},
-  {id:"dinner",icon:"🌙",label:"Dinner"},
-  {id:"snacks",icon:"🍿",label:"Snacks"},
-] as const;
 
 // ─── Expense categories ───
 export const EXP_CATEGORIES = [

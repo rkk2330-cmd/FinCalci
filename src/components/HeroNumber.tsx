@@ -35,7 +35,7 @@ function HeroNumber({ value, label, color, animate = true, style = {} }) {
   }, [value, animate]);
 
   return (
-    <div style={{ textAlign: 'center', padding: `${tokens.space.lg}px 0 ${tokens.space.sm}px`, ...style }}>
+    <div role="status" aria-live="polite" style={{ textAlign: 'center', padding: `${tokens.space.lg}px 0 ${tokens.space.sm}px`, ...style }}>
       {label && <div style={{ fontSize: tokens.fontSize.caption, color: 'inherit', opacity: 0.6, marginBottom: tokens.space.xs, fontFamily: tokens.fontFamily.sans }}>{label}</div>}
       <div style={{ fontSize: tokens.fontSize.hero, fontWeight: tokens.fontWeight.medium, fontFamily: tokens.fontFamily.mono, color: color || 'inherit', lineHeight: 1.2 }}>
         {display}

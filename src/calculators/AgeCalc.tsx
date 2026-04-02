@@ -77,10 +77,10 @@ export default function AgeCalc({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setMode("age"); vib(); }} style={tabStyle(mode === "age", color, t)}>Age</button>
-      <button onClick={() => { setMode("stats"); vib(); }} style={tabStyle(mode === "stats", "#A78BFA", t)}>Life stats</button>
-      <button onClick={() => { setMode("birthday"); vib(); }} style={tabStyle(mode === "birthday", "#F472B6", t)}>Birthday</button>
-      <button onClick={() => { setMode("compare"); vib(); }} style={tabStyle(mode === "compare", "#F59E0B", t)}>Compare</button>
+      <button onClick={() => { setMode("age") }} style={tabStyle(mode === "age", color, t)}>Age</button>
+      <button onClick={() => { setMode("stats") }} style={tabStyle(mode === "stats", "#A78BFA", t)}>Life stats</button>
+      <button onClick={() => { setMode("birthday") }} style={tabStyle(mode === "birthday", "#F472B6", t)}>Birthday</button>
+      <button onClick={() => { setMode("compare") }} style={tabStyle(mode === "compare", "#F59E0B", t)}>Compare</button>
     </div>
 
     <div style={labelStyle(t)}>Date of birth</div>

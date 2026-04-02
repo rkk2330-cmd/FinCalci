@@ -70,19 +70,19 @@ export default function CurrencyCalc({ color, t, onResult }: CalcProps) {
     <SliderInput label="Amount" value={amt} onChange={setAmt} unit={from} min={SLIDER.currency.amount.min} max={SLIDER.currency.amount.max} step={SLIDER.currency.amount.step} color={color} t={t} />
 
     <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: tokens.space.sm, alignItems: "center", marginBottom: tokens.space.lg }}>
-      <select value={from} onChange={e => { setFrom(e.target.value); vib(); }} style={{ ...inputStyle(t), textAlign: "center" }}>
+      <select value={from} onChange={e => { setFrom(e.target.value) }} style={{ ...inputStyle(t), textAlign: "center" }}>
         {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
       </select>
-      <button onClick={() => { const tmp = from; setFrom(to); setTo(tmp); vib(); }}
+      <button onClick={() => { const tmp = from; setFrom(to); setTo(tmp) }}
         style={{ width: 36, height: 36, borderRadius: tokens.radius.pill, background: `${color}15`, border: `1px solid ${color}30`, color, fontSize: 16, cursor: "pointer" }}>⇄</button>
-      <select value={to} onChange={e => { setTo(e.target.value); vib(); }} style={{ ...inputStyle(t), textAlign: "center" }}>
+      <select value={to} onChange={e => { setTo(e.target.value) }} style={{ ...inputStyle(t), textAlign: "center" }}>
         {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
       </select>
     </div>
 
     {/* Custom rate */}
     <div style={{ display: "flex", alignItems: "center", gap: tokens.space.sm, marginBottom: tokens.space.md }}>
-      <button onClick={() => { setUseCustom(!useCustom); vib(); }} style={tabStyle(useCustom, color, t)}>Custom rate</button>
+      <button onClick={() => { setUseCustom(!useCustom) }} style={tabStyle(useCustom, color, t)}>Custom rate</button>
       {useCustom && <input type="number" value={customRate} placeholder={decimal(rateDisplay, 2)} onChange={e => setCustomRate(clampInput(e.target.value, CLAMP.CUSTOM_RATE_MIN, CLAMP.CUSTOM_RATE_MAX) || "")}
         style={{ ...inputStyle(t), width: 100, textAlign: "right", fontFamily: tokens.fontFamily.mono }} />}
     </div>

@@ -75,8 +75,8 @@ export default function GoldCalc({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg }}>
-      <button onClick={() => { setMetalMode("gold"); vib(); }} style={tabStyle(metalMode === "gold", "#F59E0B", t)}>Gold</button>
-      <button onClick={() => { setMetalMode("silver"); vib(); }} style={tabStyle(metalMode === "silver", "#94A3B8", t)}>Silver</button>
+      <button onClick={() => { setMetalMode("gold") }} style={tabStyle(metalMode === "gold", "#F59E0B", t)}>Gold</button>
+      <button onClick={() => { setMetalMode("silver") }} style={tabStyle(metalMode === "silver", "#94A3B8", t)}>Silver</button>
     </div>
 
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: tokens.space.md }}>
@@ -101,13 +101,13 @@ export default function GoldCalc({ color, t, onResult }: CalcProps) {
 
     <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg }}>
       {Object.keys(FINANCE.WEIGHT_UNITS).map(u => (
-        <button key={u} onClick={() => { setWeightUnit(u); vib(); }} style={tabStyle(weightUnit === u, color, t)}>{u}</button>
+        <button key={u} onClick={() => { setWeightUnit(u) }} style={tabStyle(weightUnit === u, color, t)}>{u}</button>
       ))}
     </div>
 
     <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg }}>
       {Object.keys(metalMode === "gold" ? purities : silverPurities).map(p => (
-        <button key={p} onClick={() => { metalMode === "gold" ? setPurity(p) : setSilverPurity(p); vib(); }}
+        <button key={p} onClick={() => { metalMode === "gold" ? setPurity(p) : setSilverPurity(p) }}
           style={tabStyle((metalMode === "gold" ? purity : silverPurity) === p, color, t)}>{p}</button>
       ))}
     </div>

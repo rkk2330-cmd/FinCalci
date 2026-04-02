@@ -60,8 +60,8 @@ export default function TipCalc({ color, t, onResult }: CalcProps) {
     setExpDesc(""); setExpAmt(""); setMemberShares({}); vib();
   };
 
-  const removeExpense = (id) => { updateSession({ expenses: expenses.filter(e => e.id !== id) }); vib(); };
-  const toggleSettle = (key) => { updateSession({ settledList: settledList.includes(key) ? settledList.filter(k => k !== key) : [...settledList, key] }); vib(); };
+  const removeExpense = (id) => { updateSession({ expenses: expenses.filter(e => e.id !== id) }) };
+  const toggleSettle = (key) => { updateSession({ settledList: settledList.includes(key) ? settledList.filter(k => k !== key) : [...settledList, key] }) };
 
   // Calculate settlements
   const settlements = useMemo(() => {
@@ -113,7 +113,7 @@ export default function TipCalc({ color, t, onResult }: CalcProps) {
         <EmptyState icon="👥" message="No groups yet. Create a group to split bills with friends." t={t} />
       ) : sessions.map((s, i) => {
         const tot = (s.expenses || []).reduce((sum, e) => sum + e.amount, 0);
-        return (<div key={s.id} onClick={() => { setActiveIdx(i); vib(); }}
+        return (<div key={s.id} onClick={() => { setActiveIdx(i) }}
           style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: tokens.space.md, borderRadius: tokens.radius.md, border: `1px solid ${t.border}`, marginBottom: tokens.space.sm, cursor: "pointer", background: t.card }}>
           <div>
             <div style={itemTitle(t)}>{s.name}</div>
@@ -125,9 +125,9 @@ export default function TipCalc({ color, t, onResult }: CalcProps) {
     </div>) : (<div>
       {/* Active session */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: tokens.space.lg }}>
-        <button onClick={() => { setActiveIdx(-1); vib(); }} style={tabStyle(false, color, t)}>← Back</button>
+        <button onClick={() => { setActiveIdx(-1) }} style={tabStyle(false, color, t)}>← Back</button>
         <div style={itemTitle(t)}>{sess.name}</div>
-        <button onClick={() => { const ns = sessions.filter((_, i) => i !== activeIdx); setSessions(ns); saveSessions(ns); setActiveIdx(-1); vib(); }}
+        <button onClick={() => { const ns = sessions.filter((_, i) => i !== activeIdx); setSessions(ns); saveSessions(ns); setActiveIdx(-1) }}
           style={tabStyle(false, tokens.color.danger, t)}>Delete</button>
       </div>
 
@@ -156,7 +156,7 @@ export default function TipCalc({ color, t, onResult }: CalcProps) {
         <div style={labelStyle(t)}>Who paid?</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: tokens.space.xs, marginBottom: tokens.space.sm }}>
           {members.map(m => (
-            <button key={m.id} onClick={() => { setExpPayer(m.id); vib(); }}
+            <button key={m.id} onClick={() => { setExpPayer(m.id) }}
               style={tabStyle(expPayer === m.id, color, t)}>{m.name}</button>
           ))}
         </div>

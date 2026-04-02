@@ -53,7 +53,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
     setEntries(ne); save(ne); setAmt(""); setNote(""); vib();
   };
 
-  const removeEntry = (id) => { const ne = entries.filter(e => e.id !== id); setEntries(ne); save(ne); vib(); };
+  const removeEntry = (id) => { const ne = entries.filter(e => e.id !== id); setEntries(ne); save(ne) };
 
   const addRecurring = () => {
     const a = safeRange(parseFloat(rAmt), 1, 9999999, 0);
@@ -61,7 +61,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
     const nr = [...recurring, { id: Date.now(), amount: a, category: rCat, note: rNote.trim().slice(0, 40) }].slice(0, 20);
     setRecurring(nr); save(undefined, nr); setRAmt(""); setRNote(""); vib();
   };
-  const removeRecurring = (id) => { const nr = recurring.filter(r => r.id !== id); setRecurring(nr); save(undefined, nr); vib(); };
+  const removeRecurring = (id) => { const nr = recurring.filter(r => r.id !== id); setRecurring(nr); save(undefined, nr) };
 
   // Filtered entries for current month
   const monthEntries = useMemo(() => entries.filter(e => e.date?.startsWith(viewMonth)), [entries, viewMonth]);
@@ -96,10 +96,10 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setTab("add"); vib(); }} style={tabStyle(tab === "add", color, t)}>Add</button>
-      <button onClick={() => { setTab("summary"); vib(); }} style={tabStyle(tab === "summary", tokens.color.secondary, t)}>Summary</button>
-      <button onClick={() => { setTab("recurring"); vib(); }} style={tabStyle(tab === "recurring", "#F59E0B", t)}>Recurring</button>
-      <button onClick={() => { setTab("budget"); vib(); }} style={tabStyle(tab === "budget", tokens.color.success, t)}>Budget</button>
+      <button onClick={() => { setTab("add") }} style={tabStyle(tab === "add", color, t)}>Add</button>
+      <button onClick={() => { setTab("summary") }} style={tabStyle(tab === "summary", tokens.color.secondary, t)}>Summary</button>
+      <button onClick={() => { setTab("recurring") }} style={tabStyle(tab === "recurring", "#F59E0B", t)}>Recurring</button>
+      <button onClick={() => { setTab("budget") }} style={tabStyle(tab === "budget", tokens.color.success, t)}>Budget</button>
     </div>
 
     {/* Month progress */}
@@ -117,8 +117,8 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
     {tab === "add" && (<div>
       {/* Expense/Income toggle */}
       <div style={tabRowSm}>
-        <button onClick={() => { setExpType("expense"); vib(); }} style={tabStyle(expType === "expense", tokens.color.danger, t)}>Expense</button>
-        <button onClick={() => { setExpType("income"); vib(); }} style={tabStyle(expType === "income", tokens.color.success, t)}>Income</button>
+        <button onClick={() => { setExpType("expense") }} style={tabStyle(expType === "expense", tokens.color.danger, t)}>Expense</button>
+        <button onClick={() => { setExpType("income") }} style={tabStyle(expType === "income", tokens.color.success, t)}>Income</button>
       </div>
 
       <input type="number" placeholder="Amount ₹" value={amt} onChange={e => setAmt(clampInput(e.target.value, 0, CLAMP.AMOUNT_MAX) || "")}
@@ -127,7 +127,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
       {/* Quick amounts */}
       <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.md, flexWrap: "wrap" }}>
         {QUICK_AMTS.map(a => (
-          <button key={a} onClick={() => { setAmt(String(a)); vib(); }} style={tabStyle(amt === String(a), color, t)}>{a >= 1000 ? `${a / 1000}K` : a}</button>
+          <button key={a} onClick={() => { setAmt(String(a)) }} style={tabStyle(amt === String(a), color, t)}>{a >= 1000 ? `${a / 1000}K` : a}</button>
         ))}
       </div>
 
@@ -135,7 +135,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
       <div style={labelStyle(t)}>Category</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: tokens.space.xs, marginBottom: tokens.space.md }}>
         {EXP_CATEGORIES.map(c => (
-          <button key={c.id} onClick={() => { setCategory(c.id); vib(); }}
+          <button key={c.id} onClick={() => { setCategory(c.id) }}
             style={{ ...tabStyle(category === c.id, c.color, t), fontSize: tokens.fontSize.caption - 1 }}>{c.icon} {c.label}</button>
         ))}
       </div>
@@ -145,7 +145,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
       {/* Pay mode */}
       <div style={tabRowSm}>
         {PAY_MODES.map(p => (
-          <button key={p.id} onClick={() => { setPayMode(p.id); vib(); }} style={tabStyle(payMode === p.id, color, t)}>{p.icon} {p.l}</button>
+          <button key={p.id} onClick={() => { setPayMode(p.id) }} style={tabStyle(payMode === p.id, color, t)}>{p.icon} {p.l}</button>
         ))}
       </div>
 
@@ -217,7 +217,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
         <input type="number" placeholder="Amount/month ₹" value={rAmt} onChange={e => setRAmt(clampInput(e.target.value, 0, CLAMP.AMOUNT_MAX) || "")} style={{ ...inputStyle(t), marginBottom: tokens.space.sm, fontFamily: tokens.fontFamily.mono }} />
         <input type="text" placeholder="Name (Rent, EMI, Netflix...)" value={rNote} onChange={e => setRNote(e.target.value.slice(0, 40))} maxLength={40} style={{ ...inputStyle(t), marginBottom: tokens.space.sm }} />
         <div style={{ display: "flex", flexWrap: "wrap", gap: tokens.space.xs, marginBottom: tokens.space.sm }}>
-          {EXP_CATEGORIES.map(c => <button key={c.id} onClick={() => { setRCat(c.id); vib(); }} style={{ ...tabStyle(rCat === c.id, c.color, t), fontSize: tokens.fontSize.caption - 2 }}>{c.icon}</button>)}
+          {EXP_CATEGORIES.map(c => <button key={c.id} onClick={() => { setRCat(c.id) }} style={{ ...tabStyle(rCat === c.id, c.color, t), fontSize: tokens.fontSize.caption - 2 }}>{c.icon}</button>)}
         </div>
         <button onClick={addRecurring} style={{ width: "100%", padding: tokens.space.sm, borderRadius: tokens.radius.sm, background: `${color}15`, border: `1px solid ${color}30`, color, fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer", fontFamily: tokens.fontFamily.sans }}>+ Add recurring</button>
       </div>
@@ -241,7 +241,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
       <div style={labelStyle(t)}>Monthly budget</div>
       <div style={{ display: "flex", gap: tokens.space.xs, marginBottom: tokens.space.lg, flexWrap: "wrap" }}>
         {[10000, 20000, 30000, 50000, 75000, 100000].map(b => (
-          <button key={b} onClick={() => { setBudget(b); save(undefined, undefined, b); vib(); }}
+          <button key={b} onClick={() => { setBudget(b); save(undefined, undefined, b) }}
             style={tabStyle(budget === b, color, t)}>{currencyCompact(b)}</button>
         ))}
       </div>
@@ -258,10 +258,10 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
 
     {/* Month navigation */}
     <div style={{ display: "flex", justifyContent: "center", gap: tokens.space.sm, marginTop: tokens.space.lg }}>
-      <button onClick={() => { setViewMonth(offsetMonth(viewMonth, -1)); vib(); }}
+      <button onClick={() => { setViewMonth(offsetMonth(viewMonth, -1)) }}
         style={tabStyle(false, color, t)}>← Prev</button>
       <span style={{ fontSize: tokens.fontSize.caption, color: t.textMuted, alignSelf: "center" }}>{viewMonth}</span>
-      <button onClick={() => { setViewMonth(offsetMonth(viewMonth, 1)); vib(); }}
+      <button onClick={() => { setViewMonth(offsetMonth(viewMonth, 1)) }}
         style={tabStyle(false, color, t)}>Next →</button>
     </div>
 

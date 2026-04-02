@@ -41,8 +41,8 @@ export default function SalaryCalc({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setMode("breakdown"); vib(); }} style={tabStyle(mode === "breakdown", color, t)}>Breakdown</button>
-      <button onClick={() => { setMode("compare"); vib(); }} style={tabStyle(mode === "compare", color, t)}>Compare offers</button>
+      <button onClick={() => { setMode("breakdown") }} style={tabStyle(mode === "breakdown", color, t)}>Breakdown</button>
+      <button onClick={() => { setMode("compare") }} style={tabStyle(mode === "compare", color, t)}>Compare offers</button>
     </div>
 
     <HeroNumber label="Monthly take-home" value={currency(calc.monthly)} color={color} />

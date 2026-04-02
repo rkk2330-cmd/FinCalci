@@ -95,7 +95,7 @@ export default function useHistory(showToast) {
       a._lastActive = today;
       localStorage.setItem(ak, JSON.stringify(a));
     } catch (e: unknown) { logError('history.trackCalcUse', e); }
-    if (ns.totalCalcs === 3 && !ratePopupDismissed) {
+    if (ns.totalCalcs === 15 && !ratePopupDismissed) {
       setTimeout(() => setShowRatePopup(true), TIMING.RATE_POPUP_DELAY);
     }
   }, [stats, recent, ratePopupDismissed, checkAchievements, saveStats, saveRecent]);

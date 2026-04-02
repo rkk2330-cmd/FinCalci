@@ -46,7 +46,7 @@ export default function CashCounter({ color, t, onResult }: CalcProps) {
   const totalNotes = useMemo(() => Object.values(counts).reduce((s, c) => s + safeNum(c), 0), [counts]);
 
   const updateCount = (denom, val) => { setCounts(prev => ({ ...prev, [denom]: safeRange(parseInt(val) || 0, 0, 99999, 0) })); };
-  const resetCounts = () => { setCounts({}); vib(); };
+  const resetCounts = () => { setCounts({}) };
 
   // Khata functions
   const addCustomer = () => {
@@ -84,8 +84,8 @@ export default function CashCounter({ color, t, onResult }: CalcProps) {
 
   return (<div>
     <div style={tabRow}>
-      <button onClick={() => { setMode("cash"); vib(); }} style={tabStyle(mode === "cash", color, t)}>Cash counter</button>
-      <button onClick={() => { setMode("khata"); vib(); }} style={tabStyle(mode === "khata", "#34D399", t)}>Khata Book</button>
+      <button onClick={() => { setMode("cash") }} style={tabStyle(mode === "cash", color, t)}>Cash counter</button>
+      <button onClick={() => { setMode("khata") }} style={tabStyle(mode === "khata", "#34D399", t)}>Khata Book</button>
     </div>
 
     {mode === "cash" ? (<div>
@@ -123,7 +123,7 @@ export default function CashCounter({ color, t, onResult }: CalcProps) {
           <EmptyState icon="📒" message="Your digital Khata. Add customers and track credit/debit." t={t} />
         ) : filteredCustomers.map(c => {
           const bal = (c.transactions || []).reduce((s, tx) => s + (tx.type === "gave" ? -tx.amount : tx.amount), 0);
-          return (<div key={c.id} onClick={() => { setActiveCustomer(c); vib(); }}
+          return (<div key={c.id} onClick={() => { setActiveCustomer(c) }}
             style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: `${tokens.space.md}px`, borderRadius: tokens.radius.md, border: `1px solid ${t.border}`, marginBottom: tokens.space.sm, cursor: "pointer", background: t.card }}>
             <div>
               <div style={itemTitle(t)}>{c.name}</div>
@@ -145,7 +145,7 @@ export default function CashCounter({ color, t, onResult }: CalcProps) {
       </div>) : (<div>
         {/* Customer detail */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: tokens.space.lg }}>
-          <button onClick={() => { setActiveCustomer(null); vib(); }} style={tabStyle(false, color, t)}>← Back</button>
+          <button onClick={() => { setActiveCustomer(null) }} style={tabStyle(false, color, t)}>← Back</button>
           <div style={TEXT_RIGHT}>
             <div style={itemTitle(t)}>{activeCustomer.name}</div>
             <div style={captionDim(t)}>{activeCustomer.phone}</div>

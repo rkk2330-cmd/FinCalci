@@ -61,7 +61,7 @@ function AmountInputInner({ label, value, onChange, min = 0, max = Infinity, col
     setFocused(false);
     const clamped = clamp(raw);
     onChange(clamped);
-    vib(3);
+    
   };
 
   const handleChange = (e) => {
@@ -117,6 +117,7 @@ function AmountInputInner({ label, value, onChange, min = 0, max = Infinity, col
             ref={inputRef}
             type={focused ? 'number' : 'text'}
             inputMode="numeric"
+            aria-label={label}
             value={displayValue}
             onChange={handleChange}
             onFocus={handleFocus}
