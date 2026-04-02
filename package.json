@@ -5,7 +5,7 @@
   "description": "FinCalci \u2014 All-in-One Indian Calculator. 20 calculators, 60+ tools. Free. No ads.",
   "author": "FinCalci Apps <fincalci.help@gmail.com>",
   "license": "UNLICENSED",
-  "homepage": "https://fincalci.vercel.app",
+  "homepage": "https://fin-calci.vercel.app",
   "type": "module",
   "engines": {
     "node": ">=18.0.0"

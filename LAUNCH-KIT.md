@@ -48,7 +48,7 @@ git push origin main
 ```
 
 ### Step 4: Verify production
-- [ ] https://fincalci.vercel.app loads
+- [ ] https://fin-calci.vercel.app loads
 - [ ] Service worker registers (DevTools → Application → Service Workers)
 - [ ] Lighthouse score > 90 (Performance, Accessibility, Best Practices, SEO)
 - [ ] Open Graph preview works (paste URL in WhatsApp/Twitter/Facebook)
@@ -248,7 +248,7 @@ Place at: `public/.well-known/assetlinks.json`
 ```bash
 npm i -g @nicolo-ribaudo/bubblewrap
 
-bubblewrap init --manifest="https://fincalci.vercel.app/manifest.json"
+bubblewrap init --manifest="https://fin-calci.vercel.app/manifest.json"
 # Edit twa-manifest.json:
 #   packageId: "app.vercel.fincalci.twa"
 #   signingKey: path to fincalci-release.keystore
@@ -325,7 +325,7 @@ Total cost: ₹0/month
 
 **Tweet 5 (CTA):**
 ```
-Try it now → fincalci.vercel.app
+Try it now → fin-calci.vercel.app
 
 Add to home screen for the app experience.
 
@@ -362,7 +362,7 @@ It's a PWA — works in your browser, installable on home screen, works offline.
 
 No ads. No login. No data sent anywhere. Everything stays on your device.
 
-Try it: https://fincalci.vercel.app
+Try it: https://fin-calci.vercel.app
 
 Happy to take feedback. What calculators or features would make this more useful for you?
 ```
@@ -385,7 +385,7 @@ Check out FinCalci — 20 free calculators in one app! 🧮
 ✅ Works offline
 ✅ 100% free forever
 
-Try now 👉 fincalci.vercel.app
+Try now 👉 fin-calci.vercel.app
 ```
 
 ### Instagram bio
@@ -394,7 +394,7 @@ FinCalci — 20 free calculators for India 🇮🇳
 EMI • SIP • GST • Tax • Gold • Khata Book
 No ads. Works offline. Free forever.
 👇 Try it now
-fincalci.vercel.app
+fin-calci.vercel.app
 ```
 
 ---

@@ -2,7 +2,7 @@
 
 **20 calculators. 60+ tools. Zero ads. Free forever.**
 
-[Try it live →](https://fincalci.vercel.app)
+[Try it live →](https://fin-calci.vercel.app)
 
 ---
 

@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
 const DIST = 'dist';
-const BASE_URL = 'https://fincalci.vercel.app';
+const BASE_URL = 'https://fin-calci.vercel.app';
 
 // Route data (must match src/utils/constants.ts ROUTES)
 const ROUTES = {
