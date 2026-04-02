@@ -9,7 +9,7 @@ const { useState } = React;
 function OnboardingInner({accent,onDone}) {
   const [step,setStep]=useState(0);
   const steps=[
-    {icon:"🧮",title:"Welcome to FinCalci",desc:"20 calculators, 60+ tools in your pocket. EMI, SIP, GST, Tax, Gold, Currency, Khata Book, Expense Tracker & more!",color:CATEGORY_COLORS.health},
+    {icon:"🧮",title:"Welcome to FinCalci",desc:"18 calculators, 50+ tools in your pocket. EMI, SIP, GST, Tax, Gold, Currency, Khata Book, Expense Tracker & more!",color:'#F43F5E'},
     {icon:"⭐",title:"Favorites & History",desc:"Star your go-to calculators for instant access. Save results and revisit anytime.",color:CATEGORY_COLORS.business},
     {icon:"🎨",title:"Make it Yours",desc:"Dark/Light mode, 8 accent colors, swipe between calculators. Your app, your way!",color:tokens.color.secondary},
     {icon:"🏆",title:"Earn Achievements",desc:"Complete challenges, build daily streaks, and unlock all badges!",color:CATEGORY_COLORS.finance},

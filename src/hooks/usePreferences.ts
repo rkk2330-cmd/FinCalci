@@ -18,10 +18,13 @@ export default function usePreferences(showToast) {
     catch { return 'dark'; }
   });
   const [accent, setAccent] = useState("#10B981");
-  const [soundOn, setSoundOn] = useState(true);
+  const [soundOn, setSoundOn] = useState(false);
   const [favorites, setFavorites] = useState<unknown[]>([]);
 
   const t = useMemo(() => mkTheme(theme), [theme]);
+
+  // Mute by default on first load
+  SFX.mute(true);
 
   // Load preferences on mount
   useEffect(() => {
@@ -30,7 +33,7 @@ export default function usePreferences(showToast) {
       if (prefs && typeof prefs === "object") {
         if (prefs.theme === "dark" || prefs.theme === "light") setTheme(prefs.theme);
         if (typeof prefs.accent === "string" && ACCENT_COLORS.some(ac => ac.color === prefs.accent)) setAccent(prefs.accent);
-        if (prefs.soundOn === false) { setSoundOn(false); SFX.mute(true); }
+        if (prefs.soundOn === true) { setSoundOn(true); SFX.mute(false); }
         
       }
       const favs = await safeStorageGet(KEYS.FAVORITES, []);

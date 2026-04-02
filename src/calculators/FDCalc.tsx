@@ -75,6 +75,6 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
       <MiniChart type="hbar" data={banks.map(b => ({ label: b.name, value: b.maturity, display: currency(b.maturity) }))} height={banks.length * 36} colors={[color, tokens.color.secondary]} t={t} />
     </div>)}
 
-    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Bank rates shown are indicative. Actual rates vary by tenure, amount, and bank policy.</div>
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Bank rates shown are indicative. Actual rates vary by tenure, amount, and bank policy. Not financial advice.</div>
   </div>);
 }

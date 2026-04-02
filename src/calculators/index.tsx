@@ -173,7 +173,6 @@ export const CALC_MAP: Record<string, React.ComponentType<any>> = {
   sip: lazyCalc(() => import('./SIPCalc')),
   gst: lazyCalc(() => import('./GSTCalc')),
   age: lazyCalc(() => import('./AgeCalc')),
-  bmi: lazyCalc(() => import('./BMICalc')),
   tip: lazyCalc(() => import('./TipCalc')),
   percentage: lazyCalc(() => import('./PercentCalc')),
   currency: lazyCalc(() => import('./CurrencyCalc')),
@@ -188,7 +187,6 @@ export const CALC_MAP: Record<string, React.ComponentType<any>> = {
   gold: lazyCalc(() => import('./GoldCalc')),
   retire: lazyCalc(() => import('./RetireCalc')),
   expense: lazyCalc(() => import('./ExpenseTrackerCalc')),
-  calorie: lazyCalc(() => import('./CalorieTracker')),
 };
 
 export default CALC_MAP;

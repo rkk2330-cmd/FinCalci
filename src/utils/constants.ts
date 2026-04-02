@@ -369,9 +369,9 @@ export const FALLBACK_GOLD = {
 
 // ─── Calculator registry ───
 export const CALCULATOR_IDS = [
-  'emi', 'sip', 'gst', 'age', 'bmi', 'tip', 'percentage',
+  'emi', 'sip', 'gst', 'age', 'tip', 'percentage',
   'currency', 'compound', 'tax', 'unit', 'fd', 'cash',
-  'salary', 'ppf', 'date', 'gold', 'retire', 'expense', 'calorie',
+  'salary', 'ppf', 'date', 'gold', 'retire', 'expense',
 ] as const;
 
 export type CalculatorId = typeof CALCULATOR_IDS[number];
@@ -391,7 +391,6 @@ export const ROUTES: Record<string, { slug: string; title: string; h1: string; d
   fd:         { slug: 'fd-rd-calculator',        title: 'FD & RD Calculator — Fixed Deposit, Recurring Deposit | FinCalci',         h1: 'FD & RD Calculator',          description: 'FD & RD calculator. Compare bank rates. Quarterly compounding. Maturity value.' },
   salary:     { slug: 'salary-calculator',       title: 'Salary Calculator — CTC to Take-Home Breakdown | FinCalci',               h1: 'Salary Calculator',           description: 'Salary calculator — CTC to take-home. Tax, PF, HRA breakdown. Compare offers.' },
   retire:     { slug: 'retirement-calculator',   title: 'Retirement Calculator — FIRE Number, Corpus Planner | FinCalci',           h1: 'Retirement FIRE Calculator',  description: 'Retirement calculator — FIRE number, corpus needed, monthly SIP. Inflation adjusted.' },
-  bmi:        { slug: 'bmi-calculator',          title: 'BMI Calculator — Body Mass Index, Body Fat, Calories | FinCalci',          h1: 'BMI Calculator',              description: 'BMI calculator with body fat estimation. Healthy weight range. Calorie goal.' },
   compound:   { slug: 'compound-interest',       title: 'Compound Interest Calculator — Rule of 72 | FinCalci',                    h1: 'Compound Interest Calculator', description: 'Compound interest calculator. Monthly additions. Rule of 72. Growth projection.' },
   ppf:        { slug: 'ppf-epf-calculator',      title: 'PPF & EPF Calculator — Public Provident Fund | FinCalci',                 h1: 'PPF & EPF Calculator',        description: 'PPF & EPF calculator. 15-year maturity. Year-wise growth breakdown.' },
   expense:    { slug: 'expense-tracker',         title: 'Expense Tracker — Budget, Categories, Recurring | FinCalci',               h1: 'Expense Tracker',             description: 'Expense tracker with categories, budgets, recurring expenses. Monthly analysis.' },
@@ -401,7 +400,6 @@ export const ROUTES: Record<string, { slug: string; title: string; h1: string; d
   percentage: { slug: 'percentage-calculator',   title: 'Percentage Calculator — Increase, Decrease, Margin | FinCalci',            h1: 'Percentage Calculator',       description: 'Percentage calculator — all modes. Increase, decrease, margin, markup.' },
   unit:       { slug: 'unit-converter',          title: 'Unit Converter — Length, Weight, Temperature & More | FinCalci',           h1: 'Unit Converter',              description: 'Unit converter — 13 categories, 200+ units. Length, weight, temperature, data.' },
   cash:       { slug: 'khata-book',              title: 'Khata Book — Digital Credit Debit Tracker | FinCalci',                    h1: 'Khata Book',                  description: 'Cash counter & Khata Book. Count notes. Track credit/debit with customers.' },
-  calorie:    { slug: 'calorie-tracker',         title: 'Calorie Tracker — Food Search, Daily Macros | FinCalci',                  h1: 'Calorie Tracker',             description: 'Calorie tracker with food search. Daily macro tracking. Goal-based.' },
 };
 
 // Reverse lookup: slug → calcId

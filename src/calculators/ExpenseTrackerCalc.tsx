@@ -264,5 +264,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setViewMonth(offsetMonth(viewMonth, 1)); vib(); }}
         style={tabStyle(false, color, t)}>Next →</button>
     </div>
+  
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Expense tracking is for personal budgeting only. Verify figures independently. Not financial advice.</div>
   </div>);
 }

@@ -37,7 +37,6 @@ export default function useAppState() {
   const [shareCardSvg, setShareCardSvg] = useState(null);
 
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const touchRef = useRef<number | null>(null);
   const activeRef = useRef<string | null>(null);
   const tabRef = useRef<string>("home");
   const mountedRef = useRef(true);  // Guard against setState after unmount
@@ -223,22 +222,7 @@ export default function useAppState() {
     }
   }, [showToast]);
 
-  const onTouchStart = useCallback((e) => {
-    // Skip swipe detection on range inputs (sliders) — prevents slider drag from navigating
-    const tag = e.target?.tagName?.toLowerCase();
-    if (tag === 'input' && e.target?.type === 'range') { touchRef.current = null; return; }
-    touchRef.current = e.touches[0].clientX;
-  }, []);
-  const onTouchEnd = useCallback((e) => {
-    if (!touchRef.current || !active) return;
-    const diff = e.changedTouches[0].clientX - touchRef.current;
-    if (Math.abs(diff) > TIMING.SWIPE_THRESHOLD_PX) {
-      const idx = CALCULATORS.findIndex(c => c.id === active);
-      const next = diff > 0 ? (idx - 1 + CALCULATORS.length) % CALCULATORS.length : (idx + 1) % CALCULATORS.length;
-      openCalc(CALCULATORS[next].id); vib(8);
-    }
-    touchRef.current = null;
-  }, [active, openCalc]);
+  // Swipe-to-switch removed — conflicts with Android/iOS gesture navigation
 
   // ─── Dynamic SEO: title + description + canonical per route ───
   useEffect(() => {
@@ -274,6 +258,5 @@ export default function useAppState() {
     toast, showToast, lastResult, setLastResult,
     shareCardSvg, setShareCardSvg,
     openCalc, goHome, handleInstall,
-    onTouchStart, onTouchEnd,
   };
 }

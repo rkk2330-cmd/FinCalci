@@ -41,15 +41,13 @@ import { SFX } from './utils/sound';
 const CALC_CATEGORIES = {
   finance: ['emi', 'sip', 'fd', 'ppf', 'compound', 'retire', 'gold', 'currency', 'tax', 'salary', 'gst'],
   business: ['cash', 'tip', 'expense'],
-  health: ['bmi', 'calorie'],
-  utility: ['percentage', 'age', 'date', 'unit'],
 };
+
+const MORE_TOOLS_IDS = ['percentage', 'age', 'date', 'unit'];
 
 const CATEGORY_META = [
   { key: 'finance', label: 'Finance', icon: '💰', color: CATEGORY_COLORS.finance },
   { key: 'business', label: 'Business', icon: '📊', color: CATEGORY_COLORS.business },
-  { key: 'health', label: 'Health', icon: '❤️', color: CATEGORY_COLORS.health },
-  { key: 'utility', label: 'Utility', icon: '🔧', color: CATEGORY_COLORS.utility },
 ];
 
 // ─── Greeting ───
@@ -101,9 +99,6 @@ export default function FinCalci() {
   const ActiveComp = useMemo(() => app.active ? CALC_MAP[app.active] : null, [app.active]);
   const activeMeta = useMemo(() => CALCULATORS.find(c => c.id === app.active), [app.active]);
 
-  // ─── Most Used (top 3 from recent, auto-tracked) ───
-  const mostUsed = useMemo(() => hist.recentCalcs.slice(0, 3), [hist.recentCalcs]);
-
   // ─── Categorized calculators ───
   const categorized = useMemo(() => {
     if (app.search) return null; // show flat list when searching
@@ -114,6 +109,12 @@ export default function FinCalci() {
         .filter(Boolean),
     }));
   }, [app.search]);
+
+  // ─── More Tools (collapsible) ───
+  const [showMoreTools, setShowMoreTools] = useState(false);
+  const moreTools = useMemo(() =>
+    MORE_TOOLS_IDS.map(id => CALCULATORS.find(c => c.id === id)).filter(Boolean),
+  []);
 
   // ─── Track calc open/close lifecycle ───
   const prevActive = React.useRef(null);
@@ -203,7 +204,7 @@ export default function FinCalci() {
   return (
     <AppErrorBoundary>
       <div role="application" aria-label="FinCalci Calculator App"
-        style={{ minHeight: "100vh", background: t.bg, color: t.text, fontFamily: tokens.fontFamily.sans, maxWidth: 480, margin: "0 auto", paddingBottom: 88, transition: "background 0.3s,color 0.3s", overflowX: "hidden" }}>
+        style={{ minHeight: "100vh", background: t.bg, color: t.text, fontFamily: tokens.fontFamily.sans, maxWidth: 480, margin: "0 auto", paddingBottom: 140, transition: "background 0.3s,color 0.3s", overflowX: "hidden" }}>
 
         {/* Skip nav for keyboard users */}
         <a href="#main-content" style={{ position: "absolute", left: "-9999px", top: "auto", width: 1, height: 1, overflow: "hidden" }} onFocus={e => { (e.target as HTMLElement).style.cssText = "position:fixed;top:0;left:0;right:0;z-index:9999;padding:12px;background:#10B981;color:#000;text-align:center;font-weight:500"; }}>Skip to content</a>
@@ -270,7 +271,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
         <main id="main-content">
         {app.active && app.tab === "home" ? (
           <SectionBoundary t={t} onGoHome={app.goHome}>
-            <div onTouchStart={app.onTouchStart} onTouchEnd={app.onTouchEnd}
+            <div
               style={{ padding: `${tokens.space.lg}px ${tokens.space.xl}px 40px`, opacity: app.fadeIn ? 1 : 0, transform: app.fadeIn ? "translateY(0)" : "translateY(12px)", transition: "opacity 0.25s ease,transform 0.25s ease" }}>
               {/* Header */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: tokens.space.xl }}>
@@ -281,7 +282,9 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                  <button aria-label={prefs.favorites.includes(app.active) ? "Remove from favorites" : "Add to favorites"} onClick={() => onToggleFav(app.active)} className="ch" style={{ width: 32, height: 32, borderRadius: tokens.radius.sm, background: prefs.favorites.includes(app.active) ? `${activeMeta?.color}18` : t.card, border: prefs.favorites.includes(app.active) ? `1px solid ${activeMeta?.color}40` : cardBorder, boxShadow: cardShadow, cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}>{prefs.favorites.includes(app.active) ? "⭐" : "☆"}</button>
+                  <button aria-label={prefs.favorites.includes(app.active) ? "Remove from favorites" : "Add to favorites"} onClick={() => onToggleFav(app.active)} className="ch" style={{ width: 32, height: 32, borderRadius: tokens.radius.sm, background: prefs.favorites.includes(app.active) ? `${activeMeta?.color}18` : t.card, border: prefs.favorites.includes(app.active) ? `1px solid ${activeMeta?.color}40` : cardBorder, boxShadow: cardShadow, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill={prefs.favorites.includes(app.active) ? activeMeta?.color : "none"} stroke={prefs.favorites.includes(app.active) ? activeMeta?.color : t.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  </button>
                   <button aria-label="Save" onClick={onSave} className="ch" style={{ width: 32, height: 32, borderRadius: tokens.radius.sm, background: t.card, border: cardBorder, boxShadow: cardShadow, cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}>💾</button>
                   <button aria-label="Share card" onClick={handleShareCard} className="ch" style={{ width: 32, height: 32, borderRadius: tokens.radius.sm, background: t.card, border: cardBorder, boxShadow: cardShadow, cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}>📸</button>
                   <button aria-label="Share" onClick={onShare} className="ch" style={{ width: 32, height: 32, borderRadius: tokens.radius.sm, background: t.card, border: cardBorder, boxShadow: cardShadow, cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}>📤</button>
@@ -328,12 +331,11 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                 </button>
               </div>
 
-              {/* Search */}
-              <div style={{ position: "relative", marginBottom: tokens.space.xl }}>
-                <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 15, color: t.textDim, opacity: 0.6 }}>🔍</span>
-                <input type="text" placeholder="Search calculators..." aria-label="Search calculators" value={app.search} onChange={e => app.setSearch(e.target.value.slice(0, 30))} maxLength={30}
-                  style={{ width: "100%", padding: `${tokens.space.md}px ${tokens.space.lg}px ${tokens.space.md}px 42px`, borderRadius: tokens.radius.lg, border: cardBorder, boxShadow: isDark ? 'none' : '0 1px 4px rgba(0,0,0,0.04)', background: isDark ? t.card : '#FFFFFF', color: t.text, fontSize: tokens.fontSize.body, fontFamily: tokens.fontFamily.sans, outline: "none", transition: "box-shadow 0.2s" }} />
-              </div>
+              {/* Tip of the day — top position */}
+              {!app.search && <div style={{ padding: `${tokens.space.md}px ${tokens.space.lg}px`, background: isDark ? `${prefs.accent}08` : t.card, borderRadius: tokens.radius.lg, border: isDark ? `1px solid ${prefs.accent}12` : 'none', boxShadow: isDark ? 'none' : tokens.shadow.subtle, marginBottom: tokens.space.xl }}>
+                <div style={{ fontSize: tokens.fontSize.caption, color: prefs.accent, fontWeight: tokens.fontWeight.medium, marginBottom: tokens.space.xs }}>💡 Tip of the day</div>
+                <div style={{ fontSize: tokens.fontSize.caption, color: t.textMuted, lineHeight: 1.5 }}>{getTodayTip()}</div>
+              </div>}
 
               {/* PWA Install */}
               {app.canInstall && !app.installDismissed && !app.search && (
@@ -349,30 +351,6 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                   <div style={{ display: "flex", gap: tokens.space.sm, marginTop: tokens.space.md }}>
                     <button aria-label="Install FinCalci" onClick={app.handleInstall} className="ch" style={{ flex: 1, padding: `${tokens.space.md}px`, borderRadius: tokens.radius.md, background: prefs.accent, border: "none", color: "#0F0F13", fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.small, cursor: "pointer" }}>Install now</button>
                     <button aria-label="Dismiss install prompt" onClick={() => app.setInstallDismissed(true)} style={{ padding: `${tokens.space.md}px ${tokens.space.lg}px`, borderRadius: tokens.radius.md, background: t.cardAlt, border: cardBorder, color: t.textMuted, fontWeight: tokens.fontWeight.medium, fontSize: tokens.fontSize.caption, cursor: "pointer" }}>Later</button>
-                  </div>
-                </div>
-              )}
-
-              {/* Most Used */}
-              {mostUsed.length > 0 && !app.search && (
-                <div style={{ marginBottom: tokens.space.xl }}>
-                  <div style={sectionHeader(t)}>Most Used</div>
-                  <div style={{ display: "flex", gap: tokens.space.sm }}>
-                    {mostUsed.map((c, i) => (
-                      <div key={c.id} tabIndex={0} role="button" aria-label={`Open ${c.desc}`}
-                        onKeyDown={e => { if (e.key === "Enter") openCalc(c.id); }} className="ch" onClick={() => openCalc(c.id)}
-                        style={{
-                          flex: 1, background: isDark ? `linear-gradient(145deg, ${c.color}12, ${t.card})` : t.card,
-                          border: isDark ? `1px solid ${c.color}20` : 'none',
-                          boxShadow: isDark ? 'none' : tokens.shadow.subtle,
-                          borderRadius: tokens.radius.lg, padding: tokens.space.lg,
-                          textAlign: "center", cursor: "pointer",
-                          animation: `slideUp 0.3s ease ${i * 60}ms both`,
-                        }}>
-                        <div style={{ fontSize: 28, marginBottom: tokens.space.sm }}>{c.icon}</div>
-                        <div style={{ fontSize: tokens.fontSize.caption, fontWeight: tokens.fontWeight.medium, color: t.text }}>{c.label}</div>
-                      </div>
-                    ))}
                   </div>
                 </div>
               )}
@@ -393,7 +371,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                 </div>
               )}
 
-              {/* Search results (flat grid) */}
+              {/* Search results (flat grid) — shown when searching */}
               {app.search ? (
                 <div>
                   <div aria-label="Search results" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: tokens.space.sm }}>
@@ -450,14 +428,44 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                       </div>
                     </div>
                   ))}
+
+                  {/* More tools — collapsible */}
+                  {!app.search && (
+                    <div style={{ marginBottom: tokens.space.xl }}>
+                      <button onClick={() => { setShowMoreTools(!showMoreTools); vib(5); }}
+                        className="ch" style={{
+                          display: "flex", alignItems: "center", justifyContent: "space-between",
+                          width: "100%", padding: `${tokens.space.md}px 0`,
+                          background: "none", border: "none", cursor: "pointer",
+                        }}>
+                        <span style={{ ...sectionHeader(t), color: CATEGORY_COLORS.utility, marginBottom: 0 }}>🔧 More tools</span>
+                        <span style={{ fontSize: 12, color: t.textDim, transition: "transform 0.2s", transform: showMoreTools ? "rotate(180deg)" : "rotate(0)" }}>▼</span>
+                      </button>
+                      {showMoreTools && (
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: tokens.space.sm, animation: "slideUp 0.2s ease both" }}>
+                          {moreTools.map((calc, i) => (
+                            <div key={calc.id} tabIndex={0} role="button" aria-label={`Open ${calc.desc}`}
+                              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") openCalc(calc.id); }}
+                              className="ch" onClick={() => openCalc(calc.id)}
+                              style={{
+                                background: isDark ? t.card : '#FFFFFF',
+                                border: isDark ? `1px solid ${t.border}` : 'none',
+                                boxShadow: isDark ? 'none' : tokens.shadow.subtle,
+                                borderRadius: tokens.radius.lg,
+                                padding: `${tokens.space.md}px ${tokens.space.xs}px`,
+                                textAlign: "center", cursor: "pointer",
+                                animation: `slideUp 0.2s ease ${i * 40}ms both`,
+                              }}>
+                              <div style={{ fontSize: 22, marginBottom: tokens.space.xs }}>{calc.icon}</div>
+                              <div style={{ fontSize: tokens.fontSize.caption - 1, fontWeight: tokens.fontWeight.medium, color: t.text }}>{calc.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
-
-              {/* Daily tip */}
-              {!app.search && <div style={{ marginTop: tokens.space.sm, padding: tokens.space.lg, background: isDark ? `${prefs.accent}08` : t.card, borderRadius: tokens.radius.lg, border: isDark ? `1px solid ${prefs.accent}12` : 'none', boxShadow: isDark ? 'none' : tokens.shadow.subtle }}>
-                <div style={{ fontSize: tokens.fontSize.caption, color: prefs.accent, fontWeight: tokens.fontWeight.medium, marginBottom: tokens.space.xs }}>💡 Tip of the day</div>
-                <div style={{ fontSize: tokens.fontSize.caption, color: t.textMuted, lineHeight: 1.5 }}>{getTodayTip()}</div>
-              </div>}
             </div>
           </SectionBoundary>
 
@@ -569,7 +577,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                 <div style={{ display: "flex", gap: tokens.space.sm }}>
                   <button aria-label="Download backup" onClick={async () => {
                     try {
-                      const keys = [KEYS.PREFS, KEYS.FAVORITES, KEYS.HISTORY, KEYS.RECENT, KEYS.STATS, KEYS.EXPENSE, KEYS.CALORIE, KEYS.KHATA, KEYS.SPLIT];
+                      const keys = [KEYS.PREFS, KEYS.FAVORITES, KEYS.HISTORY, KEYS.RECENT, KEYS.STATS, KEYS.EXPENSE, KEYS.KHATA, KEYS.SPLIT];
                       const backup = {};
                       for (const k of keys) { const v = await safeStorageGet(k); if (v) backup[k] = v; }
                       backup._meta = { app: "FinCalci", version: "3.0", date: new Date().toISOString() };
@@ -603,7 +611,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
                 <div style={{ fontWeight: tokens.fontWeight.medium, marginBottom: tokens.space.sm }}>Share FinCalci</div>
                 <div style={captionMuted(t)}>Help your friends with their finances!</div>
                 <button onClick={async () => {
-                  const text = "FinCalci — 20 free calculators for India 🧮\nEMI, SIP, GST, Tax, Gold, Khata Book & more.\nTry it: https://fincalci.vercel.app";
+                  const text = "FinCalci — 18 free calculators for India 🧮\nEMI, SIP, GST, Tax, Gold, Khata Book & more.\nTry it: https://fincalci.vercel.app";
                   try {
                     if (navigator.share) { await navigator.share({ title: "FinCalci", text, url: "https://fincalci.vercel.app" }); }
                     else { await navigator.clipboard.writeText(text); app.showToast("Link copied! 📋"); }
@@ -615,15 +623,47 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
               {/* About */}
               <div style={{ background: t.card, borderRadius: tokens.radius.xl, padding: tokens.space.lg, border: cardBorder, boxShadow: cardShadow }}>
                 <div style={{ fontWeight: tokens.fontWeight.medium, marginBottom: tokens.space.xs }}>About</div>
-                <div style={captionMuted(t)}>FinCalci v3.0 &bull; 60+ tools in 20 tiles</div>
+                <div style={captionMuted(t)}>FinCalci v3.0 &bull; 50+ tools in 18 tiles</div>
                 <a href="/privacy-policy.html" target="_blank" rel="noopener" style={{ fontSize: tokens.fontSize.caption, color: prefs.accent, marginTop: tokens.space.xs, display: "inline-block" }}>Privacy policy</a>
               </div>
             </div>
           </SectionBoundary>
         ) : null}
 
-        {/* ─── BOTTOM NAV (taller, blur, active dot) ─── */}
+        {/* ─── FLOATING SEARCH PILL (above nav, always visible on home) ─── */}
         </main>
+        {app.tab === "home" && !app.active && (
+          <div style={{
+            position: "fixed", bottom: 68, left: "50%", transform: "translateX(-50%)",
+            width: "calc(100% - 48px)", maxWidth: 432,
+            zIndex: 101,
+          }}>
+            <div style={{
+              position: "relative",
+              background: isDark ? `${t.card}E8` : 'rgba(255,255,255,0.95)',
+              backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+              borderRadius: tokens.radius.pill,
+              border: isDark ? `1px solid rgba(255,255,255,0.08)` : '1px solid rgba(0,0,0,0.06)',
+              boxShadow: isDark ? '0 -2px 16px rgba(0,0,0,0.3)' : '0 2px 16px rgba(0,0,0,0.08)',
+              overflow: "hidden",
+            }}>
+              <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: t.textDim, opacity: 0.5, pointerEvents: "none" }}>🔍</span>
+              <input type="text" placeholder="Search calculators..." aria-label="Search calculators" value={app.search} onChange={e => app.setSearch(e.target.value.slice(0, 30))} maxLength={30}
+                style={{
+                  width: "100%", padding: `13px 40px 13px 42px`,
+                  background: "transparent", border: "none", outline: "none",
+                  color: t.text, fontSize: tokens.fontSize.body,
+                  fontFamily: tokens.fontFamily.sans,
+                }} />
+              {app.search && (
+                <button onClick={() => app.setSearch("")} aria-label="Clear search"
+                  style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: t.cardAlt, border: "none", borderRadius: tokens.radius.pill, width: 22, height: 22, fontSize: 11, color: t.textMuted, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ─── BOTTOM NAV (taller, blur, active dot) ─── */}
         <nav role="navigation" aria-label="Main navigation" style={{
           position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)",
           width: "100%", maxWidth: 480,

@@ -4,7 +4,7 @@
 import { tokens } from '../design/tokens';
 import type { CalcMeta, UserStats } from '../types';
 
-// ─── Calculator registry (20 tiles) ───
+// ─── Calculator registry (18 tiles) ───
 export const CALCULATORS: CalcMeta[] = [
   { id: "emi", icon: "🏠", label: "EMI", desc: "Loan EMI", color: tokens.color.primary },
   { id: "sip", icon: "📈", label: "SIP", desc: "SIP & Invest", color: "#6366F1" },
@@ -17,7 +17,6 @@ export const CALCULATORS: CalcMeta[] = [
   { id: "ppf", icon: "🏛️", label: "PPF", desc: "PPF & EPF", color: "#10B981" },
   { id: "compound", icon: "📊", label: "CI", desc: "Compound Interest", color: "#3B82F6" },
   { id: "retire", icon: "🏖️", label: "FIRE", desc: "Retirement", color: "#F97316" },
-  { id: "bmi", icon: "⚖️", label: "BMI", desc: "Body Health", color: "#10B981" },
   { id: "percentage", icon: "➗", label: "%", desc: "Percentage", color: "#A855F7" },
   { id: "age", icon: "🎂", label: "Age", desc: "Age Calc", color: "#F43F5E" },
   { id: "date", icon: "📅", label: "Date", desc: "Date Calc", color: "#0EA5E9" },
@@ -25,7 +24,6 @@ export const CALCULATORS: CalcMeta[] = [
   { id: "cash", icon: "💵", label: "Cash", desc: "Khata Book", color: "#22C55E" },
   { id: "tip", icon: "🍽️", label: "Split", desc: "Bill Split", color: "#F59E0B" },
   { id: "expense", icon: "📒", label: "Expense", desc: "Tracker", color: "#EF4444" },
-  { id: "calorie", icon: "🥗", label: "Calories", desc: "Food Track", color: "#22C55E" },
 ];
 
 // ─── Achievements ───
@@ -33,7 +31,7 @@ export const ACHIEVEMENTS = [
   { id: "first_calc", icon: "🧮", title: "First Calc!", desc: "Complete your first calculation", check: (s: UserStats) => (s.totalCalcs ?? 0) >= 1 },
   { id: "five_calcs", icon: "🔥", title: "On Fire", desc: "5 calculations done", check: (s: UserStats) => (s.totalCalcs ?? 0) >= 5 },
   { id: "explorer", icon: "🗺️", title: "Explorer", desc: "Try 5 different types", check: (s: UserStats) => (s.uniqueCalcs ?? 0) >= 5 },
-  { id: "all_star", icon: "🌟", title: "All Star", desc: "Try all 20 calculators", check: (s: UserStats) => (s.uniqueCalcs ?? 0) >= 20 },
+  { id: "all_star", icon: "🌟", title: "All Star", desc: "Try all 18 calculators", check: (s: UserStats) => (s.uniqueCalcs ?? 0) >= 18 },
   { id: "streak_3", icon: "📆", title: "3-Day Streak", desc: "Use FinCalci 3 days in a row", check: (s: UserStats) => (s.streak ?? 0) >= 3 },
   { id: "streak_7", icon: "🏆", title: "Weekly Warrior", desc: "7-day streak!", check: (s: UserStats) => (s.streak ?? 0) >= 7 },
   { id: "saver_10", icon: "💾", title: "Data Saver", desc: "Save 10 results", check: (s: UserStats) => (s.saved ?? 0) >= 10 },
@@ -41,15 +39,15 @@ export const ACHIEVEMENTS = [
 
 // ─── Daily tips rotation ───
 const TIPS = [
-  "Tap any number on a slider to type exact values 💡",
-  "Swipe left/right on a calculator to switch quickly ↔️",
+  "Tap any value to type exact numbers — no sliders needed 💡",
+  "Star your favorite calculators for quick access ⭐",
   "Your data is saved automatically — works offline too 📴",
   "Try the Khata Book for tracking credit/debit with customers 📒",
   "Compare bank EMI rates side by side 🏦",
   "Use the SIP step-up calculator for realistic projections 📈",
   "Export any calculation as a PDF report 📄",
   "Gold calculator shows live prices from India markets 🪙",
-  "Track your daily calories with the food search 🥗",
+  "Check your salary breakdown with CTC calculator 💼",
   "Set monthly budgets in the Expense Tracker 💰",
 ];
 export const getTodayTip = (): string => TIPS[new Date().getDate() % TIPS.length];

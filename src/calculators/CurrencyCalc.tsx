@@ -99,6 +99,6 @@ export default function CurrencyCalc({ color, t, onResult }: CalcProps) {
     </div>
 
     {useCustom && <div style={{ fontSize: tokens.fontSize.caption, color: tokens.color.warning, textAlign: "center", marginTop: tokens.space.sm }}>Using your custom rate</div>}
-    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Rates are indicative mid-market rates. Actual bank/forex rates will differ.</div>
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Rates are indicative mid-market rates. Actual bank/forex rates will differ. Not financial advice.</div>
   </div>);
 }

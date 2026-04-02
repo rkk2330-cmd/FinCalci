@@ -15,8 +15,7 @@ const CROSS_LINKS = {
   gold: [{id:"currency",msg:"Check USD to INR rate",icon:"💱"},{id:"fd",msg:"Compare with FD returns",icon:"💰"}],
   compound: [{id:"sip",msg:"Try systematic investing",icon:"📈"},{id:"fd",msg:"Fixed deposit rates",icon:"💰"}],
   currency: [{id:"gold",msg:"Check gold prices",icon:"✨"}],
-  bmi: [{id:"age",msg:"Check your exact age",icon:"🎂"}],
-  age: [{id:"bmi",msg:"Check your BMI",icon:"❤️"},{id:"date",msg:"Calculate date differences",icon:"📅"}],
+  age: [{id:"date",msg:"Calculate date differences",icon:"📅"},{id:"percentage",msg:"Quick percentage calc",icon:"➗"}],
   expense: [{id:"salary",msg:"Know your take-home pay",icon:"💼"},{id:"gst",msg:"Calculate GST on purchases",icon:"🧾"}],
   cash: [{id:"gst",msg:"Calculate GST",icon:"🧾"},{id:"expense",msg:"Track daily expenses",icon:"📒"}],
 };

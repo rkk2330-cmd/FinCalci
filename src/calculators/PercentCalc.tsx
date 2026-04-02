@@ -142,5 +142,7 @@ export default function PercentCalc({ color, t, onResult }: CalcProps) {
         Margin = Profit ÷ Selling price &bull; Markup = Profit ÷ Cost price
       </div>
     </>)}
+  
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Percentage calculations are for reference only. Verify critical calculations independently.</div>
   </div>);
 }

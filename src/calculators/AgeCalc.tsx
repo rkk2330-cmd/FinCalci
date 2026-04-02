@@ -132,6 +132,8 @@ export default function AgeCalc({ color, t, onResult }: CalcProps) {
         ]} />
       </div>)}
     </div>)}
+  
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Age calculations are based on calendar dates. Results are for personal reference only.</div>
   </div>);
 }
 

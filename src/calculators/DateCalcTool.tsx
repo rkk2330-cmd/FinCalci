@@ -83,5 +83,7 @@ export default function DateCalcTool({ color, t, onResult }: CalcProps) {
 
       <HeroNumber label={`${addDir === "add" ? "+" : "−"}${addDays} days from ${d1}`} value={addResult} color={color} />
     </div>)}
+  
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Date calculations are based on the Gregorian calendar. Results are for reference only.</div>
   </div>);
 }

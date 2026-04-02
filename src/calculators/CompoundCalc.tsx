@@ -62,6 +62,6 @@ export default function CompoundCalc({ color, t, onResult }: CalcProps) {
     {chartData.length > 1 && <div style={sectionGapLg}><MiniChart type="area" data={chartData} height={120} colors={[color, tokens.color.success]} t={t} /></div>}
     <MiniChart type="donut" data={[calc.invested, Math.max(calc.interest, 0)]} width={140} height={120} colors={[color, tokens.color.success]} t={t} />
 
-    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Compound interest calculation. Actual returns depend on compounding frequency and institution.</div>
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Compound interest calculations are estimates. Actual returns depend on compounding frequency and institution. Not financial advice.</div>
   </div>);
 }

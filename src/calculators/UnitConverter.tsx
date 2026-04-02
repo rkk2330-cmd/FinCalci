@@ -121,5 +121,7 @@ export default function UnitConverter({ color, t, onResult }: CalcProps) {
         </div>);
       })}
     </div>
+  
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Unit conversions are approximate. For scientific or engineering use, verify with authoritative sources.</div>
   </div>);
 }

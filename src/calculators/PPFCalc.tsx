@@ -72,6 +72,6 @@ export default function PPFCalc({ color, t, onResult }: CalcProps) {
       <SliderInput label="Years of Service" value={epfYears} onChange={setEpfYears} unit="yrs" min={SLIDER.ppf.epfYears.min} max={SLIDER.ppf.epfYears.max} step={SLIDER.ppf.epfYears.step} color="#F59E0B" t={t} />
     </div>)}
 
-    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>PPF rate subject to quarterly revision by government. EPF assumes employer matches 12%.</div>
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>PPF rate subject to quarterly revision by government. EPF assumes employer matches 12%. Not financial advice.</div>
   </div>);
 }

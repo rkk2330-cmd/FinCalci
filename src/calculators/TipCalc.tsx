@@ -200,5 +200,7 @@ export default function TipCalc({ color, t, onResult }: CalcProps) {
         ))}
       </div>)}
     </div>)}
+  
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md, lineHeight: 1.6 }}>Bill splitting is approximate. Verify amounts with all parties before settling.</div>
   </div>);
 }
