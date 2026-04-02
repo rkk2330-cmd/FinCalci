@@ -1,20 +1,10 @@
 // FinCalci — SW registration (minimal)
-// Registers the nuke SW to clear old caches.
-// Keeps PWA install prompt handling.
+// Registers clean-slate SW to clear old caches. No update banners, no reloads.
 (function() {
   if (!('serviceWorker' in navigator)) return;
 
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/service-worker.js').then(function() {
-      // SW registered — if it's the nuke version, it will self-destruct
-    }).catch(function() {});
-
-    // Listen for nuke complete → reload once
-    navigator.serviceWorker.addEventListener('message', function(event) {
-      if (event.data && event.data.type === 'SW_NUKED') {
-        location.reload();
-      }
-    });
+    navigator.serviceWorker.register('/service-worker.js').catch(function() {});
 
     // PWA install prompt
     window.addEventListener('beforeinstallprompt', function(e) {
