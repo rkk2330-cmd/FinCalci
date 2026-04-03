@@ -4,7 +4,8 @@ import React from 'react';
 import { vib } from '../utils/haptics';
 import { MONTH_NAMES } from '../utils/constants';
 
-const { useState, useRef } = React;
+const { useState, useRef, useEffect } = React;
+const MONTH_FULL = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 function DatePickerInner({value,onChange,label,color,t,minYear=1920,maxYear}) {
   const mxY=maxYear||new Date().getFullYear();
   const parts=value?value.split("-").map(Number):[2000,1,1];
