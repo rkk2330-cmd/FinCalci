@@ -20,23 +20,28 @@ function MiniChart({ type, data, width = 300, height = 160, colors, t, labels })
     if (prevData.current === dataKey) return;
     prevData.current = dataKey;
 
+    // Use actual rendered width for types that stretch to 100%
+    const actualWidth = (type === 'hbar' || type === 'area' || type === 'bar' || type === 'sparkline')
+      ? (canvas.parentElement?.clientWidth || canvas.clientWidth || width)
+      : width;
+
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = width * dpr;
+    canvas.width = actualWidth * dpr;
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, actualWidth, height);
 
     const c1 = colors?.[0] || tokens.color.primary;
     const c2 = colors?.[1] || tokens.color.secondary;
     const gridColor = t?.border || 'rgba(255,255,255,0.06)';
     const textColor = t?.textDim || '#4B5563';
 
-    if (type === 'area') drawArea(ctx, data, width, height, c1, c2, gridColor, textColor, labels);
-    else if (type === 'bar') drawBar(ctx, data, width, height, c1, c2, gridColor, textColor, labels);
-    else if (type === 'donut') drawDonut(ctx, data, width, height, colors || [c1, c2]);
-    else if (type === 'gauge') drawGauge(ctx, data, width, height, c1, t);
-    else if (type === 'sparkline') drawSparkline(ctx, data, width, height, c1);
-    else if (type === 'hbar') drawHBar(ctx, data, width, height, colors || [c1, c2], textColor, t);
+    if (type === 'area') drawArea(ctx, data, actualWidth, height, c1, c2, gridColor, textColor, labels);
+    else if (type === 'bar') drawBar(ctx, data, actualWidth, height, c1, c2, gridColor, textColor, labels);
+    else if (type === 'donut') drawDonut(ctx, data, actualWidth, height, colors || [c1, c2]);
+    else if (type === 'gauge') drawGauge(ctx, data, actualWidth, height, c1, t);
+    else if (type === 'sparkline') drawSparkline(ctx, data, actualWidth, height, c1);
+    else if (type === 'hbar') drawHBar(ctx, data, actualWidth, height, colors || [c1, c2], textColor, t);
   }, [data, type, width, height, colors, t, labels]);
 
   return <canvas ref={canvasRef} style={{
@@ -184,17 +189,19 @@ function drawHBar(ctx, data, w, h, colors, textC, t) {
   const barH = Math.min(h / data.length * 0.6, 24);
   const gap = h / data.length;
   const labelW = 80;
+  const valueW = 90; // reserve space for value text like "₹1,05,000"
 
   data.forEach((d, i) => {
     const y = i * gap + gap / 2;
-    const bw = ((w - labelW - 20) * d.value) / max;
-    // Label
+    const barArea = w - labelW - valueW - 12;
+    const bw = Math.max((barArea * d.value) / max, 4);
+    // Label (bank name)
     ctx.fillStyle = textC; ctx.font = `${11}px ${tokens.fontFamily.sans}`; ctx.textAlign = 'right';
     ctx.fillText(d.label || '', labelW - 8, y + 4);
     // Bar
     ctx.fillStyle = colors[i % colors.length] + '80';
     ctx.beginPath(); roundRect(ctx, labelW, y - barH / 2, bw, barH, 4); ctx.fill();
-    // Value
+    // Value (always visible, pinned after bar)
     ctx.fillStyle = textC; ctx.textAlign = 'left'; ctx.font = `500 ${11}px ${tokens.fontFamily.mono}`;
     ctx.fillText(d.display || d.value.toLocaleString('en-IN'), labelW + bw + 6, y + 4);
   });
