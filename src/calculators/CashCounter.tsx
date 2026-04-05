@@ -7,10 +7,10 @@ import { CLAMP } from '../utils/constants';
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
 import { safeNum, safeRange, sanitizeKhataCustomers } from '../utils/validate';
-import { currency, num, FMT } from '../utils/format';
+import { currency, num } from '../utils/format';
 import { KEYS, TIMING, LIMITS } from '../utils/constants';
 import { tokens } from '../design/tokens';
-import { tabStyle, inputStyle, labelStyle, metricStyle } from '../design/theme';
+import { tabStyle, inputStyle, metricStyle } from '../design/theme';
 import { safeStorageGet, safeStorageSet } from '../utils/storage';
 import { vib } from '../utils/haptics';
 import HeroNumber from '../components/HeroNumber';
@@ -18,10 +18,10 @@ import MetricGrid from '../components/MetricGrid';
 import { EmptyState } from '../components/UIStates';
 
 const DENOMS = [
-  { value: 2000, color: "#D946EF", label: "₹2000" }, { value: 500, color: "#6366F1", label: "₹500" },
-  { value: 200, color: "#F59E0B", label: "₹200" }, { value: 100, color: "#34D399", label: "₹100" },
+  { value: 2000, color: tokens.color.fuchsia, label: "₹2000" }, { value: 500, color: "#6366F1", label: "₹500" },
+  { value: 200, color: tokens.color.gold, label: "₹200" }, { value: 100, color: "#34D399", label: "₹100" },
   { value: 50, color: "#38BDF8", label: "₹50" }, { value: 20, color: "#FB923C", label: "₹20" },
-  { value: 10, color: "#94a3b8", label: "₹10" }, { value: 5, color: "#64748b", label: "₹5" },
+  { value: 10, color: tokens.color.silver, label: "₹10" }, { value: 5, color: "#64748b", label: "₹5" },
   { value: 2, color: "#4B5563", label: "₹2" }, { value: 1, color: "#374151", label: "₹1" },
 ];
 

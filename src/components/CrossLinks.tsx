@@ -1,4 +1,3 @@
-// @ts-nocheck — TODO: add strict types
 // FinCalci — Smart cross-links between calculators
 import React from 'react';
 import { vib } from '../utils/haptics';

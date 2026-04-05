@@ -1,5 +1,4 @@
 import { logError } from './logger';
-// @ts-nocheck — TODO: add strict types
 // FinCalci — Per-calculator input persistence
 import { KEYS } from './constants';
 

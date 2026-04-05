@@ -6,15 +6,13 @@ import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
-import { safeNum, safeRange, safePct, safeGST, validateCalcInputs } from '../utils/validate';
-import { currency, pct, FMT } from '../utils/format';
+import { safeNum, safePct, safeGST } from '../utils/validate';
+import { currency, pct } from '../utils/format';
 import { INPUT_SCHEMAS, FINANCE, TIMING, SLIDER } from '../utils/constants';
 // SLIDER imported via constants
 import { tokens } from '../design/tokens';
 import { tabStyle, labelStyle } from '../design/theme';
 import { useSchemaInputs } from '../hooks/useValidatedInput';
-import { vib } from '../utils/haptics';
-import SliderInput from '../components/SliderInput';
 import AmountInput from '../components/AmountInput';
 import HeroNumber from '../components/HeroNumber';
 import MetricGrid from '../components/MetricGrid';

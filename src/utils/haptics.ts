@@ -1,4 +1,3 @@
-// @ts-nocheck — TODO: add strict types
 // FinCalci — Haptic feedback utilities
 export const vib = (ms = 5): void => { try { navigator.vibrate?.(ms); } catch { /* silent */ } };
 export const vibSuccess = (): void => { try { navigator.vibrate?.([10, 50, 10]); } catch { /* silent */ } };

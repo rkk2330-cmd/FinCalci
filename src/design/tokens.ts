@@ -17,6 +17,10 @@ export const tokens: DesignTokens = {
     successDim: '#34D39912',
     warning: '#F59E0B',        // amber — warnings, cached data badges
     warningDim: '#F59E0B12',
+    // Semantic accents — used across calculators
+    gold: '#F59E0B',           // gold metal (GoldCalc, PPFCalc, CashCounter)
+    silver: '#94A3B8',         // silver metal (GoldCalc silver mode)
+    fuchsia: '#D946EF',        // RD mode (FDCalc), expense categories
   },
 
   fontSize: {

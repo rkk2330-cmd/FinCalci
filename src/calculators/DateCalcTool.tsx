@@ -5,11 +5,10 @@ import { todayISO, safeDate, safeDateDiff, safeNum, safeRange } from '../utils/v
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
-import { num, decimal, FMT } from '../utils/format';
+import { num, decimal } from '../utils/format';
 import { TIMING } from '../utils/constants';
 import { tokens } from '../design/tokens';
 import { tabStyle, inputStyle, labelStyle } from '../design/theme';
-import { vib } from '../utils/haptics';
 import HeroNumber from '../components/HeroNumber';
 import MetricGrid from '../components/MetricGrid';
 

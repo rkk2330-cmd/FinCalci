@@ -7,13 +7,11 @@ import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
 import { safeNum, safeSalary, safeDivide, safeRound, validateCalcInputs } from '../utils/validate';
-import { currency, currencyCompact, pct, FMT } from '../utils/format';
+import { currency, currencyCompact, pct } from '../utils/format';
 import { INPUT_SCHEMAS, TIMING, SLIDER } from '../utils/constants';
 // SLIDER imported via constants
 import { tokens } from '../design/tokens';
 import { tabStyle } from '../design/theme';
-import { vib } from '../utils/haptics';
-import SliderInput from '../components/SliderInput';
 import AmountInput from '../components/AmountInput';
 import HeroNumber from '../components/HeroNumber';
 import MetricGrid from '../components/MetricGrid';

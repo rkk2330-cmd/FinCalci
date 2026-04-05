@@ -6,11 +6,10 @@ import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
 import { safeNum, safeDate, safeDateDiff } from '../utils/validate';
-import { num, decimal, FMT } from '../utils/format';
+import { num, decimal } from '../utils/format';
 import { TIMING } from '../utils/constants';
 import { tokens } from '../design/tokens';
 import { tabStyle, inputStyle, labelStyle, metricStyle } from '../design/theme';
-import { vib } from '../utils/haptics';
 import HeroNumber from '../components/HeroNumber';
 import MetricGrid from '../components/MetricGrid';
 import DatePicker from '../components/DatePicker';
@@ -80,7 +79,7 @@ export default function AgeCalc({ color, t, onResult }: CalcProps) {
       <button onClick={() => { setMode("age") }} style={tabStyle(mode === "age", color, t)}>Age</button>
       <button onClick={() => { setMode("stats") }} style={tabStyle(mode === "stats", "#A78BFA", t)}>Life stats</button>
       <button onClick={() => { setMode("birthday") }} style={tabStyle(mode === "birthday", "#F472B6", t)}>Birthday</button>
-      <button onClick={() => { setMode("compare") }} style={tabStyle(mode === "compare", "#F59E0B", t)}>Compare</button>
+      <button onClick={() => { setMode("compare") }} style={tabStyle(mode === "compare", tokens.color.gold, t)}>Compare</button>
     </div>
 
     <div style={labelStyle(t)}>Date of birth</div>
@@ -123,9 +122,9 @@ export default function AgeCalc({ color, t, onResult }: CalcProps) {
 
     {mode === "compare" && (<div>
       <div style={labelStyle(t)}>Second person's date of birth</div>
-      <DatePicker value={dob2} onChange={setDob2} color="#F59E0B" t={t} />
+      <DatePicker value={dob2} onChange={setDob2} color={tokens.color.gold} t={t} />
       {compare && (<div style={sectionGap}>
-        <HeroNumber label="Age difference" value={`${compare.diffYears} years`} color="#F59E0B" />
+        <HeroNumber label="Age difference" value={`${compare.diffYears} years`} color={tokens.color.gold} />
         <MetricGrid t={t} items={[
           { label: "Days apart", value: num(compare.diff) },
           { label: "Older", value: compare.older },

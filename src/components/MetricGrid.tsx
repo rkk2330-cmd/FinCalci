@@ -1,4 +1,3 @@
-// @ts-nocheck — TODO: add strict types
 // FinCalci — MetricGrid: sub-values in a 2-column card grid
 import React from 'react';
 import { tokens } from '../design/tokens';

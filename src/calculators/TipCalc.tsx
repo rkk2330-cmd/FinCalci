@@ -7,7 +7,7 @@ import { CLAMP } from '../utils/constants';
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
 import { safeNum, safeRange, safeDivide, sanitizeSplitSessions } from '../utils/validate';
-import { currency, num, pct, FMT } from '../utils/format';
+import { currency, pct } from '../utils/format';
 import { KEYS, TIMING, LIMITS } from '../utils/constants';
 import { tokens } from '../design/tokens';
 import { tabStyle, inputStyle, labelStyle, metricStyle } from '../design/theme';

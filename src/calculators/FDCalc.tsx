@@ -6,8 +6,8 @@ import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
-import { safeCompound, safeNum, safePow, safeDivide, safeRateDecimal, validateCalcInputs } from '../utils/validate';
-import { currency, currencyCompact, pct, FMT } from '../utils/format';
+import { safeCompound, safeNum, safePow, safeDivide, safeRateDecimal } from '../utils/validate';
+import { currency, currencyCompact, pct } from '../utils/format';
 import { INPUT_SCHEMAS, FINANCE, TIMING, SLIDER } from '../utils/constants';
 // SLIDER imported via constants
 import { tokens } from '../design/tokens';
@@ -51,10 +51,10 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
   return (<div>
     <div style={tabRow}>
       <button onClick={() => { setIsFD(true) }} style={tabStyle(isFD, color, t)}>Fixed Deposit</button>
-      <button onClick={() => { setIsFD(false) }} style={tabStyle(!isFD, "#D946EF", t)}>Recurring Deposit</button>
+      <button onClick={() => { setIsFD(false) }} style={tabStyle(!isFD, tokens.color.fuchsia, t)}>Recurring Deposit</button>
     </div>
 
-    <HeroNumber label="Maturity value" value={currency(isFD ? fd.maturity : rd.maturity)} color={isFD ? color : "#D946EF"} />
+    <HeroNumber label="Maturity value" value={currency(isFD ? fd.maturity : rd.maturity)} color={isFD ? color : tokens.color.fuchsia} />
     <MetricGrid t={t} items={[
       { label: "Invested", value: currencyCompact(isFD ? P : rd.invested) },
       { label: "Interest earned", value: currencyCompact(isFD ? fd.interest : rd.interest), color: tokens.color.success },
@@ -62,12 +62,14 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
 
     {isFD
       ? <AmountInput label="Deposit Amount" value={P} onChange={setP} min={SLIDER.fd.P.min} max={SLIDER.fd.P.max} color={color} t={t} />
-      : <AmountInput label="Monthly Deposit" value={rdMonthly} onChange={setRdMonthly} min={SLIDER.fd.rd.min} max={SLIDER.fd.rd.max} color="#D946EF" t={t} />
+      : <AmountInput label="Monthly Deposit" value={rdMonthly} onChange={setRdMonthly} min={SLIDER.fd.rd.min} max={SLIDER.fd.rd.max} color={tokens.color.fuchsia} t={t} />
     }
     <SliderInput label="Interest Rate" value={rate} onChange={setRate} unit="%" min={SLIDER.fd.rate.min} max={SLIDER.fd.rate.max} step={SLIDER.fd.rate.step} color={color} t={t} />
     <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.fd.years.min} max={SLIDER.fd.years.max} step={SLIDER.fd.years.step} color={color} t={t} />
 
-    <MiniChart type="donut" data={[isFD ? P : rd.invested, Math.max(isFD ? fd.interest : rd.interest, 0)]} width={140} height={140} colors={[isFD ? color : "#D946EF", tokens.color.success]} t={t} />
+    <MiniChart type="donut" data={[isFD ? P : rd.invested, Math.max(isFD ? fd.interest : rd.interest, 0)]} width={300} height={120}
+      colors={[isFD ? color : tokens.color.fuchsia, tokens.color.success]} t={t}
+      labels={[isFD ? `Deposit ${currencyCompact(P)}` : `Invested ${currencyCompact(rd.invested)}`, `Interest ${currencyCompact(isFD ? fd.interest : rd.interest)}`]} />
 
     {/* Bank comparison */}
     {isFD && (<div style={sectionGap}>

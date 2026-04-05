@@ -1,6 +1,6 @@
 // @ts-nocheck — TODO: add strict types
 // FinCalci — MiniChart: lightweight canvas-based charts
-// React.memo + canvas = no DOM churn on re-render
+// Types: donut (with legend), hbar, sparkline
 import React from 'react';
 const { useRef, useEffect } = React;
 import { tokens } from '../design/tokens';
@@ -15,13 +15,11 @@ function MiniChart({ type, data, width = 300, height = 160, colors, t, labels })
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Skip redraw if data unchanged
-    const dataKey = JSON.stringify(data);
+    const dataKey = JSON.stringify(data) + JSON.stringify(labels);
     if (prevData.current === dataKey) return;
     prevData.current = dataKey;
 
-    // Use actual rendered width for types that stretch to 100%
-    const actualWidth = (type === 'hbar' || type === 'area' || type === 'bar' || type === 'sparkline')
+    const actualWidth = (type === 'hbar' || type === 'sparkline')
       ? (canvas.parentElement?.clientWidth || canvas.clientWidth || width)
       : width;
 
@@ -33,133 +31,92 @@ function MiniChart({ type, data, width = 300, height = 160, colors, t, labels })
 
     const c1 = colors?.[0] || tokens.color.primary;
     const c2 = colors?.[1] || tokens.color.secondary;
-    const gridColor = t?.border || 'rgba(255,255,255,0.06)';
     const textColor = t?.textDim || '#4B5563';
+    const textMain = t?.textMuted || '#6B7280';
 
-    if (type === 'area') drawArea(ctx, data, actualWidth, height, c1, c2, gridColor, textColor, labels);
-    else if (type === 'bar') drawBar(ctx, data, actualWidth, height, c1, c2, gridColor, textColor, labels);
-    else if (type === 'donut') drawDonut(ctx, data, actualWidth, height, colors || [c1, c2]);
-    else if (type === 'gauge') drawGauge(ctx, data, actualWidth, height, c1, t);
+    if (type === 'donut') drawDonut(ctx, data, actualWidth, height, colors || [c1, c2], labels, textMain, textColor);
     else if (type === 'sparkline') drawSparkline(ctx, data, actualWidth, height, c1);
     else if (type === 'hbar') drawHBar(ctx, data, actualWidth, height, colors || [c1, c2], textColor, t);
   }, [data, type, width, height, colors, t, labels]);
 
+  const isFullWidth = type === 'hbar' || type === 'sparkline';
+
   return <canvas ref={canvasRef} style={{
     display: 'block',
-    width: (type === 'donut' || type === 'gauge') ? width : '100%',
+    width: isFullWidth ? '100%' : width,
     height,
     borderRadius: tokens.radius.md,
-    margin: (type === 'donut' || type === 'gauge') ? '0 auto' : undefined,
+    margin: isFullWidth ? undefined : '0 auto',
   }} />;
 }
 
-// ─── Chart drawing functions ───
-
-function drawArea(ctx, data, w, h, c1, c2, grid, textC, labels) {
-  if (!data || data.length < 2) return;
-  const pad = { t: 10, r: 10, b: 24, l: 10 };
-  const cw = w - pad.l - pad.r, ch = h - pad.t - pad.b;
-  const max = Math.max(...data.map(d => (d.a || 0) + (d.b || 0)), 1);
-  const step = cw / (data.length - 1);
-
-  // Grid lines
-  ctx.strokeStyle = grid; ctx.lineWidth = 0.5;
-  for (let i = 0; i <= 3; i++) { const y = pad.t + (ch / 3) * i; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); }
-
-  // Area 1 (principal/invested)
-  ctx.beginPath();
-  ctx.moveTo(pad.l, pad.t + ch);
-  data.forEach((d, i) => { const x = pad.l + i * step; const y = pad.t + ch - (d.a / max) * ch; ctx.lineTo(x, y); });
-  ctx.lineTo(pad.l + (data.length - 1) * step, pad.t + ch);
-  ctx.closePath();
-  ctx.fillStyle = c1 + '30'; ctx.fill();
-
-  // Area 2 (total)
-  ctx.beginPath();
-  ctx.moveTo(pad.l, pad.t + ch);
-  data.forEach((d, i) => { const x = pad.l + i * step; const y = pad.t + ch - ((d.a + d.b) / max) * ch; ctx.lineTo(x, y); });
-  ctx.lineTo(pad.l + (data.length - 1) * step, pad.t + ch);
-  ctx.closePath();
-  ctx.fillStyle = c2 + '20'; ctx.fill();
-
-  // Top line
-  ctx.beginPath(); ctx.strokeStyle = c2; ctx.lineWidth = 2;
-  data.forEach((d, i) => { const x = pad.l + i * step; const y = pad.t + ch - ((d.a + d.b) / max) * ch; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  ctx.stroke();
-
-  // Labels
-  if (labels && labels.length > 0) {
-    ctx.fillStyle = textC; ctx.font = `${10}px ${tokens.fontFamily.sans}`;ctx.textAlign = 'center';
-    const labelStep = Math.ceil(data.length / Math.min(labels.length, 5));
-    labels.forEach((l, i) => { if (i % labelStep === 0) ctx.fillText(l, pad.l + i * step, h - 4); });
-  }
-}
-
-function drawBar(ctx, data, w, h, c1, c2, grid, textC, labels) {
+// ─── Donut with built-in legend ───
+function drawDonut(ctx, data, w, h, colors, labels, textMain, textDim) {
   if (!data || data.length === 0) return;
-  const pad = { t: 10, r: 10, b: 24, l: 10 };
-  const cw = w - pad.l - pad.r, ch = h - pad.t - pad.b;
-  const max = Math.max(...data.map(d => Math.max(d.a || 0, d.b || 0)), 1);
-  const barW = Math.min(cw / data.length * 0.7, 20);
-  const gap = cw / data.length;
-
-  data.forEach((d, i) => {
-    const x = pad.l + i * gap + gap / 2;
-    const h1 = (d.a / max) * ch; const h2 = (d.b / max) * ch;
-    // Bar A
-    ctx.fillStyle = c1 + '80';
-    ctx.beginPath(); roundRect(ctx, x - barW - 1, pad.t + ch - h1, barW, h1, 3); ctx.fill();
-    // Bar B
-    ctx.fillStyle = c2 + '80';
-    ctx.beginPath(); roundRect(ctx, x + 1, pad.t + ch - h2, barW, h2, 3); ctx.fill();
-  });
-
-  if (labels) {
-    ctx.fillStyle = textC; ctx.font = `${10}px ${tokens.fontFamily.sans}`; ctx.textAlign = 'center';
-    labels.forEach((l, i) => { ctx.fillText(l, pad.l + i * gap + gap / 2, h - 4); });
-  }
-}
-
-function drawDonut(ctx, data, w, h, colors) {
-  if (!data || data.length === 0) return;
-  const cx = w / 2, cy = h / 2, r = Math.min(w, h) / 2 - 10, thick = r * 0.35;
   const total = data.reduce((s, d) => s + Math.max(d, 0), 0);
   if (total <= 0) return;
+
+  const hasLabels = labels && labels.length > 0;
+
+  // Ring dimensions — left side if labels, centered if not
+  const ringSize = hasLabels ? Math.min(h, w * 0.4) : Math.min(w, h);
+  const cx = hasLabels ? ringSize / 2 + 4 : w / 2;
+  const cy = h / 2;
+  const r = ringSize / 2 - 8;
+  const thick = r * 0.32;
+
+  // Draw ring segments with small gap
   let angle = -Math.PI / 2;
+  const gapAngle = data.length > 1 ? 0.03 : 0;
 
   data.forEach((val, i) => {
     const pct = Math.max(val, 0) / total;
     const sweep = pct * Math.PI * 2;
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, angle, angle + sweep);
-    ctx.arc(cx, cy, r - thick, angle + sweep, angle, true);
-    ctx.closePath();
-    ctx.fillStyle = colors[i % colors.length];
-    ctx.fill();
+    if (sweep > 0.01) {
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, angle + gapAngle / 2, angle + sweep - gapAngle / 2);
+      ctx.arc(cx, cy, r - thick, angle + sweep - gapAngle / 2, angle + gapAngle / 2, true);
+      ctx.closePath();
+      ctx.fillStyle = colors[i % colors.length];
+      ctx.fill();
+    }
     angle += sweep;
   });
+
+  // Draw legend on right side
+  if (hasLabels) {
+    const legendX = ringSize + 12;
+    const lineH = Math.min(28, (h - 10) / labels.length);
+    const startY = (h - labels.length * lineH) / 2 + lineH / 2;
+
+    labels.forEach((lbl, i) => {
+      const y = startY + i * lineH;
+      const pctVal = total > 0 ? Math.round((Math.max(data[i] || 0, 0) / total) * 100) : 0;
+      const clr = colors[i % colors.length];
+
+      // Color dot
+      ctx.beginPath();
+      ctx.arc(legendX, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = clr;
+      ctx.fill();
+
+      // Label text
+      ctx.fillStyle = textMain;
+      ctx.font = `400 ${11}px ${tokens.fontFamily.sans}`;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(lbl, legendX + 10, y);
+
+      // Percentage
+      ctx.fillStyle = textDim;
+      ctx.font = `500 ${11}px ${tokens.fontFamily.mono}`;
+      ctx.textAlign = 'right';
+      ctx.fillText(`${pctVal}%`, w - 6, y);
+    });
+  }
 }
 
-function drawGauge(ctx, data, w, h, color, t) {
-  const val = typeof data === 'number' ? data : (data?.[0] || 0);
-  const cx = w / 2, cy = h - 20, r = Math.min(w, h) * 0.42;
-  const startA = Math.PI, endA = 2 * Math.PI;
-  const pct = Math.min(Math.max(val / 40, 0), 1); // BMI scale 0-40
-
-  // Background arc
-  ctx.beginPath(); ctx.arc(cx, cy, r, startA, endA);
-  ctx.lineWidth = 12; ctx.strokeStyle = t?.border || 'rgba(255,255,255,0.08)'; ctx.lineCap = 'round'; ctx.stroke();
-
-  // Value arc
-  const valAngle = startA + pct * Math.PI;
-  ctx.beginPath(); ctx.arc(cx, cy, r, startA, valAngle);
-  ctx.strokeStyle = color; ctx.stroke();
-
-  // Value text
-  ctx.fillStyle = t?.text || '#F1F5F9'; ctx.font = `500 ${24}px ${tokens.fontFamily.mono}`; ctx.textAlign = 'center';
-  ctx.fillText(val.toFixed(1), cx, cy - 8);
-}
-
+// ─── Sparkline ───
 function drawSparkline(ctx, data, w, h, color) {
   if (!data || data.length < 2) return;
   const max = Math.max(...data, 1); const min = Math.min(...data, 0);
@@ -175,7 +132,6 @@ function drawSparkline(ctx, data, w, h, color) {
   });
   ctx.stroke();
 
-  // Fill below
   ctx.lineTo((data.length - 1) * step, h);
   ctx.lineTo(0, h);
   ctx.closePath();
@@ -183,41 +139,37 @@ function drawSparkline(ctx, data, w, h, color) {
   ctx.fill();
 }
 
+// ─── Horizontal bar ───
 function drawHBar(ctx, data, w, h, colors, textC, t) {
   if (!data || data.length === 0) return;
   const max = Math.max(...data.map(d => d.value), 1);
   const rowH = Math.min(h / data.length, 40);
-  const padY = (rowH - 28) / 2; // vertical padding inside each row
+  const padY = (rowH - 28) / 2;
   const barH = 28;
-  const numW = 32;  // "01." column
-  const valueW = 85; // right-side value column
+  const numW = 32;
+  const valueW = 85;
   const barStart = numW;
   const barMaxW = w - numW - valueW - 8;
 
-  // Alternating row colors for flat design
   const barColors = ['#E8593C', '#F2A623', '#3B8BD4', '#10B981', '#8B5CF6', '#EC4899', '#6366F1', '#F59E0B'];
 
   data.forEach((d, i) => {
     const y = i * rowH + padY;
-    const bw = Math.max((barMaxW * d.value) / max, 40); // min 40px so label fits
+    const bw = Math.max((barMaxW * d.value) / max, 40);
 
-    // Row number
-    ctx.fillStyle = textC; 
+    ctx.fillStyle = textC;
     ctx.font = `500 ${13}px ${tokens.fontFamily.mono}`;
     ctx.textAlign = 'right';
     ctx.fillText(`${String(i + 1).padStart(2, '0')}.`, numW - 6, y + barH / 2 + 5);
 
-    // Bar (solid, vibrant color — no transparency)
     const barColor = barColors[i % barColors.length];
     ctx.fillStyle = barColor;
     ctx.beginPath(); roundRect(ctx, barStart, y, bw, barH, 4); ctx.fill();
 
-    // Label INSIDE the bar (white text)
     ctx.fillStyle = '#FFFFFF';
     ctx.font = `500 ${11}px ${tokens.fontFamily.sans}`;
     ctx.textAlign = 'left';
     const labelText = d.label || '';
-    // Truncate label if bar too narrow
     const maxLabelW = bw - 16;
     let displayLabel = labelText;
     if (ctx.measureText(labelText).width > maxLabelW) {
@@ -228,7 +180,6 @@ function drawHBar(ctx, data, w, h, colors, textC, t) {
     }
     ctx.fillText(displayLabel, barStart + 10, y + barH / 2 + 4);
 
-    // Value pinned to the right
     ctx.fillStyle = textC;
     ctx.font = `500 ${12}px ${tokens.fontFamily.mono}`;
     ctx.textAlign = 'right';
@@ -245,5 +196,6 @@ function roundRect(ctx, x, y, w, h, r) {
 
 export default React.memo(MiniChart, (prev, next) => {
   return JSON.stringify(prev.data) === JSON.stringify(next.data)
+    && JSON.stringify(prev.labels) === JSON.stringify(next.labels)
     && prev.type === next.type && prev.width === next.width && prev.height === next.height;
 });

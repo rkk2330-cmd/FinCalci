@@ -1,4 +1,3 @@
-// @ts-nocheck — TODO: add strict types
 // FinCalci — Loading states for lazy-loaded components
 // Used as Suspense fallbacks. Designed for slow 3G India connections (~2s chunk loads).
 import React from 'react';

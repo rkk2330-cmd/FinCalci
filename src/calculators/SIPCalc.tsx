@@ -1,4 +1,4 @@
-import { captionDim, sectionGapLg, disclaimer } from '../design/styles';
+import { captionDim, disclaimer } from '../design/styles';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 import { loadCalcInputs } from '../utils/inputMemory';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
@@ -6,8 +6,8 @@ import { loadCalcInputs } from '../utils/inputMemory';
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
-import { safeSIPFV, safeNum, safeRange, safePow, safeDivide, safeRateDecimal, validateCalcInputs } from '../utils/validate';
-import { currency, currencyCompact, pct, num, decimal, FMT } from '../utils/format';
+import { safeSIPFV, safeNum, safePow, safeDivide, safeRateDecimal } from '../utils/validate';
+import { currency, currencyCompact, pct, decimal } from '../utils/format';
 import { INPUT_SCHEMAS, FINANCE, TIMING, SLIDER } from '../utils/constants';
 // SLIDER imported via constants
 import { tokens } from '../design/tokens';
@@ -100,20 +100,6 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
   }, [corpus, swpAmt, swpRate, swpYears]);
 
   // ─── Chart data (memoized) ───
-  const sipChartData = useMemo(() => {
-    const data = [];
-    for (let y = 1; y <= years; y++) {
-      const n = y * 12; const r = rate / FINANCE.RATE_TO_MONTHLY;
-      const yInv = monthly * n;
-      const yFv = r > 0 ? monthly * safeDivide(safePow(1 + r, n, 1) - 1, r, n) * (1 + r) : yInv;
-      data.push({ a: yInv, b: Math.max(yFv - yInv, 0) });
-    }
-    return data;
-  }, [monthly, rate, years]);
-
-  const sipChartLabels = useMemo(() =>
-    Array.from({ length: years }, (_, i) => `${i + 1}y`), [years]);
-
   // ─── Report to parent ───
   useEffect(() => {
     if (!onResult) return;
@@ -152,25 +138,11 @@ export default function SIPCalc({ color, t, onResult }: CalcProps) {
       <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.sip.years.min} max={SLIDER.sip.years.max} step={SLIDER.sip.years.step} color={color} t={t} />
 
       {/* Growth chart */}
-      {sipChartData.length > 1 && (
-        <div style={sectionGapLg}>
-          <div style={labelStyle(t)}>Growth over {years} years</div>
-          <MiniChart type="area" data={sipChartData} labels={sipChartLabels} height={120} colors={[tokens.color.primary, tokens.color.success]} t={t} />
-        </div>
-      )}
-
-      {/* Donut */}
-      <MiniChart type="donut" data={[invested, Math.max(gains, 0)]} width={140} height={120} colors={[color, tokens.color.success]} t={t} />
-      <div style={{ display: "flex", justifyContent: "center", gap: tokens.space.lg, marginTop: tokens.space.sm, marginBottom: tokens.space.lg }}>
-        <span style={captionDim(t)}>
-          <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: color, marginRight: 4 }} />
-          Invested {pct(safeDivide(invested, fv) * 100, 0)}
-        </span>
-        <span style={captionDim(t)}>
-          <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: tokens.color.success, marginRight: 4 }} />
-          Returns {pct(safeDivide(gains, fv) * 100, 0)}
-        </span>
-      </div>
+      {/* Donut with legend */}
+      <MiniChart type="donut" data={[invested, Math.max(gains, 0)]} width={300} height={120}
+        colors={[color, tokens.color.success]} t={t}
+        labels={[`Invested ${currencyCompact(invested)}`, `Returns ${currencyCompact(gains)}`]} />
+      <div style={{ height: tokens.space.lg }} />
 
       <button onClick={() => { setShowInflation(!showInflation) }}
         style={{ ...tabStyle(showInflation, tokens.color.warning, t), width: "100%", marginBottom: tokens.space.sm }}>

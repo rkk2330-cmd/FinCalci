@@ -6,14 +6,13 @@ import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
-import { safeNum, safeSIPFV, safePow, safeDivide, safeRateDecimal, validateCalcInputs } from '../utils/validate';
-import { currency, currencyCompact, pct, FMT } from '../utils/format';
+import { safeNum, safeSIPFV, safePow, safeDivide, safeRateDecimal } from '../utils/validate';
+import { currency, currencyCompact, pct } from '../utils/format';
 import { INPUT_SCHEMAS, FINANCE, TIMING, SLIDER } from '../utils/constants';
 // SLIDER imported via constants
 import { tokens } from '../design/tokens';
 import { tabStyle } from '../design/theme';
 import { useSchemaInputs } from '../hooks/useValidatedInput';
-import { vib } from '../utils/haptics';
 import SliderInput from '../components/SliderInput';
 import AmountInput from '../components/AmountInput';
 import HeroNumber from '../components/HeroNumber';
@@ -49,7 +48,7 @@ export default function PPFCalc({ color, t, onResult }: CalcProps) {
   return (<div>
     <div style={tabRow}>
       <button onClick={() => { setMode("ppf") }} style={tabStyle(mode === "ppf", color, t)}>PPF</button>
-      <button onClick={() => { setMode("epf") }} style={tabStyle(mode === "epf", "#F59E0B", t)}>EPF</button>
+      <button onClick={() => { setMode("epf") }} style={tabStyle(mode === "epf", tokens.color.gold, t)}>EPF</button>
     </div>
 
     {mode === "ppf" ? (<div>
@@ -62,14 +61,14 @@ export default function PPFCalc({ color, t, onResult }: CalcProps) {
       <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.ppf.years.min} max={SLIDER.ppf.years.max} step={SLIDER.ppf.years.step} color={color} t={t} />
       <SliderInput label="PPF Rate" value={ppfRate} onChange={setPpfRate} unit="%" min={SLIDER.ppf.rate.min} max={SLIDER.ppf.rate.max} step={SLIDER.ppf.rate.step} color={color} t={t} />
     </div>) : (<div>
-      <HeroNumber label="EPF corpus" value={currency(epf.fv)} color="#F59E0B" />
+      <HeroNumber label="EPF corpus" value={currency(epf.fv)} color={tokens.color.gold} />
       <MetricGrid t={t} items={[
         { label: "Your contribution", value: currencyCompact(epf.invested) },
         { label: "Returns", value: currencyCompact(epf.gains), color: tokens.color.success },
       ]} />
-      <AmountInput label="Basic Salary (monthly)" value={epfBasic} onChange={setEpfBasic} min={SLIDER.ppf.epfBasic.min} max={SLIDER.ppf.epfBasic.max} color="#F59E0B" t={t} />
-      <SliderInput label="EPF Rate" value={epfRate2} onChange={setEpfRate2} unit="%" min={SLIDER.ppf.epfRate.min} max={SLIDER.ppf.epfRate.max} step={SLIDER.ppf.epfRate.step} color="#F59E0B" t={t} />
-      <SliderInput label="Years of Service" value={epfYears} onChange={setEpfYears} unit="yrs" min={SLIDER.ppf.epfYears.min} max={SLIDER.ppf.epfYears.max} step={SLIDER.ppf.epfYears.step} color="#F59E0B" t={t} />
+      <AmountInput label="Basic Salary (monthly)" value={epfBasic} onChange={setEpfBasic} min={SLIDER.ppf.epfBasic.min} max={SLIDER.ppf.epfBasic.max} color={tokens.color.gold} t={t} />
+      <SliderInput label="EPF Rate" value={epfRate2} onChange={setEpfRate2} unit="%" min={SLIDER.ppf.epfRate.min} max={SLIDER.ppf.epfRate.max} step={SLIDER.ppf.epfRate.step} color={tokens.color.gold} t={t} />
+      <SliderInput label="Years of Service" value={epfYears} onChange={setEpfYears} unit="yrs" min={SLIDER.ppf.epfYears.min} max={SLIDER.ppf.epfYears.max} step={SLIDER.ppf.epfYears.step} color={tokens.color.gold} t={t} />
     </div>)}
 
     <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>PPF rate subject to quarterly revision by government. EPF assumes employer matches 12%. Not financial advice.</div>

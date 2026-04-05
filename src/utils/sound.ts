@@ -1,4 +1,3 @@
-// @ts-nocheck — TODO: add strict types
 // FinCalci — Sound effects (Web Audio API)
 type Ctx = AudioContext | null;
 

@@ -7,13 +7,12 @@ import { CLAMP } from '../utils/constants';
 // FinCalci — CurrencyCalc
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
-import { safeNum, safeDivide, validateCalcInputs } from '../utils/validate';
-import { currency, decimal, FMT } from '../utils/format';
+import { safeNum, safeDivide } from '../utils/validate';
+import { currency, decimal } from '../utils/format';
 import { FALLBACK_CURRENCY, INPUT_SCHEMAS, TIMING, SLIDER } from '../utils/constants';
 // SLIDER imported via constants
 import { tokens } from '../design/tokens';
 import { tabStyle, inputStyle, labelStyle } from '../design/theme';
-import { vib } from '../utils/haptics';
 import { LiveRates } from '../utils/liveData';
 import SliderInput from '../components/SliderInput';
 import HeroNumber from '../components/HeroNumber';

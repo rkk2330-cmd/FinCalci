@@ -55,7 +55,7 @@ export default function GoldCalc({ color, t, onResult }: CalcProps) {
     return () => { cancelled = true; };
   }, []);
 
-  const metalColor = metal === "gold" ? "#F59E0B" : "#94A3B8";
+  const metalColor = metal === "gold" ? tokens.color.gold : tokens.color.silver;
   const activePurity = metal === "gold" ? purity : silverPurity;
   const purities = metal === "gold" ? GOLD_PURITIES : SILVER_PURITIES;
   const rate = metal === "gold" ? goldRate : silverRate;
@@ -93,9 +93,9 @@ export default function GoldCalc({ color, t, onResult }: CalcProps) {
     {/* ─── Section 1: Metal toggle + Live rates ─── */}
     <div style={{ display: "flex", gap: 6, marginBottom: tokens.space.lg }}>
       <button onClick={() => { setMetal("gold"); setPurity("22K"); }}
-        style={{ ...tabStyle(metal === "gold", "#F59E0B", t), flex: 1 }}>Gold</button>
+        style={{ ...tabStyle(metal === "gold", tokens.color.gold, t), flex: 1 }}>Gold</button>
       <button onClick={() => { setMetal("silver"); setSilverPurity("999"); }}
-        style={{ ...tabStyle(metal === "silver", "#94A3B8", t), flex: 1 }}>Silver</button>
+        style={{ ...tabStyle(metal === "silver", tokens.color.silver, t), flex: 1 }}>Silver</button>
     </div>
 
     <div style={{ display: "flex", gap: 8, marginBottom: tokens.space.md }}>

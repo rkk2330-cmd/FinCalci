@@ -1,14 +1,13 @@
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
-// FinCalci — UnitConverter (13 categories, number system, fuel, temp)
+// FinCalci — UnitConverter (13 categoriesber system, fuel, temp)
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
 import { safeNum, safeDivide } from '../utils/validate';
-import { num, decimal, FMT } from '../utils/format';
+import { decimal } from '../utils/format';
 import { TIMING } from '../utils/constants';
 import { tokens } from '../design/tokens';
 import { tabStyle, inputStyle, labelStyle } from '../design/theme';
-import { vib } from '../utils/haptics';
 import { UNIT_CATS } from '../utils/constants';
 import HeroNumber from '../components/HeroNumber';
 

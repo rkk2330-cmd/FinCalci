@@ -1,4 +1,3 @@
-import { sectionGapLg } from '../design/styles';
 import { loadCalcInputs } from '../utils/inputMemory';
 import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 // @ts-nocheck — TODO: add strict types (boundary typed via CalcProps)
@@ -6,13 +5,12 @@ import { useDebouncedPersist } from '../hooks/useCalcHelpers';
 import type { CalcProps } from '../types';
 import React from 'react';
 const { useState, useEffect, useMemo } = React;
-import { safeCompound, safeNum, safeDivide, validateCalcInputs } from '../utils/validate';
-import { currency, currencyCompact, pct, decimal, FMT } from '../utils/format';
+import { safeCompound, safeNum, safeDivide } from '../utils/validate';
+import { currency, currencyCompact, pct, decimal } from '../utils/format';
 import { INPUT_SCHEMAS, TIMING, SLIDER } from '../utils/constants';
 // SLIDER imported via constants
 import { tokens } from '../design/tokens';
 import { useSchemaInputs } from '../hooks/useValidatedInput';
-import { vib } from '../utils/haptics';
 import SliderInput from '../components/SliderInput';
 import AmountInput from '../components/AmountInput';
 import HeroNumber from '../components/HeroNumber';
@@ -36,14 +34,6 @@ export default function CompoundCalc({ color, t, onResult }: CalcProps) {
     return { maturity: totalMat, invested: totalInv, interest: totalMat - totalInv, doubleYears: rate > 0 ? decimal(72 / rate) : "∞" };
   }, [P, rate, years, monthlyAdd, freq]);
 
-  const chartData = useMemo(() => {
-    return Array.from({ length: years }, (_, y) => {
-      const { maturity } = safeCompound(P, rate, y + 1, freq);
-      const inv = P + safeNum(monthlyAdd) * 12 * (y + 1);
-      return { a: inv, b: Math.max(maturity - inv, 0) };
-    });
-  }, [P, rate, years, freq, monthlyAdd]);
-
   useEffect(() => { if (!onResult) return; const t = setTimeout(() => onResult({ "Invested": currency(calc.invested), "Interest": currency(calc.interest), "Total": currency(calc.maturity) }), TIMING.DEBOUNCE_CALC); return () => clearTimeout(t); }, [P, rate, years, monthlyAdd, freq]);
 
   return (<div>
@@ -59,8 +49,9 @@ export default function CompoundCalc({ color, t, onResult }: CalcProps) {
     <SliderInput label="Duration" value={years} onChange={setYears} unit="yrs" min={SLIDER.compound.years.min} max={SLIDER.compound.years.max} step={SLIDER.compound.years.step} color={color} t={t} />
     <AmountInput label="Monthly Addition" value={monthlyAdd} onChange={setMonthlyAdd} min={SLIDER.compound.monthly.min} max={SLIDER.compound.monthly.max} color={tokens.color.secondary} t={t} />
 
-    {chartData.length > 1 && <div style={sectionGapLg}><MiniChart type="area" data={chartData} height={120} colors={[color, tokens.color.success]} t={t} /></div>}
-    <MiniChart type="donut" data={[calc.invested, Math.max(calc.interest, 0)]} width={140} height={120} colors={[color, tokens.color.success]} t={t} />
+    <MiniChart type="donut" data={[calc.invested, Math.max(calc.interest, 0)]} width={300} height={120}
+      colors={[color, tokens.color.success]} t={t}
+      labels={[`Invested ${currencyCompact(calc.invested)}`, `Interest ${currencyCompact(calc.interest)}`]} />
 
     <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Compound interest calculations are estimates. Actual returns depend on compounding frequency and institution. Not financial advice.</div>
   </div>);

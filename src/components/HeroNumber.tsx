@@ -1,4 +1,3 @@
-// @ts-nocheck — TODO: add strict types
 // FinCalci — HeroNumber: the big result display with optional count-up animation
 import React from 'react';
 const { useState, useEffect, useRef } = React;

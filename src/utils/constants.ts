@@ -152,11 +152,8 @@ export const FINANCE = {
   ],
 
   // Weight units for gold
-  WEIGHT_UNITS: { g: 1, tola: 11.664, oz: 31.1035, kg: 1000 } as Record<string, number>,
+  WEIGHT_UNITS: { g: 1, tola: 11.664 } as Record<string, number>,
 
-  // Body fat formula constants (US Navy method)
-  BODY_FAT_CONST_M: { a: 1.0324, b: 0.19077, c: 0.15456, offset: 495, sub: 450 },
-  BODY_FAT_CONST_F: { a: 1.29579, b: 0.35004, c: 0.22100, offset: 495, sub: 450 },
 } as const;
 
 // ─── UI timing (ms) ───
@@ -202,11 +199,11 @@ export const LIMITS = {
 // Change slider max here → all calculators update automatically.
 export const SLIDER = {
   emi: {
-    P: { min: 10_000, max: 10_000_000, step: 10_000 },
+    P: { min: 10_000, max: 500_000_000, step: 10_000 },
     rate: { min: 1, max: 30, step: 0.1 },
     n: { min: 1, max: 360, step: 1 },
     procFee: { min: 0, max: 10, step: 0.1 },
-    income: { min: 0, max: 1_000_000, step: 5_000 },
+    income: { min: 0, max: 5_000_000, step: 5_000 },
     extra: { min: 0, max: 500_000, step: 1_000 },
     lump: { min: 0, max: 10_000_000, step: 50_000 },
     lumpMonth: { min: 1, max: 360, step: 1 },
@@ -292,7 +289,7 @@ export const CLAMP = {
 // ─── Input schemas (absolute validation boundaries — useSchemaInputs reads these) ───
 export const INPUT_SCHEMAS = {
   emi: {
-    P: { min: 10_000, max: 100_000_000, default: 5_000_000 },
+    P: { min: 10_000, max: 500_000_000, default: 5_000_000 },
     rate: { min: 0, max: 30, default: 8.5 },
     n: { min: 1, max: 360, default: 240 },
   },

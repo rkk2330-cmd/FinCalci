@@ -7,7 +7,7 @@ import { CLAMP } from '../utils/constants';
 import React from 'react';
 const { useState, useEffect, useMemo, useCallback } = React;
 import { safeNum, safeRange, todayISO, thisMonthISO, offsetMonth, formatMonth, sanitizeExpenseData } from '../utils/validate';
-import { currency, currencyCompact, pct, num, FMT } from '../utils/format';
+import { currency, currencyCompact, pct } from '../utils/format';
 import { KEYS, TIMING, LIMITS } from '../utils/constants';
 import { tokens } from '../design/tokens';
 import { tabStyle, inputStyle, labelStyle, metricStyle } from '../design/theme';
@@ -98,7 +98,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
     <div style={tabRow}>
       <button onClick={() => { setTab("add") }} style={tabStyle(tab === "add", color, t)}>Add</button>
       <button onClick={() => { setTab("summary") }} style={tabStyle(tab === "summary", tokens.color.secondary, t)}>Summary</button>
-      <button onClick={() => { setTab("recurring") }} style={tabStyle(tab === "recurring", "#F59E0B", t)}>Recurring</button>
+      <button onClick={() => { setTab("recurring") }} style={tabStyle(tab === "recurring", tokens.color.gold, t)}>Recurring</button>
       <button onClick={() => { setTab("budget") }} style={tabStyle(tab === "budget", tokens.color.success, t)}>Budget</button>
     </div>
 
@@ -109,7 +109,7 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
       <MetricGrid t={t} items={[
         { label: "Income", value: currencyCompact(monthIncTotal), color: tokens.color.success },
         { label: "Budget", value: currencyCompact(effectiveBudget) },
-        { label: "Recurring", value: currencyCompact(recurringTotal), color: "#F59E0B" },
+        { label: "Recurring", value: currencyCompact(recurringTotal), color: tokens.color.gold },
         { label: "Remaining", value: currencyCompact(remaining), color: remaining >= 0 ? tokens.color.success : tokens.color.danger },
       ]} />
     </div>
@@ -181,13 +181,10 @@ export default function ExpenseTrackerCalc({ color, t, onResult }: CalcProps) {
 
     {tab === "summary" && (<div>
       {/* Category donut */}
-      {catData.length > 0 && (<div>
-        <MiniChart type="donut" data={catData.map(c => c.total)} width={140} height={140} colors={catData.map(c => c.color)} t={t} />
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: tokens.space.sm, marginTop: tokens.space.sm, marginBottom: tokens.space.lg }}>
-          {catData.map(c => (
-            <span key={c.id} style={{ fontSize: tokens.fontSize.caption - 1, color: c.color }}>{c.icon} {c.label} {pct(c.pct, 0)}</span>
-          ))}
-        </div>
+      {catData.length > 0 && (<div style={{ marginBottom: tokens.space.lg }}>
+        <MiniChart type="donut" data={catData.map(c => c.total)} width={300} height={Math.max(120, catData.length * 28)}
+          colors={catData.map(c => c.color)} t={t}
+          labels={catData.map(c => `${c.icon} ${c.label}`)} />
       </div>)}
 
       {/* Category breakdown */}

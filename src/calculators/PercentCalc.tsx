@@ -9,7 +9,6 @@ import { num, pct } from '../utils/format';
 import { TIMING } from '../utils/constants';
 import { tokens } from '../design/tokens';
 import { tabStyle, inputStyle, labelStyle, metricStyle } from '../design/theme';
-import { vib } from '../utils/haptics';
 import HeroNumber from '../components/HeroNumber';
 import MetricGrid from '../components/MetricGrid';
 

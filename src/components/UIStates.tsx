@@ -1,4 +1,3 @@
-// @ts-nocheck — TODO: add strict types
 // FinCalci — UI state components: EmptyState, InlineError, OfflineBanner
 import React from 'react';
 import { tokens } from '../design/tokens';
