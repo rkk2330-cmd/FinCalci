@@ -20,7 +20,9 @@
     "test:watch": "vitest",
     "preview": "vite preview",
     "deploy": "bash quality-check.sh && vitest run && vite build && mkdir -p sourcemaps && mv dist/assets/*.map sourcemaps/ 2>/dev/null || true && node scripts/prerender-seo.mjs",
-    "lint": "bash quality-check.sh"
+    "lint": "bash quality-check.sh",
+    "update-rates": "node scripts/update-fd-rates.mjs",
+    "watchdog": "node scripts/policy-watchdog.mjs"
   },
   "dependencies": {
     "react": "18.2.0",

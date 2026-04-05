@@ -1,7 +1,7 @@
 {
   "name": "FinCalci \u2014 All-in-One Calculator",
   "short_name": "FinCalci",
-  "description": "20 calculators, 60+ tools in your pocket. EMI, SIP, GST, Tax, Gold, Currency, Khata Book, Expense Tracker & more. Free. No ads.",
+  "description": "18 free calculators for India. EMI, SIP, GST, Tax, Gold, Currency, FD, Salary, Khata Book & more. No ads.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
