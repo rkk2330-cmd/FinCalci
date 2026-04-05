@@ -245,7 +245,7 @@ export default function useAppState() {
     } else {
       document.title = "FinCalci — Free EMI SIP GST Tax Calculator India";
       let desc = document.querySelector('meta[name="description"]');
-      if (desc) desc.setAttribute('content', "India's all-in-one calculator app: EMI, SIP, GST, Tax, Gold, Currency, FD, Salary, Khata Book + 12 more. Free. No ads. Works offline. 60+ tools.");
+      if (desc) desc.setAttribute('content', "FinCalci — 18 free calculators for India. EMI, SIP, GST, Tax, Gold, Currency, FD, Salary, Khata Book & more. No ads. Works offline.");
       let canonical = document.querySelector('link[rel="canonical"]');
       if (canonical) canonical.setAttribute('href', 'https://fin-calci.vercel.app/');
     }

@@ -90,7 +90,7 @@ export default function GSTCalc({ color, t, onResult }: CalcProps) {
     </div>)}
 
     <div style={disclaimer(t)}>
-      GST calculations are estimates. For filing, consult a Chartered Accountant. IGST applies for inter-state transactions.
+      GST 2.0 rates (0%, 5%, 18%, 40%) effective Sep 22, 2025. 12% and 28% slabs abolished. For filing, consult a CA. IGST applies for inter-state.
     </div>
   </div>);
 }

@@ -656,7 +656,7 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-fa
               {/* About */}
               <div style={{ background: t.card, borderRadius: tokens.radius.xl, padding: tokens.space.lg, border: cardBorder, boxShadow: cardShadow }}>
                 <div style={{ fontWeight: tokens.fontWeight.medium, marginBottom: tokens.space.xs }}>About</div>
-                <div style={captionMuted(t)}>FinCalci v1.0 &bull; 50+ tools in 18 tiles</div>
+                <div style={captionMuted(t)}>FinCalci v1.0 &bull; 18 free calculators for India</div>
                 <a href="/privacy-policy.html" target="_blank" rel="noopener" style={{ fontSize: tokens.fontSize.caption, color: prefs.accent, marginTop: tokens.space.xs, display: "inline-block" }}>Privacy policy</a>
               </div>
             </div>

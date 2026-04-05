@@ -36,14 +36,16 @@ export const API = {
   CACHE_RATES_HOURS: 1,                  // reduced from 12 to 1 hr
 
   GOLD_MIN_PER_GRAM: 3_000,
-  GOLD_MAX_PER_GRAM: 30_000,
-  GOLD_IMPORT_DUTY: 1.15,
-  GOLD_SILVER_RATIO: 80,
+  GOLD_MAX_PER_GRAM: 50_000,
+  GOLD_IMPORT_DUTY: 1.06,   // 6% (5% BCD + 1% AIDC) — reduced from 15% in July 2024 Budget
+  GOLD_GST: 1.03,           // 3% GST on gold
+  GOLD_SILVER_RATIO: 85,    // fallback only — used when XAG API fails
 
   URLS: {
     CURRENCY_PRIMARY: 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json',
     CURRENCY_FALLBACK: 'https://latest.currency-api.pages.dev/v1/currencies/usd.json',
     GOLD: 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/xau.json',
+    SILVER: 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/xag.json',
     MF_SEARCH: 'https://api.mfapi.in/mf/search',
     MF_SCHEME: 'https://api.mfapi.in/mf',
     STOCK: 'https://stock.indianapi.in/stock',
@@ -68,13 +70,13 @@ export const API = {
 //   LOAN_PRESETS rates, FD bank rates → check quarterly
 //   GOLD_IMPORT_DUTY → check after customs notification
 //
-// LAST_VERIFIED: 2025-02-01 (Union Budget FY 2025-26)
-// NEXT_REVIEW:   2026-04-15 (verify FY 2026-27 budget changes) (post any mid-year budget revision)
+// LAST_VERIFIED: 2026-04-05 (Union Budget FY 2026-27)
+// NEXT_REVIEW:   2026-07-01 (Q2 PPF rate, post any mid-year changes)
 
 export const FINANCE_REVIEW = {
-  LAST_VERIFIED: '2025-02-01',
+  LAST_VERIFIED: '2026-04-05',
   NEXT_REVIEW: '2026-04-15',
-  FY: '2025-26',
+  FY: '2026-27',
 } as const;
 
 export const FINANCE = {
@@ -87,7 +89,7 @@ export const FINANCE = {
   DEFAULT_FD_RATE: 0.07,
 
   // Salary breakdown ratios
-  BASIC_PCT: 0.40,
+  BASIC_PCT: 0.50, // New Wage Code effective Apr 1 2026
   HRA_PCT_OF_BASIC: 0.50,
   EPF_PCT: 0.12,
   PRO_TAX_THRESHOLD: 250_000,
@@ -102,7 +104,7 @@ export const FINANCE = {
   HRA_METRO_PCT: 0.50,
   HRA_NON_METRO_PCT: 0.40,
 
-  // Tax slabs — Old regime FY 2025-26
+  // Tax slabs — Old regime (unchanged FY 2025-26 to FY 2026-27)
   TAX_SLABS_OLD: [
     { min: 0, max: 250_000, rate: 0 },
     { min: 250_000, max: 500_000, rate: 0.05 },
@@ -110,7 +112,7 @@ export const FINANCE = {
     { min: 1_000_000, max: Infinity, rate: 0.30 },
   ],
 
-  // Tax slabs — New regime FY 2025-26
+  // Tax slabs — New regime (unchanged FY 2025-26 to FY 2026-27)
   TAX_SLABS_NEW: [
     { min: 0, max: 400_000, rate: 0 },
     { min: 400_000, max: 800_000, rate: 0.05 },
@@ -130,13 +132,23 @@ export const FINANCE = {
   ],
 
   // GST slab options
-  GST_RATES: [0, 0.25, 3, 5, 12, 18, 28],
+  // GST slab options (GST 2.0, effective Sep 22, 2025 — 12% and 28% abolished)
+  GST_RATES: [0, 0.25, 3, 5, 18, 40],
 
-  // FD bank rates (indicative, review quarterly)
-  // LAST_VERIFIED: 2025-02-01
+  // FD bank rates (indicative, 1-year general public, < ₹3 crore)
+  // AUTO-UPDATED by scripts/update-fd-rates.mjs
+  // LAST_UPDATED: 2026-04-05
   FD_BANK_RATES: [
-    { name: 'SBI', r: 6.5 }, { name: 'HDFC', r: 7.0 }, { name: 'ICICI', r: 6.9 },
-    { name: 'Axis', r: 7.1 }, { name: 'Post Office', r: 7.5 },
+    { name: 'SBI', r: 6.50 },
+    { name: 'HDFC', r: 6.60 },
+    { name: 'ICICI', r: 6.50 },
+    { name: 'Axis', r: 6.60 },
+    { name: 'Kotak', r: 6.50 },
+    { name: 'PNB', r: 6.70 },
+    { name: 'BOB', r: 6.50 },
+    { name: 'Canara', r: 6.50 },
+    { name: 'Post Office', r: 7.50 },
+    { name: 'IDFC First', r: 6.75 },
   ],
 
   // Weight units for gold
@@ -339,15 +351,15 @@ export const INPUT_SCHEMAS = {
 
 // ─── Fallback data (when all APIs fail) ───
 export const FALLBACK_CURRENCY: Record<string, number> = {
-  USD: 1, INR: 83.5, EUR: 0.92, GBP: 0.79, JPY: 151, AED: 3.67,
+  USD: 1, INR: 85, EUR: 0.92, GBP: 0.79, JPY: 151, AED: 3.67,
   CAD: 1.36, AUD: 1.54, SGD: 1.34, CHF: 0.88, BDT: 110, LKR: 298,
   NPR: 133.5, MYR: 4.47, THB: 33.8, SAR: 3.75, KWD: 0.31, ZAR: 18.2,
   BRL: 4.97, CNY: 7.24,
 };
 
 export const FALLBACK_GOLD = {
-  goldPerGram: 7200,
-  silverPerGram: 85,
+  goldPerGram: 9500,    // approximate 24K gold per gram (Apr 2026)
+  silverPerGram: 100,   // approximate silver per gram (Apr 2026)
 };
 
 // ─── Calculator registry ───

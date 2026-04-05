@@ -186,24 +186,53 @@ function drawSparkline(ctx, data, w, h, color) {
 function drawHBar(ctx, data, w, h, colors, textC, t) {
   if (!data || data.length === 0) return;
   const max = Math.max(...data.map(d => d.value), 1);
-  const barH = Math.min(h / data.length * 0.6, 24);
-  const gap = h / data.length;
-  const labelW = 80;
-  const valueW = 90; // reserve space for value text like "₹1,05,000"
+  const rowH = Math.min(h / data.length, 40);
+  const padY = (rowH - 28) / 2; // vertical padding inside each row
+  const barH = 28;
+  const numW = 32;  // "01." column
+  const valueW = 85; // right-side value column
+  const barStart = numW;
+  const barMaxW = w - numW - valueW - 8;
+
+  // Alternating row colors for flat design
+  const barColors = ['#E8593C', '#F2A623', '#3B8BD4', '#10B981', '#8B5CF6', '#EC4899', '#6366F1', '#F59E0B'];
 
   data.forEach((d, i) => {
-    const y = i * gap + gap / 2;
-    const barArea = w - labelW - valueW - 12;
-    const bw = Math.max((barArea * d.value) / max, 4);
-    // Label (bank name)
-    ctx.fillStyle = textC; ctx.font = `${11}px ${tokens.fontFamily.sans}`; ctx.textAlign = 'right';
-    ctx.fillText(d.label || '', labelW - 8, y + 4);
-    // Bar
-    ctx.fillStyle = colors[i % colors.length] + '80';
-    ctx.beginPath(); roundRect(ctx, labelW, y - barH / 2, bw, barH, 4); ctx.fill();
-    // Value (always visible, pinned after bar)
-    ctx.fillStyle = textC; ctx.textAlign = 'left'; ctx.font = `500 ${11}px ${tokens.fontFamily.mono}`;
-    ctx.fillText(d.display || d.value.toLocaleString('en-IN'), labelW + bw + 6, y + 4);
+    const y = i * rowH + padY;
+    const bw = Math.max((barMaxW * d.value) / max, 40); // min 40px so label fits
+
+    // Row number
+    ctx.fillStyle = textC; 
+    ctx.font = `500 ${13}px ${tokens.fontFamily.mono}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(`${String(i + 1).padStart(2, '0')}.`, numW - 6, y + barH / 2 + 5);
+
+    // Bar (solid, vibrant color — no transparency)
+    const barColor = barColors[i % barColors.length];
+    ctx.fillStyle = barColor;
+    ctx.beginPath(); roundRect(ctx, barStart, y, bw, barH, 4); ctx.fill();
+
+    // Label INSIDE the bar (white text)
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = `500 ${11}px ${tokens.fontFamily.sans}`;
+    ctx.textAlign = 'left';
+    const labelText = d.label || '';
+    // Truncate label if bar too narrow
+    const maxLabelW = bw - 16;
+    let displayLabel = labelText;
+    if (ctx.measureText(labelText).width > maxLabelW) {
+      while (displayLabel.length > 3 && ctx.measureText(displayLabel + '…').width > maxLabelW) {
+        displayLabel = displayLabel.slice(0, -1);
+      }
+      displayLabel += '…';
+    }
+    ctx.fillText(displayLabel, barStart + 10, y + barH / 2 + 4);
+
+    // Value pinned to the right
+    ctx.fillStyle = textC;
+    ctx.font = `500 ${12}px ${tokens.fontFamily.mono}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(d.display || d.value.toLocaleString('en-IN'), w - 4, y + barH / 2 + 4);
   });
 }
 

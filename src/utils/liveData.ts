@@ -139,6 +139,13 @@ export const LiveRates = {
     try { const r3 = await fetchT(API.URLS.GOLD, API.TIMEOUT_SLOW, { mode: 'cors' });
       if (r3.ok) { const d3 = await r3.json(); if (d3?.xau?.inr) gold = this._valGold(d3.xau.inr); }
     } catch (e: unknown) { logWarn('api.rates.gold', e instanceof Error ? e.message : 'failed'); }
+    // Fetch silver independently (XAG) for accurate pricing
+    try { const r4 = await fetchT(API.URLS.SILVER, API.TIMEOUT_SLOW, { mode: 'cors' });
+      if (r4.ok) { const d4 = await r4.json(); if (d4?.xag?.inr && gold) {
+        const silverPg = (d4.xag.inr / 31.1035) * API.GOLD_IMPORT_DUTY * API.GOLD_GST;
+        if (silverPg > 30 && silverPg < 5000) gold.silverPerGram = Math.round(silverPg);
+      }}
+    } catch (e: unknown) { logWarn('api.rates.silver', e instanceof Error ? e.message : 'failed'); }
     this._fetching = false;
     const result = { currency: curr || cached?.currency || FALLBACK_CURRENCY, gold: gold || cached?.gold || FALLBACK_GOLD, timestamp: Date.now(), live: !!(curr || gold) };
     await safeStorageSet(KEYS.RATES, result);
@@ -160,8 +167,9 @@ export const LiveRates = {
 
   _valGold(xauInr: unknown) {
     if (typeof xauInr !== 'number' || !isFinite(xauInr) || xauInr <= 0) return null;
-    const pg = (xauInr / 31.1035) * API.GOLD_IMPORT_DUTY;
+    const pg = (xauInr / 31.1035) * API.GOLD_IMPORT_DUTY * API.GOLD_GST;
     if (pg < API.GOLD_MIN_PER_GRAM || pg > API.GOLD_MAX_PER_GRAM) return null;
+    // Silver defaults to gold/ratio — overwritten if XAG API succeeds
     return { goldPerGram: Math.round(pg), silverPerGram: Math.round(pg / API.GOLD_SILVER_RATIO) };
   },
 

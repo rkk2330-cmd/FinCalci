@@ -71,8 +71,11 @@ export default function FDCalc({ color, t, onResult }: CalcProps) {
 
     {/* Bank comparison */}
     {isFD && (<div style={sectionGap}>
-      <div style={labelStyle(t)}>Compare across banks (quarterly compounding)</div>
-      <MiniChart type="hbar" data={banks.map(b => ({ label: b.name, value: b.maturity, display: currency(b.maturity) }))} height={banks.length * 36} colors={[color, tokens.color.secondary]} t={t} />
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <div style={labelStyle(t)}>Compare across banks</div>
+        <div style={{ fontSize: tokens.fontSize.caption - 2, color: t.textDim }}>Rates as of Apr 2026</div>
+      </div>
+      <MiniChart type="hbar" data={banks.map(b => ({ label: b.name, value: b.maturity, display: currency(b.maturity) }))} height={banks.length * 40} colors={[color]} t={t} />
     </div>)}
 
     {/* Affiliate CTA */}

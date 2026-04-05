@@ -66,6 +66,6 @@ export default function SalaryCalc({ color, t, onResult }: CalcProps) {
       ]} columns={3} />
     </div>)}
 
-    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Salary breakdown is approximate. Actual take-home depends on company structure, HRA city, and tax declarations.</div>
+    <div style={{ fontSize: tokens.fontSize.caption - 1, color: t.textDim, textAlign: "center", marginTop: tokens.space.md }}>Salary breakdown uses 50% basic per New Wage Code (Apr 2026). Actual structure depends on employer policy, HRA city, and tax declarations. Not financial advice.</div>
   </div>);
 }

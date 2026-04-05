@@ -148,7 +148,7 @@ export default function TaxCalc({ color, t, onResult }: CalcProps) {
     </div>)}
 
     <div style={disclaimer(t)}>
-      Tax calculations are estimates for FY 2025-26. For exact tax filing, consult a Chartered Accountant. Rebates under Section 87A not included.
+      Tax calculations are estimates for FY 2026-27 (AY 2027-28). Slabs unchanged from FY 2025-26. For exact tax filing, consult a Chartered Accountant. Rebates under Section 87A not included.
     </div>
   </div>);
 }
